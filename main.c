@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/17 16:20:42 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:24:07 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(int argc, char **argv)
 		read_input(user_input);
 		// 4. build lexer that scans input and puts everything in an array
 		// 5. parse array and put everything into an execution tree
-		// 6. expand
+		// 6. expand (add information about environment to execution tree)
 		// 7. execute the commands with a fork
 		pid = fork();
 		
