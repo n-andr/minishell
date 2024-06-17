@@ -6,16 +6,18 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/17 16:24:07 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:04:32 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 void	read_input(char *input)
 {
 	int	i;
 
-	if (fgets(input, MAX_INPUT_SIZE, stdin) == NULL)
+	// TODO replace fgets with other function
+	if (fgets(input, MAX_INPUT_SIZE, stdin) == NULL) 
 	{
 		write(2, "Error reading input\n", 20);
 		_exit(1);
@@ -39,9 +41,7 @@ void	print_message(void)
 	write(1, "command not supported yet\n", 26);
 }
 
-
-
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	char	user_input[MAX_INPUT_SIZE];
 	pid_t	pid;
@@ -51,6 +51,7 @@ int	main(int argc, char **argv)
 	if (argc != 1 || argv[1])
 		return (error_message()); // TODO
 	//	1a. store environment variables from the parent process in a struct
+	init_envs(envp);
 	//	1b. add data about current directory and other states to struct
 	
 	// Read-Eval-Print Loop

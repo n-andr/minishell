@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/17 18:06:01 by lde-taey         ###   ########.fr       */
+/*   Created: 2024/06/17 17:39:23 by lde-taey          #+#    #+#             */
+/*   Updated: 2024/06/17 17:58:37 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <string.h>
+#include "minishell.h"
 
-#ifndef MAX_INPUT_SIZE
-# define MAX_INPUT_SIZE 1024
-
-typedef struct s_data
+void	init_envs(char **env)
 {
-	char	**envs;
-}	t_data;
+	t_data	data;
+	int		i;
 
-void	init_envs(char **env);
-char	*ft_strdup(const char *s);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-size_t	ft_strlen(const char *s);
-
-#endif
+	data.envs = (char**)malloc(sizeof(char**)); // fix malloc with right size
+	if (!data.envs)
+		return (NULL);
+	i = 0;
+	while(env[i] != NULL)
+	{
+		data.envs[i] = ft_strdup(env[i]);
+		// add function to free array if malloc does't work
+		i++;
+	}
+}
