@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:39:23 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/18 12:35:02 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:23:16 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,5 @@ void	init_environmentals(char **env)
 		}
 		i++;
 	}
+	data.envs[i] = NULL;
 }
