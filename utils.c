@@ -6,23 +6,11 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:02:33 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/18 12:13:15 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:55:50 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	args_error(void)
-{
-	printf("Error. This program does not accept any arguments\n");
-	exit(-1);
-}
-
-void	malloc_error(void)
-{
-	printf("Error. Malloc failed\n");
-	exit(-1);
-}
 
 size_t	ft_strlen(const char *s)
 {
