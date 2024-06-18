@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/17 18:04:32 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/18 12:11:24 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int	main(int argc, char **argv, char **envp)
 
 	// 1. handle arguments
 	if (argc != 1 || argv[1])
-		return (error_message()); // TODO
+		return (args_error(), -1);
 	//	1a. store environment variables from the parent process in a struct
-	init_envs(envp);
+	init_environmentals(envp);
 	//	1b. add data about current directory and other states to struct
 	
 	// Read-Eval-Print Loop

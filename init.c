@@ -6,25 +6,36 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:39:23 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/17 17:58:37 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/18 12:35:02 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_envs(char **env)
+// When the program starts running, this function copies the environmental 
+// values into a struct
+void	init_environmentals(char **env)
 {
 	t_data	data;
 	int		i;
 
-	data.envs = (char**)malloc(sizeof(char**)); // fix malloc with right size
-	if (!data.envs)
-		return (NULL);
 	i = 0;
-	while(env[i] != NULL)
+	while (env[i])
+		i++;
+	data.envs = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!data.envs)
+		malloc_error();
+	i = 0;
+	while (env[i] != NULL)
 	{
 		data.envs[i] = ft_strdup(env[i]);
-		// add function to free array if malloc does't work
+		if (!data.envs[i])
+		{
+			while (i > 0)
+				free(data.envs[i - 1]);
+			free(data.envs);
+			malloc_error();
+		}
 		i++;
 	}
 }
