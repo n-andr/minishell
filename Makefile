@@ -6,7 +6,7 @@
 #    By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/06/18 15:20:29 by nandreev         ###   ########.fr        #
+#    Updated: 2024/06/18 17:37:45 by nandreev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = cc
 
 CFLAGS = -Werror -Wall -Wextra -g
 
-SRCS = main.c init.c utils.c
+SRCS = main.c init.c utils.c ft_split.c parse_input.c
 
 OBJS = $(SRCS:.c=.o)
 
