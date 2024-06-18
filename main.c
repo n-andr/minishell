@@ -3,38 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/18 12:11:24 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:25:56 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	read_input(char *input)
-{
-	int	i;
-
-	// TODO replace fgets with other function
-	if (fgets(input, MAX_INPUT_SIZE, stdin) == NULL) 
-	{
-		write(2, "Error reading input\n", 20);
-		_exit(1);
-	}
-
-	i = 0;
-	while (input[i] != '\0')
-	{
-		if (input[i] == '\n')
-		{
-			input[i] = '\0';
-			break ;
-		}
-		i++;
-	}
-	//printf("%s", input);
-}
 
 void	print_message(void)
 {
@@ -43,10 +19,12 @@ void	print_message(void)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	user_input[MAX_INPUT_SIZE];
+	char	*user_input;
 	pid_t	pid;
+	t_minishell	shell;
 	int	status;
 
+	args = NULL;
 	// 1. handle arguments
 	if (argc != 1 || argv[1])
 		return (args_error(), -1);
@@ -58,9 +36,13 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		//	2. display prompt message
-		write (1, "$ ", 2);
 		//	3. listen for input with a getline function
-		read_input(user_input);
+		user_input = readline("minishell$ ");
+		if (user_input == NULL)
+			break;
+		if (ft_strlen(user_input) > 0) // ignore empty input
+			add_history(user_input);
+		parse_input(user_input, &shell);
 		// 4. build lexer that scans input and puts everything in an array
 		// 5. parse array and put everything into an execution tree
 		// 6. expand (add information about environment to execution tree)
