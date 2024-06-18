@@ -6,14 +6,21 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/18 16:25:56 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/06/18 18:26:56 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_message(void)
+void	print_message(t_minishell *shell)
 {
+	int i = 0;
+	while (shell->args[i]) // testing if everything is parsed correctly
+	{
+		printf("args: %s\n", shell->args[i]);
+		i ++;
+	}
+	
 	write(1, "command not supported yet\n", 26);
 }
 
@@ -24,7 +31,7 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	shell;
 	int	status;
 
-	args = NULL;
+	shell.args = NULL;
 	// 1. handle arguments
 	if (argc != 1 || argv[1])
 		return (args_error(), -1);
@@ -55,7 +62,7 @@ int	main(int argc, char **argv, char **envp)
 			exit(1);
 		}
 		if (pid == 0) //call child process
-			print_message();
+			print_message(&shell);
 		else
 		{
 			waitpid(pid, &status, 0);
