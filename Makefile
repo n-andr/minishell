@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+         #
+#    By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/06/18 17:37:45 by nandreev         ###   ########.fr        #
+#    Updated: 2024/06/26 14:31:41 by lde-taey         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ CC = cc
 
 CFLAGS = -Werror -Wall -Wextra -g
 
-SRCS = main.c init.c utils.c ft_split.c parse_input.c
+SRCS = main.c init.c utils.c ft_split.c parse_input.c errors.c execute.c cleanup.c \
+	builtins/mini_pwd.c \
+	builtins/mini_cd.c \
 
 OBJS = $(SRCS:.c=.o)
 
