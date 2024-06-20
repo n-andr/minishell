@@ -6,7 +6,7 @@
 #    By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/06/18 12:24:15 by lde-taey         ###   ########.fr        #
+#    Updated: 2024/06/20 19:43:16 by lde-taey         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ CC = cc
 
 CFLAGS = -Werror -Wall -Wextra -g
 
-SRCS = main.c init.c utils.c
+SRCS = main.c init.c utils.c errors.c execute.c cleanup.c \
+	builtins/mini_pwd.c \
+	builtins/mini_cd.c \
 
 OBJS = $(SRCS:.c=.o)
 
