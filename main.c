@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/21 13:27:07 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/21 16:06:01 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ int	main(int argc, char **argv, char **envp)
 	} */
 	execute("cd", &data);
 	// execute("cd", &data);
-	// free_everything(&data);
+	free_everything(&data);
 	return (0);
 }

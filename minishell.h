@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/21 12:37:02 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:44:08 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@ typedef struct s_data
 }	t_data;
 
 void	init_environmentals(char **env, t_data *data);
+// utils
 char	*ft_strdup(const char *s);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 size_t	ft_strlen(const char *s);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strcat(char *dest, char *src);
+char	*ft_strcpy(char *dest, char *src);
 // errors
 void	args_error(void);
 void	malloc_error(void);
