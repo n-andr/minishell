@@ -6,7 +6,11 @@
 #    By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2024/06/26 14:31:41 by lde-taey         ###   ########.fr        #
+=======
+#    Updated: 2024/06/21 15:25:02 by lde-taey         ###   ########.fr        #
+>>>>>>> 4e1e255 (valgrind changes and relative path checking added to mini_cd)
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +20,11 @@ CC = cc
 
 CFLAGS = -Werror -Wall -Wextra -g
 
+<<<<<<< HEAD
 SRCS = main.c init.c utils.c ft_split.c parse_input.c errors.c execute.c cleanup.c \
+=======
+SRCS = main.c init.c utils.c utils_2.c errors.c execute.c cleanup.c \
+>>>>>>> 4e1e255 (valgrind changes and relative path checking added to mini_cd)
 	builtins/mini_pwd.c \
 	builtins/mini_cd.c \
 
