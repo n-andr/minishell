@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/20 19:43:37 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:37:02 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	malloc_error(void);
 void	execute(char *str, t_data *data);
 // builtins
 void	mini_pwd(t_data *data);
-void	mini_cd(t_data *data);
+int		mini_cd(t_data *data);
 // cleanup
 void free_everything(t_data *data);
 

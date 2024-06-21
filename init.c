@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:39:23 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/20 19:44:59 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:55:50 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	store_pwd(t_data *data)
 			data->pwd = ft_strdup(data->envs[i] + 4);
 			if (!data->pwd)
 				malloc_error (); // extra cleanup?
-			// printf("%s", data->pwd);
+			// printf("%s\n", data->pwd);
 
 		}
 		else if (!ft_strncmp(data->envs[i], "OLDPWD=", 7))
@@ -32,14 +32,15 @@ void	store_pwd(t_data *data)
 			data->oldpwd = ft_strdup(data->envs[i] + 7);
 			if (!data->oldpwd)
 				malloc_error ();
-			// printf("%s", data->pwd);
+			// printf("%s\n", data->oldpwd);
 
 		}
 		else if (!ft_strncmp(data->envs[i], "HOME=", 5))
 		{
 			data->home = ft_strdup(data->envs[i] + 5);
 			if (!data->home)
-				malloc_error (); 
+				malloc_error ();
+			// printf("%s\n", data->home);
 		}
 		i++;
 	}
@@ -73,5 +74,4 @@ void	init_environmentals(char **env, t_data *data)
 	}
 	data->envs[i] = NULL;
 	store_pwd(data);
-	printf("%s", data->home);
 }
