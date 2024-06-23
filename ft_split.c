@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:49:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/18 17:41:15 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/06/24 00:02:23 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,40 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (i);
 }
 
+// static int	is_quote(char c)
+// {
+// 	return (c == '\'' || c == '"');
+// }
+
 static int	count_words(char const *s, char c)
 {
-	int	words;
+	int		words;
+	int		in_single_quote;
+	int		in_double_quote;
 
 	words = 0;
-	while (*s != '\0')
+	in_single_quote = 0;
+	in_double_quote = 0;
+	while (*s)
 	{
 		while (*s == c)
 			s++;
 		if (*s == '\0')
 			break ;
-		while (*s != c && *s != '\0')
+		if (*s == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		else if (*s == '"' && !in_single_quote)
+			in_double_quote = !in_double_quote;
+		if (*s != c || in_single_quote || in_double_quote)
+			words++;
+		while ((*s != c || in_single_quote || in_double_quote) && *s)
+		{
+			if (*s == '\'' && !in_double_quote)
+				in_single_quote = !in_single_quote;
+			else if (*s == '"' && !in_single_quote)
+				in_double_quote = !in_double_quote;
 			s++;
-		words++;
+		}
 	}
 	return (words);
 }
@@ -55,22 +75,28 @@ static char	*find_next_word(char **s_pointer, char c)
 	size_t	len;
 	char	*word;
 	char	*s;
+	int		in_single_quote;
+	int		in_double_quote;
 
 	s = *s_pointer;
+	in_single_quote = 0;
+	in_double_quote = 0;
 	while (*s == c)
 		s++;
-	start = (char *)s;
+	start = s;
 	len = 0;
-	while (*s != c && *s != '\0')
+	while ((*s != c || in_single_quote || in_double_quote) && *s)
 	{
+		if (*s == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		else if (*s == '"' && !in_single_quote)
+			in_double_quote = !in_double_quote;
 		len++;
 		s++;
 	}
 	word = (char *)malloc(len + 1);
-	if (word == 0)
-	{
+	if (!word)
 		return (NULL);
-	}
 	ft_strlcpy(word, start, len + 1);
 	*s_pointer = s;
 	return (word);
@@ -87,9 +113,11 @@ static void	split_words(char *result[], char const *s, char c, int words)
 	while (current_word < words)
 	{
 		word = find_next_word(&sdub, c);
-		if (word == NULL)
+		if (!word)
 		{
-			result = NULL;
+			while (current_word > 0)
+				free(result[--current_word]);
+			free(result);
 			return ;
 		}
 		result[current_word] = word;
@@ -103,9 +131,11 @@ char	**ft_split(char const *s, char c)
 	int		words;
 	char	**result;
 
+	if (!s)
+		return (NULL);
 	words = count_words(s, c);
-	result = malloc((words + 1) * sizeof(char *));
-	if (result == 0)
+	result = (char **)malloc((words + 1) * sizeof(char *));
+	if (!result)
 		return (NULL);
 	split_words(result, s, c, words);
 	return (result);
