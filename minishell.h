@@ -7,10 +7,14 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2024/06/26 14:43:53 by lde-taey         ###   ########.fr       */
 =======
 /*   Updated: 2024/06/21 15:44:08 by lde-taey         ###   ########.fr       */
 >>>>>>> 4e1e255 (valgrind changes and relative path checking added to mini_cd)
+=======
+/*   Updated: 2024/06/25 12:32:59 by lde-taey         ###   ########.fr       */
+>>>>>>> d743376 (changes to other files)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +78,7 @@ void	execute(char *str, t_data *data);
 // builtins
 void	mini_pwd(t_data *data);
 int		mini_cd(t_data *data);
+int		mini_env(t_data *data);
 // cleanup
 void free_everything(t_data *data);
 
