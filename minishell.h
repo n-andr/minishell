@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/21 15:44:08 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:32:59 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	execute(char *str, t_data *data);
 // builtins
 void	mini_pwd(t_data *data);
 int		mini_cd(t_data *data);
+int		mini_env(t_data *data);
 // cleanup
 void free_everything(t_data *data);
 
