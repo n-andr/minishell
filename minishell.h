@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/18 17:41:36 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/06/25 20:23:03 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 // errors
 void	args_error(void);
 void	malloc_error(void);
+void	unclosed_quote(void);
+
 
 #endif
