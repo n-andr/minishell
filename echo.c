@@ -6,20 +6,66 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/25 22:55:58 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/06/26 00:38:13 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_echo(t_minishell *shell, int i)
+void	open_single_quotes(char *s)
 {
-	while (shell->args[i])
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
 	{
-		if (ft_strchr())
+		if (s[i] == '\'')
+			s++;
+		else
+		{
+			write (1, &s[i], 1);
+			s++;
+		}
 	}
+}
+
+void	open_double_quotes(char *s)
+{
+	int	i;
+
+	i = 0;
 	
 
+}
+
+void	write_environmentals(char *s)
+{
+	
+
+}
+
+
+void	print_echo(t_minishell *shell, int i)
+{
+	char *single_quote;
+	char *double_quote;
+
+	while (shell->args[i])
+	{
+		single_quote = ft_strchr(shell->args[i], '\'');
+    	double_quote = ft_strchr(shell->args[i], '\"');
+		if (single_quote && (!double_quote || single_quote < double_quote))
+		{
+			open_single_quotes(shell->args[i]);
+		}
+		else if (double_quote && (!single_quote || double_quote < single_quote))
+		{
+			open_double_quotes(shell->args[i]);
+		}
+		else
+			printf("%s", shell->args[i]);
+		i ++;
+	}
 }
 
 void	execute_echo(t_minishell *shell)
