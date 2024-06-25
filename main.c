@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/26 15:03:12 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/25 21:27:09 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,20 @@
 void	print_message(t_minishell *shell)
 {
 	int i = 0;
-	while (shell->args[i]) // testing if everything is parsed correctly
-	{
-		printf("args: %s\n", shell->args[i]);
-		i ++;
-	}
+	// while (shell->args[i]) // testing if everything is parsed correctly
+	// {
+	// 	printf("args: %s\n", shell->args[i]);
+	// 	i ++;
+	// }
 	
 	write(1, "command not supported yet\n", 26);
+	i = 0;
+	while (shell->args[i]) // free args
+	{
+		free (shell->args[i]);
+		i ++;
+	}
+	shell->args = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)

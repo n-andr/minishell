@@ -30,3 +30,10 @@ void	error_exec(void)
 	printf("Error. Process failed\n");
 	exit(-1);
 }
+
+void	unclosed_quote(void)
+{
+	printf("Error. Unclosed quotes\n");
+	//free stuff if needed
+	// return control back to user 
+}

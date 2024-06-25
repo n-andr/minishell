@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/06/25 14:02:06 by lde-taey         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/26 12:32:55 by lde-taey         ###   ########.fr       */
->>>>>>> bfca0365fcb95ec64a8c607495198ad75dfcb49d
+/*   Updated: 2024/06/25 20:23:03 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +75,7 @@ int		ft_isdigit(int c);
 // errors
 void	args_error(void);
 void	malloc_error(void);
+void	unclosed_quote(void);
 // execute
 void	execute(char *str, t_data *data);
 // builtins
@@ -89,5 +86,6 @@ int		mini_unset(t_data *data, char *str);
 // cleanup
 void	free_everything(t_data *data);
 void	free_array(char **array);
+
 
 #endif
