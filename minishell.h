@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/25 20:23:03 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/06/25 22:55:27 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 size_t	ft_strlen(const char *s);
 char	**ft_split(char const *s, char c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-
+int		ft_strcmp(char *s1, char *s2);
+char	*ft_strchr(const char *s, int c);
 
 void	init_environmentals(char **env, t_data *data);
 // utils
@@ -87,5 +88,7 @@ int		mini_unset(t_data *data, char *str);
 void	free_everything(t_data *data);
 void	free_array(char **array);
 
+// free
+void	free_args(t_minishell *shell);
 
 #endif
