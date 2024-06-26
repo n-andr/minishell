@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/26 12:06:16 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:45:44 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	free_array(char **array)
 		i++;
 	}
 	free(array);
+	array = NULL;
 }
 
 void	free_everything(t_data *data)

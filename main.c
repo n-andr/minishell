@@ -6,50 +6,29 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/26 15:03:12 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:17:11 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_message(t_minishell *shell)
-{
-	int i = 0;
-	// while (shell->args[i]) // testing if everything is parsed correctly
-	// {
-	// 	printf("args: %s\n", shell->args[i]);
-	// 	i ++;
-	// }
-	
-	write(1, "command not supported yet\n", 26);
-	i = 0;
-	while (shell->args[i]) // free args
-	{
-		free (shell->args[i]);
-		i ++;
-	}
-	shell->args = NULL;
-}
-
 int	main(int argc, char **argv, char **envp)
 {
-	// char	user_input[MAX_INPUT_SIZE];
-	t_data	data;
 	char	*user_input;
 	pid_t	pid;
 	t_minishell	shell;
 	int	status;
-
 	shell.args = NULL;
+	
 	// 1. handle arguments
 	if (argc != 1 || argv[1])
 		return (args_error(), -1);
 	//	1a. store environment variables from the parent process in a struct
-	init_environmentals(envp, &data);
+	init_environmentals(envp, &shell);
 	//	1b. add data about current directory and other states to struct
 	
 	// Read-Eval-Print Loop
-	/* while (1)
+	while (1)
 	{
 		//	2. display prompt message
 		//	3. listen for input with a getline function
@@ -63,10 +42,22 @@ int	main(int argc, char **argv, char **envp)
 		// 5. parse array and put everything into an execution tree
 		// 6. expand (add information about environment to execution tree)
 		// 7. execute the commands with a fork
+		pid = fork();
+		
+		if (pid < 0) // error
+		{
+			write(2, "Fork failed\n", 12);
+			exit(1);
+		}
+		if (pid == 0) //call child process
+			execute(&shell);
+		else
+		{
+			waitpid(pid, &status, 0);
+		}
 		//	8. free memory
-	} */
-	execute("unset", &data);
-	// execute("cd", &data);
-	free_everything(&data);
+	}
+	// execute("unset", &shell);
+	free_everything(&shell);
 	return (0);
 }

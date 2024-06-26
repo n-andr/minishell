@@ -6,9 +6,11 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 12:09:29 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/26 12:33:42 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:03:21 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// feel free to delete
 
 #include "minishell.h"
 
@@ -26,7 +28,7 @@ int check_input(char *str)
 	return (1);
 }
 
-int	mini_exit(t_data *data, char *str)
+int	mini_exit(t_minishell *shell, char *str)
 {
 	// check if input is valid for exit command
 	if (check_input(str))

@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/26 15:34:29 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:35:20 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#ifndef MAX_INPUT_SIZE //remove if not used
+#ifndef MAX_INPUT_SIZE
 # define MAX_INPUT_SIZE 1024
 
-typedef struct s_data
+typedef struct s_minishell
 {
+	char	**args;
 	char	**envs;
 	char	*pwd;
 	char	*oldpwd;
 	char	*home;
-	char	*cmd;
-}	t_data;
+}	t_minishell;
 
-void	init_environmentals(char **env, t_data *data);
+void	init_environmentals(char **env,t_minishell *shell);
 // utils
 char	*ft_strdup(const char *s);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
@@ -46,14 +46,15 @@ void	args_error(void);
 void	malloc_error(void);
 void	unclosed_quote(void);
 // execute
-void	execute(char *str, t_data *data);
+void	execute(t_minishell *shell);
 // builtins
-void	mini_pwd(t_data *data);
-int		mini_cd(t_data *data);
-int		mini_env(t_data *data);
-int		mini_unset(t_data *data, char *str);
+void	mini_pwd(t_minishell *shell);
+int		mini_cd(t_minishell *shell);
+int		mini_env(t_minishell *shell);
+int		mini_unset(t_minishell *shell, char *str);
+void	mini_echo(t_minishell *shell);
 // cleanup
-void	free_everything(t_data *data);
+void	free_everything(t_minishell *shell);
 void	free_array(char **array);
 
 // free

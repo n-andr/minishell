@@ -6,20 +6,20 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 17:07:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/25 12:33:12 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:03:34 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	mini_env(t_data *data)
+int	mini_env(t_minishell *shell)
 {
 	int i;
 
 	i = 0;
-	while (data->envs[i] != NULL)
+	while (shell->envs[i] != NULL)
 	{
-		printf("%s\n", data->envs[i]);
+		printf("%s\n", shell->envs[i]);
 		i++;
 	}
 	return (0);

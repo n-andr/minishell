@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 12:20:49 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/26 12:14:36 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:03:02 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ int	check_if_valid(char *str)
 	return (1);
 }
 
-int	mini_unset(t_data *data, char *str)
+int	mini_unset(t_minishell *shell, char *str)
 {
 	if (!check_if_valid(str))
 		return (1);
-	delete_var(data->envs, str);
+	delete_var(shell->envs, str);
 	// mini_env(data); // test
 	return (0);
 }

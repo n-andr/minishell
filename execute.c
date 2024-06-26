@@ -6,27 +6,29 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/26 11:38:13 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:17:54 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	scanifbuiltin(char *str, t_data *data)
+static int	scanifbuiltin(char *str, t_minishell *shell)
 {
 	if(!ft_strcmp("pwd", str))
-		return (mini_pwd(data), 1);
+		return (mini_pwd(shell), 1);
 	else if(!ft_strcmp("cd", str))
-		return (mini_cd(data), 1);
+		return (mini_cd(shell), 1);
 	else if(!ft_strcmp("env", str))
-		return (mini_env(data), 1);
+		return (mini_env(shell), 1);
 	else if(!ft_strcmp("unset", str))
-		return (mini_unset(data, "MAIL="), 1);
+		return (mini_unset(shell, "MAIL="), 1);
+//	else if(!ft_strcmp("echo", str))
+//		return (mini_echo(data), 1);
 	else
 		return (0);
 }
 
-void	execute(char *str, t_data *data) // change according to way args are parsed into structs
+void	execute(char *str, t_minishell *shell) // change according to way args are parsed into structs
 {
 	// pid_t	pid;
 	// int		status;
@@ -35,7 +37,7 @@ void	execute(char *str, t_data *data) // change according to way args are parsed
 	1. check if arguments are empty
 	2. if built-in commands
 		handle these in the parent process */
-	if (scanifbuiltin(str, data))
+	if (scanifbuiltin(str, shell))
 		return ;
 	/* 
 	3. external commands
@@ -44,6 +46,7 @@ void	execute(char *str, t_data *data) // change according to way args are parsed
 	pid = fork();
 	if (pid == 0) // child process
 	{
+		
 		execvp(data->cmd, data); // delete this eventually, is superfluous
 		if (execvp(data->cmd, data) == -1)
 			error_exec();
