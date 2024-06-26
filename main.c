@@ -6,11 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/06/25 12:30:59 by lde-taey         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/26 11:45:17 by lde-taey         ###   ########.fr       */
->>>>>>> bfca0365fcb95ec64a8c607495198ad75dfcb49d
+/*   Updated: 2024/06/26 15:03:12 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +28,10 @@ int	main(int argc, char **argv, char **envp)
 {
 	// char	user_input[MAX_INPUT_SIZE];
 	t_data	data;
-<<<<<<< HEAD
 	char	*user_input;
 	pid_t	pid;
 	t_minishell	shell;
 	int	status;
-=======
->>>>>>> bfca0365fcb95ec64a8c607495198ad75dfcb49d
 
 	shell.args = NULL;
 	// 1. handle arguments
@@ -52,7 +45,6 @@ int	main(int argc, char **argv, char **envp)
 	/* while (1)
 	{
 		//	2. display prompt message
-<<<<<<< HEAD
 		//	3. listen for input with a getline function
 		user_input = readline("minishell$ ");
 		if (user_input == NULL)
@@ -60,11 +52,6 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_strlen(user_input) > 0) // ignore empty input
 			add_history(user_input);
 		parse_input(user_input, &shell);
-=======
-		// write (1, "$ ", 2);
-		//	3. listen for input with a getline function
-		// read_input(user_input);
->>>>>>> bfca0365fcb95ec64a8c607495198ad75dfcb49d
 		// 4. build lexer that scans input and puts everything in an array
 		// 5. parse array and put everything into an execution tree
 		// 6. expand (add information about environment to execution tree)
