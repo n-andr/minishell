@@ -6,7 +6,11 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/06/25 14:02:06 by lde-taey         ###   ########.fr       */
+=======
+/*   Updated: 2024/06/26 12:32:55 by lde-taey         ###   ########.fr       */
+>>>>>>> bfca0365fcb95ec64a8c607495198ad75dfcb49d
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +34,7 @@ typedef struct s_data
 	char	*cmd;
 }	t_data;
 
+<<<<<<< HEAD
 typedef struct s_minishell
 {
 	char	**args;
@@ -58,6 +63,13 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
 
 // errors
+=======
+void	init_environmentals(char **env, t_data *data);
+// utils
+char	*ft_strdup(const char *s);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+size_t	ft_strlen(const char *s);
+>>>>>>> bfca0365fcb95ec64a8c607495198ad75dfcb49d
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strcat(char *dest, char *src);
