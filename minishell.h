@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/25 22:55:27 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:34:29 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,43 +30,11 @@ typedef struct s_data
 	char	*cmd;
 }	t_data;
 
-<<<<<<< HEAD
-typedef struct s_minishell
-{
-	char	**args;
-}	t_minishell;
-
-
-void	init_environmentals(char **env);
-void	parse_input(char *input, t_minishell *shell);
-
-
-//utils
-char	*ft_strdup(const char *s);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-size_t	ft_strlen(const char *s);
-char	**ft_split(char const *s, char c);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-int		ft_strcmp(char *s1, char *s2);
-char	*ft_strchr(const char *s, int c);
-
 void	init_environmentals(char **env, t_data *data);
 // utils
 char	*ft_strdup(const char *s);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 size_t	ft_strlen(const char *s);
-char	**ft_split(char const *s, char c);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-
-
-// errors
-=======
-void	init_environmentals(char **env, t_data *data);
-// utils
-char	*ft_strdup(const char *s);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-size_t	ft_strlen(const char *s);
->>>>>>> bfca0365fcb95ec64a8c607495198ad75dfcb49d
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strcat(char *dest, char *src);
