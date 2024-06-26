@@ -3,33 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:49:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/18 17:41:15 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/06/25 21:41:29 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	if (size > 0)
-	{
-		while (src[i] && i < (size - 1))
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	while (src[i])
-		i++;
-	return (i);
-}
 
 static int	count_words(char const *s, char c)
 {
@@ -110,29 +91,3 @@ char	**ft_split(char const *s, char c)
 	split_words(result, s, c, words);
 	return (result);
 }
-/*#include <stdio.h>
-
-int main() {
-	char const *input_string = "split    me pls";
-	char delimiter = ' ';
-
-	printf("Original String: %s\n", input_string);
-	printf("Delimiter: %c\n", delimiter);
-
-	char **result = ft_split(input_string, delimiter);
-
-	if (result) {
-		printf("\nSplit Result:\n");
-		char **temp = result; // Fix: Create a temporary pointer
-		while (*temp)
-		{
-			printf("%s\n", *temp);
-			temp++;
-		}
-		free(result);
-	} else {
-		printf("\nError: Memory allocation failed or input string is empty.\n");
-	}
-
-	return 0;
-}*/
