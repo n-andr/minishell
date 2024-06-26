@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/20 18:52:06 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:56:46 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	scanifbuiltin(char *str, t_data *data)
 {
 	if(!ft_strcmp("pwd", str))
 		return (mini_pwd(data), 1);
-	else if(!ft_strcmp("pwd", str))
+	else if(!ft_strcmp("cd", str))
 		return (mini_cd(data), 1);
 	else
 		return (0);

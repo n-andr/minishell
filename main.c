@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/26 14:36:26 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:45:49 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,9 @@ int	main(int argc, char **argv, char **envp)
 		// 7. execute the commands with a fork
 		// execute("pwd", &data);
 		//	8. free memory
-		
-
 	} */
-	execute("pwd", &data);
-	free_everything(&data);
+	execute("cd", &data);
+	// execute("cd", &data);
+	// free_everything(&data);
 	return (0);
 }
