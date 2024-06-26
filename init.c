@@ -6,11 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:39:23 by lde-taey          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2024/06/26 11:24:17 by lde-taey         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/26 00:38:09 by nandreev         ###   ########.fr       */
->>>>>>> 0290a8a (wip echo)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +47,7 @@ void	store_pwd(t_data *data)
 
 // When the program starts running, this function copies the environmental 
 // values into a struct
-<<<<<<< HEAD
 void	init_environmentals(char **env, t_data *data)
-=======
-
-// do we need to NULL-terminate the array data->envs[i] = NULL; ?
-void	init_environmentals(char **env)
->>>>>>> 0290a8a (wip echo)
 {
 	int		i;
 
