@@ -6,19 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2024/06/26 14:43:53 by lde-taey         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/21 15:44:08 by lde-taey         ###   ########.fr       */
->>>>>>> 4e1e255 (valgrind changes and relative path checking added to mini_cd)
-=======
-/*   Updated: 2024/06/25 12:32:59 by lde-taey         ###   ########.fr       */
->>>>>>> d743376 (changes to other files)
-=======
 /*   Updated: 2024/06/25 14:02:06 by lde-taey         ###   ########.fr       */
->>>>>>> ce0c504 (mini_unset)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +63,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strcat(char *dest, char *src);
 char	*ft_strcpy(char *dest, char *src);
 void	ft_bzero(void *s, size_t n);
+int		ft_isdigit(int c);
 // errors
 void	args_error(void);
 void	malloc_error(void);
@@ -84,7 +73,9 @@ void	execute(char *str, t_data *data);
 void	mini_pwd(t_data *data);
 int		mini_cd(t_data *data);
 int		mini_env(t_data *data);
+int		mini_unset(t_data *data, char *str);
 // cleanup
-void free_everything(t_data *data);
+void	free_everything(t_data *data);
+void	free_array(char **array);
 
 #endif

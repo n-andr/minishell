@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:39:23 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/21 15:37:33 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/26 11:24:17 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	store_pwd(t_data *data)
 			if (!data->pwd)
 				malloc_error (); // extra cleanup?
 			// printf("%s\n", data->pwd);
-
 		}
 		else if (!ft_strncmp(data->envs[i], "OLDPWD=", 7))
 		{
