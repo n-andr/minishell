@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/25 12:30:59 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/26 11:45:17 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,9 @@ int	main(int argc, char **argv, char **envp)
 		// 5. parse array and put everything into an execution tree
 		// 6. expand (add information about environment to execution tree)
 		// 7. execute the commands with a fork
-		// execute("pwd", &data);
 		//	8. free memory
 	} */
-	execute("env", &data);
+	execute("unset", &data);
 	// execute("cd", &data);
 	free_everything(&data);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/25 14:02:06 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:32:55 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strcat(char *dest, char *src);
 char	*ft_strcpy(char *dest, char *src);
 void	ft_bzero(void *s, size_t n);
+int		ft_isdigit(int c);
 // errors
 void	args_error(void);
 void	malloc_error(void);
@@ -47,7 +48,9 @@ void	execute(char *str, t_data *data);
 void	mini_pwd(t_data *data);
 int		mini_cd(t_data *data);
 int		mini_env(t_data *data);
+int		mini_unset(t_data *data, char *str);
 // cleanup
-void free_everything(t_data *data);
+void	free_everything(t_data *data);
+void	free_array(char **array);
 
 #endif

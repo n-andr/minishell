@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/25 12:31:34 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/26 11:38:13 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static int	scanifbuiltin(char *str, t_data *data)
 		return (mini_cd(data), 1);
 	else if(!ft_strcmp("env", str))
 		return (mini_env(data), 1);
+	else if(!ft_strcmp("unset", str))
+		return (mini_unset(data, "MAIL="), 1);
 	else
 		return (0);
 }

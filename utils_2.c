@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:13:39 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/25 13:55:33 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:32:32 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,12 @@ void	ft_bzero(void *s, size_t n)
 		string[i] = '\0';
 		i++;
 	}
+}
+
+int	ft_isdigit(int c)
+{
+	if (c >= 48 && c <= 57)
+		return (1);
+	else
+		return (0);
 }
