@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/27 11:12:22 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:14:17 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,14 @@
 typedef struct s_minishell
 {
 	char	**args;
+	char	arg[MAX_INPUT_SIZE];
 	char	**envs;
 	char	*pwd;
 	char	*oldpwd;
 	char	*home;
+	char	cmd[MAX_INPUT_SIZE];
+	char	*redir[MAX_INPUT_SIZE];
+	char	*heredoc;
 }	t_minishell;
 
 void	init_environmentals(char **env,t_minishell *shell);
@@ -46,10 +50,13 @@ int		ft_isdigit(int c); */
 void	args_error(void);
 void	malloc_error(void);
 void	unclosed_quote(void);
+void	error_exec(void);
 // parse
 void	parse_input(char *input, t_minishell *shell);
 // execute
-void	execute(char *str, t_minishell *shell);
+int		execute(char *str, t_minishell *shell);
+void	handle_cmd(t_minishell *shell);
+int		check_redirections(t_minishell *shell);
 // builtins
 void	mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell);

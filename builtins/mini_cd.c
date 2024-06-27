@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 18:53:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/26 17:18:44 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:48:12 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	mini_cd(t_minishell *shell)
 
 	if (!getcwd(lastdir, sizeof(lastdir)))
 		return (-1);
-	if (!strcmp(arg, "-"))
+	if (!ft_strcmp(arg, "-"))
 		ret = chdir(shell->oldpwd);
 	else if (!strcmp(arg, ""))
 		ret = chdir(shell->home);
