@@ -6,11 +6,11 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/26 17:14:39 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:03:35 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	open_single_quotes(char *s)
 {

@@ -3,27 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 18:02:33 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/25 22:55:19 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:09:54 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	args_error(void)
-{
-	printf("Error. This program does not accept any arguments\n");
-	exit(-1);
-}
-
-void	malloc_error(void)
-{
-	printf("Error. Malloc failed\n");
-	exit(-1);
-}
-
+/*
 char	*ft_strchr(const char *s, int c)
 {
 	char	*s1;
@@ -53,7 +41,6 @@ int	ft_strcmp(char *s1, char *s2)
 		i++;
 	return (s1[i] - s2[i]);
 }
-
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
@@ -117,7 +104,7 @@ char	*ft_strdup(const char *s)
 	ft_memcpy(newstr, s, length);
 	return (newstr);
 }
-
+*/
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	int		i;
@@ -127,7 +114,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 		i++;
 	return (*((unsigned char *)s1 + i) - *((unsigned char *)s2 + i));
 }
-
+/*
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
@@ -140,4 +127,4 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (0);
-}
+} */

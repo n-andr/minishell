@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:13:39 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/26 12:32:32 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:12:05 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_strcpy(char *dest, char *src)
 	dest[i] = '\0';
 	return (dest);
 }
-
+/*
 void	ft_bzero(void *s, size_t n)
 {
 	unsigned char	*string;
@@ -67,4 +67,4 @@ int	ft_isdigit(int c)
 		return (1);
 	else
 		return (0);
-}
+} */

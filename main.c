@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/26 17:17:11 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:06:27 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **envp)
 			exit(1);
 		}
 		if (pid == 0) //call child process
-			execute(&shell);
+			execute("hello", &shell);
 		else
 		{
 			waitpid(pid, &status, 0);

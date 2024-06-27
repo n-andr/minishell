@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/26 17:35:20 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:12:22 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include "libft/libft.h"
 
 #ifndef MAX_INPUT_SIZE
 # define MAX_INPUT_SIZE 1024
@@ -32,21 +33,23 @@ typedef struct s_minishell
 
 void	init_environmentals(char **env,t_minishell *shell);
 // utils
-char	*ft_strdup(const char *s);
+/* char	*ft_strdup(const char *s);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
-size_t	ft_strlen(const char *s);
-int		ft_strcmp(const char *s1, const char *s2);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
+size_t	ft_strlen(const char *s); */
+int		ft_strcmp(const char *s1, const char *s2); /*
+int		ft_strncmp(const char *s1, const char *s2, size_t n); */
 char	*ft_strcat(char *dest, char *src);
 char	*ft_strcpy(char *dest, char *src);
-void	ft_bzero(void *s, size_t n);
-int		ft_isdigit(int c);
+/*void	ft_bzero(void *s, size_t n);
+int		ft_isdigit(int c); */
 // errors
 void	args_error(void);
 void	malloc_error(void);
 void	unclosed_quote(void);
+// parse
+void	parse_input(char *input, t_minishell *shell);
 // execute
-void	execute(t_minishell *shell);
+void	execute(char *str, t_minishell *shell);
 // builtins
 void	mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell);

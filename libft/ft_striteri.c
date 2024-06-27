@@ -1,35 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleanup.c                                          :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/27 11:03:20 by lde-taey         ###   ########.fr       */
+/*   Created: 2023/11/26 19:34:02 by lde-taey          #+#    #+#             */
+/*   Updated: 2023/12/04 18:29:09 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	free_array(char **array)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
 	int	i;
 
 	i = 0;
-	while (array[i] != NULL)
+	while (s[i] != '\0')
 	{
-		free(array[i]);
+		(*f)(i, &s[i]);
 		i++;
 	}
-	free(array);
-	array = NULL;
+}
+/*
+Tests don't work
+
+void	*ft_toupperifeven(unsigned int i, char *string)
+{
+	if (i % 2 == 0)
+		return (string + (i * 2));
+	return (string);
 }
 
-void	free_everything(t_minishell *shell)
+#include <stdio.h>
+
+int	main(void)
 {
-	free_array(shell->envs);
-	free(shell->home);
-	free(shell->pwd);
-	free(shell->oldpwd);
+	char	*mystring = "exampleofastring";
+	ft_striteri(mystring, ft_toupperifeven);
+	printf("Resulting string: %s\n", mystring);
+	return (0);
 }
+*/

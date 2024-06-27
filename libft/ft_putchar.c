@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleanup.c                                          :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/27 11:03:20 by lde-taey         ###   ########.fr       */
+/*   Created: 2023/12/17 14:51:32 by lde-taey          #+#    #+#             */
+/*   Updated: 2024/04/20 15:03:06 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	free_array(char **array)
+int	ft_putchar(char c)
 {
-	int	i;
-
-	i = 0;
-	while (array[i] != NULL)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-	array = NULL;
+	write(1, &c, 1);
+	return (1);
 }
+/*
+#include <stdio.h>
 
-void	free_everything(t_minishell *shell)
+int	main(void)
 {
-	free_array(shell->envs);
-	free(shell->home);
-	free(shell->pwd);
-	free(shell->oldpwd);
+	char c = '5';
+	int returnv;
+
+	returnv = ft_putchar(c);
+	printf("\nReturn value: %i", returnv);
+	return (0);
 }
+*/

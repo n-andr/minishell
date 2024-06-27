@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleanup.c                                          :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/27 11:03:20 by lde-taey         ###   ########.fr       */
+/*   Created: 2023/11/26 19:34:47 by lde-taey          #+#    #+#             */
+/*   Updated: 2023/11/28 18:53:48 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	free_array(char **array)
+void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 
 	i = 0;
-	while (array[i] != NULL)
+	while (s[i] != '\0')
 	{
-		free(array[i]);
+		ft_putchar_fd(s[i], fd);
 		i++;
 	}
-	free(array);
-	array = NULL;
 }
-
-void	free_everything(t_minishell *shell)
+/*
+int main(void)
 {
-	free_array(shell->envs);
-	free(shell->home);
-	free(shell->pwd);
-	free(shell->oldpwd);
+    char *mystring = "This is a string.";
+    
+    ft_putstr_fd(mystring, 1);
 }
+*/
