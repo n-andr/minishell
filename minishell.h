@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/27 16:14:17 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:13:17 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,12 @@
 typedef struct s_minishell
 {
 	char	**args;
-	char	arg[MAX_INPUT_SIZE];
 	char	**envs;
 	char	*pwd;
 	char	*oldpwd;
 	char	*home;
-	char	cmd[MAX_INPUT_SIZE];
-	char	*redir[MAX_INPUT_SIZE];
+	char	**cmd;
+	char	**redir;
 	char	*heredoc;
 }	t_minishell;
 

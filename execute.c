@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/27 16:35:51 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/28 16:30:54 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 
 void handle_cmd(t_minishell *shell)
 {	
-	char *temp;
-	temp = (char *)&shell->arg;
-	
 	check_redirections(shell);
-	if (execve(shell->cmd, &temp, shell->envs) == -1)
+	if (execve(shell->cmd[0], shell->args, shell->envs) == -1)
 		perror("Could not execve");
 }
 
@@ -43,8 +40,13 @@ int	execute(char *str, t_minishell *shell) // change according to way args are p
 	pid_t	pid;
 	int		status;
 	
-	ft_strcpy(shell->cmd, "cat");
-	ft_strcpy(shell->arg, "free.c");
+	shell->cmd = (char **)malloc((2 * sizeof(char*)));
+	shell->args = (char **)malloc((3 * sizeof(char*)));
+	shell->cmd[0] = "/usr/bin/cat";
+	shell->cmd[1] = NULL;
+	shell->args[0] = "cat"; // command should be included in the args!
+	shell->args[1] = "free.c";
+	shell->args[2] = NULL;
 
 	/*
 	0. check if arguments are empty

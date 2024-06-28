@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:41:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/27 16:40:04 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/28 16:24:35 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,19 @@ int	handle_rights(char *signs, char *file)
 	int	fd;
 
 	if (!ft_strcmp(signs, ">>"))
-		fd = open(file, O_WRONLY | O_APPEND);
+		fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	else
-		fd = open(file, O_WRONLY);
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		perror("Error. failed to open file");
-		return (0);
+		return (-1);
 	}
-	if (fd < 0 && dup2(fd, 1) < 0)
+	if (dup2(fd, STDOUT_FILENO) < 0)
 	{
 		perror("Error. failed to open file");
-		return (0);
+		close(fd);
+		return (-1);
 	}
 	close(fd);
 	return (1);
@@ -44,7 +45,7 @@ int	handle_lefts(char *file)
 		perror("Error. failed to open file");
 		return (0);
 	}
-	if (fd > 0 && dup2(fd, 0) < 0)
+	if (fd > 0 && dup2(fd, STDIN_FILENO) < 0)
 	{
 		perror("Error. failed to open file");
 		return (0);
@@ -55,26 +56,27 @@ int	handle_lefts(char *file)
 
 int	check_redirections(t_minishell *shell)
 {
-	shell->redir[0] = ft_strdup(">>"); // do this differently, segfaults now
-	shell->redir[1] = ft_strdup ("test.txt");	
-	shell->redir[2] = ft_strdup ("");
+	shell->redir = (char **)malloc((3) * sizeof(char *));
+	shell->redir[0] = ">>";
+	shell->redir[1] = "test.txt";	
+	shell->redir[2] = NULL;
 	int i;
 	
 	i = 0;
 	while(shell->redir[i] != NULL)
 	{
-		if(!ft_strcmp(shell->redir[i], "<<"))
+		if(ft_strncmp(shell->redir[i], "<<", 2) == 0)
 		{
 			if (!handle_lefts(shell->redir[i + 1]))
 				return (0);
 		}
-		else if(!ft_strcmp(shell->redir[i], "<"))
+		else if(ft_strncmp(shell->redir[i], "<", 1) == 0)
 		{
 			if (!handle_lefts(shell->heredoc))
 				return (0);
 		}
-		else if(!ft_strcmp(shell->redir[i], ">") \
-			|| !ft_strcmp(shell->redir[i], ">>"))
+		else if(ft_strncmp(shell->redir[i], ">", 1) == 0 \
+			|| ft_strncmp(shell->redir[i], ">>", 2) == 0)
 		{
 			if (!handle_rights(shell->redir[i], shell->redir[i + 1]))
 				return (0);
