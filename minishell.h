@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/26 17:35:20 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/02 20:41:43 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	*ft_strcat(char *dest, char *src);
 char	*ft_strcpy(char *dest, char *src);
 void	ft_bzero(void *s, size_t n);
 int		ft_isdigit(int c);
+char	*ft_strchr(const char *s, int c);
 // errors
 void	args_error(void);
 void	malloc_error(void);

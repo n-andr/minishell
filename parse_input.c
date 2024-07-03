@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/26 17:40:53 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/03 12:43:39 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,44 @@ static void	postprosess_array(t_minishell *shell)
 	}
 }
 
+int	is_builtin(t_minishell *shell)
+{
+	char	*builtins[8];
+	int	i;
+
+	builtins[0] = "cd";
+    builtins[1] = "exit";
+    builtins[2] = "echo";
+    builtins[3] = "pwd";
+    builtins[4] = "export";
+    builtins[5] = "unset";
+    builtins[6] = "env";
+    builtins[7] = NULL;
+	i = 0;
+	while (builtins[i] != NULL)
+	{
+		if (ft_strcmp(shell->args[0], builtins[i]) == 0)
+			return (1);
+		i ++;
+	}
+	return (0);
+}
+
+int 	is_executable(t_minishell *shell)
+{
+	if (access(shell->args[0], X_OK) == 0)
+		return (1);
+	return (0);
+}
+
+int 	is_path(t_minishell *shell)
+{
+	if (ft_strchr(shell->args[0], '/'))
+		return (1);
+	else
+		return(0);
+}
+
 void	parse_input(char *input, t_minishell *shell)
 {
 	int	i;
@@ -75,10 +113,20 @@ void	parse_input(char *input, t_minishell *shell)
 		shell->args = ft_split(input, ' ');
 		if (shell->args[0] == NULL) 
 		{
-			free(input);
+			//free(input);
 			free(shell->args);
 			shell->args = NULL;
 		}
 	}
 	postprosess_array(shell);
+	if (!is_builtin && !is_executable && !is_path)
+	{
+		printf("bash: %s: command not found", input);
+		free_args(shell);
+	}
+
+	//check if biuld-in → 
+	//check if command → 
+	//check if path (/) → 
+	//if any of that is true →  get env var and unfold qoutes save as struct
 }
