@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 13:56:03 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/03 12:43:39 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,42 @@ int	is_builtin(t_minishell *shell)
 	i = 0;
 	while (builtins[i] != NULL)
 	{
+		if (ft_strcmp(shell->args[0], builtins[i]) == 0)
+			return (1);
+		i ++;
+	}
+	return (0);
+}
+
+int 	is_executable(t_minishell *shell)
+{
+	return (0);
+}
+
+int 	is_path(t_minishell *shell)
+{
+	if (ft_strchr(shell->args[0], '/'))
+		return (1);
+	else
+		return(0);
+}
+
+void	parse_input(char *input, t_minishell *shell)
+{
+	char	*builtins[8];
+	int	i;
+
+	builtins[0] = "cd";
+    builtins[1] = "exit";
+    builtins[2] = "echo";
+    builtins[3] = "pwd";
+    builtins[4] = "export";
+    builtins[5] = "unset";
+    builtins[6] = "env";
+    builtins[7] = NULL;
+	i = 0;
+	while (builtins[i] != NULL)
+	{
 		if (ft_strcmp(shell->args[0], builtins[i]) == 0) //not arg 0
 			return (1);
 		i ++;
@@ -111,7 +147,13 @@ int	parse_input(char *input, t_minishell *shell)
 	// what to do with tabs?
 	if (i == -1)
 	{
-		return(-1);
+		shell->args = ft_split(input, ' ');
+		if (shell->args[0] == NULL) 
+		{
+			//free(input);
+			free(shell->args);
+			shell->args = NULL;
+		}
 	}
 	shell->args = ft_split(input, ' ');
 	if (shell->args[0] == NULL) 
@@ -121,22 +163,14 @@ int	parse_input(char *input, t_minishell *shell)
 		shell->args = NULL;
 	}
 	postprosess_array(shell);
-	unfold_input(shell);
-	organize_struct(shell);
-	
-	if (!is_builtin(shell) && !is_executable(shell) && !is_path(shell))
+	if (!is_builtin && !is_executable && !is_path)
 	{
-		//fix is_executable
-		printf("%s: command not found\n", input); // not input but unfolded string
+		printf("bash: %s: command not found", input);
 		free_args(shell);
-		free_commans(shell);
-		return (0);
 	}
-	else
-		//printf("ready to execute\n"); //call executer here or retern to main
-		return (1);
+
 	//check if biuld-in → 
-	//check if command →  
-	//check if path (/) or redirection →  repeat for each pipe
+	//check if command → 
+	//check if path (/) → 
 	//if any of that is true →  get env var and unfold qoutes save as struct
 }
