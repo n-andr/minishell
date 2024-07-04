@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 01:51:24 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:25:44 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,18 +157,15 @@ int	parse_input(char *input, t_minishell *shell)
 		shell->args = NULL;
 	}
 	postprosess_array(shell);
-	unfold_input(shell);
-	organize_struct(shell);
 	
 	if (!is_builtin(shell) && !is_executable(shell) && !is_path(shell))
 	{
-		//fix is_executable
-		printf("%s: command not found\n", input); // not input but unfolded string
+		printf("%s: command not found\n", input);
 		free_args(shell);
 		free_commans(shell);
 	}
 	else
-		printf("ready to execute\n"); //call executer here or retern to main
+		printf("ready to execute"); //call eceture here or retern to main
 		
 	return (0);
 	//check if biuld-in → 
