@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:41:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/28 16:24:35 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/04 13:57:26 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	handle_lefts(char *file)
 int	check_redirections(t_minishell *shell)
 {
 	shell->redir = (char **)malloc((3) * sizeof(char *));
-	shell->redir[0] = ">>";
+	shell->redir[0] = ">";
 	shell->redir[1] = "test.txt";	
 	shell->redir[2] = NULL;
 	int i;

@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/28 16:30:54 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/04 13:35:45 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void handle_cmd(t_minishell *shell)
 {	
 	check_redirections(shell);
+	// extract command from array (cmd[0])
 	if (execve(shell->cmd[0], shell->args, shell->envs) == -1)
 		perror("Could not execve");
 }
@@ -58,6 +59,7 @@ int	execute(char *str, t_minishell *shell) // change according to way args are p
 	/* 
 	3. external commands
 	check heredoc?
+	retrieve path (Natalia already checked with access)
 	use a fork to create child processes and execvp the commands there */
 	pid = fork();
 	if (pid < 0)

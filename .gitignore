@@ -3,3 +3,4 @@ minishell
 .DS_Store
 .vscode/
 libft/libft.a
+test.txt

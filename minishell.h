@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/28 15:13:17 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/04 14:08:10 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <stdbool.h>
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -22,6 +23,17 @@
 #ifndef MAX_INPUT_SIZE
 # define MAX_INPUT_SIZE 1024
 
+// extra struct will be added
+
+typedef struct s_args
+{
+	char 	**args;
+	char 	**redir;
+	bool	is_redir;
+	size_t	is_pipe;
+	t_args	*next;
+}	t_args;
+
 typedef struct s_minishell
 {
 	char	**args;
@@ -29,9 +41,7 @@ typedef struct s_minishell
 	char	*pwd;
 	char	*oldpwd;
 	char	*home;
-	char	**cmd;
-	char	**redir;
-	char	*heredoc;
+	t_args	*commands;
 }	t_minishell;
 
 void	init_environmentals(char **env,t_minishell *shell);
