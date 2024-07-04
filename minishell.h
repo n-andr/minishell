@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/02 20:41:43 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/04 17:01:19 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	malloc_error(void);
 void	unclosed_quote(void);
 void	error_exec(void);
 // parse
-void	parse_input(char *input, t_minishell *shell);
+int	parse_input(char *input, t_minishell *shell);
 // execute
 int		execute(char *str, t_minishell *shell);
 int		handle_cmd(t_minishell *shell);

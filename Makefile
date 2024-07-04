@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/06/30 22:56:07 by nandreev         ###   ########.fr        #
+#    Updated: 2024/07/04 15:58:34 by nandreev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,10 @@ SRCS = main.c \
 	ft_split.c \
 	parse_input.c \
 	errors.c \
-	execute.c \
 	cleanup.c \
 	redirections.c \
 	heredoc.c \
+	free.c \
 	builtins/mini_pwd.c \
 	builtins/mini_cd.c \
 	builtins/mini_env.c \
