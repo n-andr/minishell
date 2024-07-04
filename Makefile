@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/06/30 22:56:07 by nandreev         ###   ########.fr        #
+#    Updated: 2024/07/04 15:58:34 by nandreev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,14 +23,15 @@ SRCS = main.c \
 	ft_split.c \
 	parse_input.c \
 	errors.c \
-	execute.c \
 	cleanup.c \
-	redirections.c \
+	free.c \
 	builtins/mini_pwd.c \
 	builtins/mini_cd.c \
 	builtins/mini_env.c \
 	builtins/mini_unset.c \
-	#builtins/mini_echo.c \	
+	#execute.c \
+	redirections.c \
+	builtins/mini_echo.c \	
 
 OBJS = $(SRCS:.c=.o)
 

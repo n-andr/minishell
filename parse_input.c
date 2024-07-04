@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/03 12:43:39 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:25:44 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,14 @@ int	is_builtin(t_minishell *shell)
 	return (0);
 }
 
-int 	is_executable(t_minishell *shell)
+int 	is_executable(t_minishell *shell) // not working
 {
 	if (access(shell->args[0], X_OK) == 0)
 		return (1);
 	return (0);
 }
 
-int 	is_path(t_minishell *shell)
+int 	is_path(t_minishell *shell) //chech for rederections here
 {
 	if (ft_strchr(shell->args[0], '/'))
 		return (1);
@@ -103,30 +103,35 @@ int 	is_path(t_minishell *shell)
 		return(0);
 }
 
-void	parse_input(char *input, t_minishell *shell)
+int	parse_input(char *input, t_minishell *shell)
 {
 	int	i;
 
 	i = preprosess_string(input);
-	if (i != -1)
+	if (i == -1)
 	{
-		shell->args = ft_split(input, ' ');
-		if (shell->args[0] == NULL) 
-		{
-			//free(input);
-			free(shell->args);
-			shell->args = NULL;
-		}
+		return(-1);
+	}
+	shell->args = ft_split(input, ' ');
+	if (shell->args[0] == NULL) 
+	{
+		//free(input);
+		free(shell->args);
+		shell->args = NULL;
 	}
 	postprosess_array(shell);
-	if (!is_builtin && !is_executable && !is_path)
+	
+	if (!is_builtin(shell) && !is_executable(shell) && !is_path(shell))
 	{
-		printf("bash: %s: command not found", input);
+		printf("%s: command not found\n", input);
 		free_args(shell);
 	}
-
+	else
+		printf("ready to execute"); //call eceture here or retern to main
+		
+	return (0);
 	//check if biuld-in → 
-	//check if command → 
-	//check if path (/) → 
+	//check if command →  
+	//check if path (/) or redirection →  repeat for each pipe
 	//if any of that is true →  get env var and unfold qoutes save as struct
 }

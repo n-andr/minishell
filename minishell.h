@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/04 14:08:10 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/04 17:01:19 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@
 
 typedef struct s_args
 {
-	char 	**args;
-	char 	**redir;
-	bool	is_redir;
-	size_t	is_pipe;
-	t_args	*next;
+	char 	**args; 	// Command, arguments
+	char 	**redir;	// Redirection details
+	bool	is_redir;	// Flag to check if redirection exists
+	size_t	is_pipe;	// Flag to check if there's a pipe and how many
+	struct s_args	*next;	// Pointer to the next command in the list
 }	t_args;
 
 typedef struct s_minishell
@@ -41,6 +41,8 @@ typedef struct s_minishell
 	char	*pwd;
 	char	*oldpwd;
 	char	*home;
+	char	*cmd;
+	char	**redir;
 	t_args	*commands;
 }	t_minishell;
 
@@ -61,7 +63,7 @@ void	malloc_error(void);
 void	unclosed_quote(void);
 void	error_exec(void);
 // parse
-void	parse_input(char *input, t_minishell *shell);
+int	parse_input(char *input, t_minishell *shell);
 // execute
 int		execute(char *str, t_minishell *shell);
 void	handle_cmd(t_minishell *shell);
