@@ -1,7 +1,6 @@
 a.out
 minishell
-<<<<<<< HEAD
 .DS_Store
-=======
->>>>>>> bfca0365fcb95ec64a8c607495198ad75dfcb49d
 .vscode/
+libft/libft.a
+test.txt

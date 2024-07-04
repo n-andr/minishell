@@ -16,7 +16,16 @@ CC = cc
 
 CFLAGS = -Werror -Wall -Wextra -g
 
-SRCS = main.c init.c utils.c ft_split.c parse_input.c errors.c execute.c cleanup.c \
+SRCS = main.c \
+	init.c \
+	utils.c \
+	utils_2.c \
+	ft_split.c \
+	parse_input.c \
+	errors.c \
+	execute.c \
+	cleanup.c \
+	redirections.c \
 	builtins/mini_pwd.c \
 	builtins/mini_cd.c \
 	builtins/mini_env.c \
@@ -26,16 +35,19 @@ SRCS = main.c init.c utils.c ft_split.c parse_input.c errors.c execute.c cleanup
 OBJS = $(SRCS:.c=.o)
 
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -lreadline -o $(NAME)
+	make -C ./libft
+	$(CC) $(CFLAGS) $(OBJS) -lreadline libft/libft.a -o $(NAME)
 
 .PHONY : all clean fclean re
 
 all : $(NAME)
 
 clean :
+	make clean -C ./libft
 	rm -f $(OBJS)
 
 fclean : clean
+	make fclean -C ./libft
 	rm -f $(NAME)
 
 re : fclean all

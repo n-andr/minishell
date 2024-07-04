@@ -1,39 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 15:55:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/27 10:49:59 by lde-taey         ###   ########.fr       */
+/*   Created: 2024/07/04 13:05:24 by lde-taey          #+#    #+#             */
+/*   Updated: 2024/07/04 13:17:43 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO write to STDERR instead of STDOUT 
-void	args_error(void)
+int generate_heredoc(char *delimiter)
 {
-	printf("Error. This program does not accept any arguments\n");
-	exit(-1);
+	generate_filename();
+	// read line by line
+	// stop when the delimiter is encountered
 }
 
-void	malloc_error(void)
+int	handle_heredoc(t_minishell *shell)
 {
-	printf("Error. Malloc failed\n");
-	exit(-1);
-}
-
-void	error_exec(void)
-{
-	printf("Error. Process failed\n");
-	exit(-1);
-}
-
-void	unclosed_quote(void)
-{
-	printf("Error. Unclosed quotes\n");
-	//free stuff if needed
-	// return control back to user 
+	int	i;
+	
+	i = 0;
+	while (shell->redir[i] != NULL)
+	{
+		if (!ft_strcmp(shell->redir[i], "<<"))
+			generate_heredoc(shell->redir[i + 1]);
+		i++;
+	}
 }

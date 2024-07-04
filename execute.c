@@ -6,11 +6,19 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/26 17:17:54 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/04 13:35:45 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void handle_cmd(t_minishell *shell)
+{	
+	check_redirections(shell);
+	// extract command from array (cmd[0])
+	if (execve(shell->cmd[0], shell->args, shell->envs) == -1)
+		perror("Could not execve");
+}
 
 static int	scanifbuiltin(char *str, t_minishell *shell)
 {
@@ -28,35 +36,43 @@ static int	scanifbuiltin(char *str, t_minishell *shell)
 		return (0);
 }
 
-void	execute(char *str, t_minishell *shell) // change according to way args are parsed into structs
+int	execute(char *str, t_minishell *shell) // change according to way args are parsed into structs
 {
-	// pid_t	pid;
-	// int		status;
+	pid_t	pid;
+	int		status;
 	
+	shell->cmd = (char **)malloc((2 * sizeof(char*)));
+	shell->args = (char **)malloc((3 * sizeof(char*)));
+	shell->cmd[0] = "/usr/bin/cat";
+	shell->cmd[1] = NULL;
+	shell->args[0] = "cat"; // command should be included in the args!
+	shell->args[1] = "free.c";
+	shell->args[2] = NULL;
+
 	/*
-	1. check if arguments are empty
+	0. check if arguments are empty
+	1. call expander (?)
 	2. if built-in commands
 		handle these in the parent process */
 	if (scanifbuiltin(str, shell))
-		return ;
+		return (1);
 	/* 
 	3. external commands
-		use a fork to create child processes and execvp the commands there
-	
+	check heredoc?
+	retrieve path (Natalia already checked with access)
+	use a fork to create child processes and execvp the commands there */
 	pid = fork();
-	if (pid == 0) // child process
+	if (pid < 0)
 	{
-		
-		execvp(data->cmd, data); // delete this eventually, is superfluous
-		if (execvp(data->cmd, data) == -1)
-			error_exec();
-	}
-	else if (pid < 0) // error
 		error_exec();
-	else // parent process
+		return (0);
+	}
+	if (pid == 0)
+		handle_cmd(shell);
+	else // else necessary?
 		waitpid(pid, &status, 0);
-	
-	4. expand functionality by handling redirections, pipes, improving
+	/* 4. expand functionality by handling redirections, improving
 	error handling and heredocs
 	*/
+	return (1);
 }

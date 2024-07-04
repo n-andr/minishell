@@ -3,43 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:39:23 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/26 11:24:17 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/06/27 10:58:03 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	store_pwd(t_data *data)
+void	store_pwd(t_minishell *shell)
 {
 	int	i;
 
 	i = 0;
-	while(data->envs[i] != NULL)
+	while(shell->envs[i] != NULL)
 	{
-		if (!ft_strncmp(data->envs[i], "PWD=", 4))
+		if (!ft_strncmp(shell->envs[i], "PWD=", 4))
 		{
-			data->pwd = ft_strdup(data->envs[i] + 4);
-			if (!data->pwd)
+			shell->pwd = ft_strdup(shell->envs[i] + 4);
+			if (!shell->pwd)
 				malloc_error (); // extra cleanup?
-			// printf("%s\n", data->pwd);
+			// printf("%s\n", shell->pwd);
 		}
-		else if (!ft_strncmp(data->envs[i], "OLDPWD=", 7))
+		else if (!ft_strncmp(shell->envs[i], "OLDPWD=", 7))
 		{
-			data->oldpwd = ft_strdup(data->envs[i] + 7);
-			if (!data->oldpwd)
+			shell->oldpwd = ft_strdup(shell->envs[i] + 7);
+			if (!shell->oldpwd)
 				malloc_error ();
-			// printf("%s\n", data->oldpwd);
+			// printf("%s\n", shell->oldpwd);
 
 		}
-		else if (!ft_strncmp(data->envs[i], "HOME=", 5))
+		else if (!ft_strncmp(shell->envs[i], "HOME=", 5))
 		{
-			data->home = ft_strdup(data->envs[i] + 5);
-			if (!data->home)
+			shell->home = ft_strdup(shell->envs[i] + 5);
+			if (!shell->home)
 				malloc_error ();
-			// printf("%s\n", data->home);
+			// printf("%s\n", shell->home);
 		}
 		i++;
 	}
@@ -47,30 +47,30 @@ void	store_pwd(t_data *data)
 
 // When the program starts running, this function copies the environmental 
 // values into a struct
-void	init_environmentals(char **env, t_data *data)
+void	init_environmentals(char **env, t_minishell *shell)
 {
 	int		i;
 
 	i = 0;
 	while (env[i])
 		i++;
-	data->envs = (char **)malloc(sizeof(char *) * (i + 1));
-	if (!data->envs)
+	shell->envs = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!shell->envs)
 		malloc_error();
 	i = 0;
 	while (env[i] != NULL)
 	{
-		data->envs[i] = ft_strdup(env[i]);
-		if (!data->envs[i])
+		shell->envs[i] = ft_strdup(env[i]);
+		if (!shell->envs[i])
 		{
 			while (i > 0)
-				free(data->envs[i - 1]);
-			free(data->envs);
+				free(shell->envs[i - 1]);
+			free(shell->envs);
 			malloc_error();
 		}
-		// printf("%s\n", data->envs[i]);
+		// printf("%s\n", shell->envs[i]);
 		i++;
 	}
-	data->envs[i] = NULL;
-	store_pwd(data);
+	shell->envs[i] = NULL;
+	store_pwd(shell);
 }
