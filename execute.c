@@ -6,18 +6,22 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/04 13:35:45 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/04 17:04:33 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void handle_cmd(t_minishell *shell)
+int	handle_cmd(t_minishell *shell)
 {	
 	check_redirections(shell);
 	// extract command from array (cmd[0])
 	if (execve(shell->cmd[0], shell->args, shell->envs) == -1)
+	{
 		perror("Could not execve");
+		return (0);
+	}
+	return (1);
 }
 
 static int	scanifbuiltin(char *str, t_minishell *shell)
@@ -46,7 +50,7 @@ int	execute(char *str, t_minishell *shell) // change according to way args are p
 	shell->cmd[0] = "/usr/bin/cat";
 	shell->cmd[1] = NULL;
 	shell->args[0] = "cat"; // command should be included in the args!
-	shell->args[1] = "free.c";
+	shell->args[1] = "tmp_heredoc_file_0";
 	shell->args[2] = NULL;
 
 	/*
@@ -57,9 +61,9 @@ int	execute(char *str, t_minishell *shell) // change according to way args are p
 	if (scanifbuiltin(str, shell))
 		return (1);
 	/* 
-	3. external commands
-	check heredoc?
-	retrieve path (Natalia already checked with access)
+	3. external commands */
+	handle_heredoc(shell);
+	/* retrieve path (Natalia already checked with access)
 	use a fork to create child processes and execvp the commands there */
 	pid = fork();
 	if (pid < 0)

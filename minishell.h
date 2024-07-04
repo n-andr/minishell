@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/04 14:08:10 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/04 16:43:37 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #ifndef MAX_INPUT_SIZE
 # define MAX_INPUT_SIZE 1024
 
-// extra struct will be added
+typedef struct s_args t_args;
 
 typedef struct s_args
 {
@@ -32,6 +32,7 @@ typedef struct s_args
 	bool	is_redir;
 	size_t	is_pipe;
 	t_args	*next;
+	char	*heredoc;
 }	t_args;
 
 typedef struct s_minishell
@@ -41,6 +42,7 @@ typedef struct s_minishell
 	char	*pwd;
 	char	*oldpwd;
 	char	*home;
+	char	**cmd; // to be deleted
 	t_args	*commands;
 }	t_minishell;
 
@@ -64,8 +66,10 @@ void	error_exec(void);
 void	parse_input(char *input, t_minishell *shell);
 // execute
 int		execute(char *str, t_minishell *shell);
-void	handle_cmd(t_minishell *shell);
+int		handle_cmd(t_minishell *shell);
 int		check_redirections(t_minishell *shell);
+int		handle_heredoc(t_minishell *shell);
+
 // builtins
 void	mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell);

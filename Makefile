@@ -6,7 +6,7 @@
 #    By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/06/27 15:46:37 by lde-taey         ###   ########.fr        #
+#    Updated: 2024/07/04 15:45:24 by lde-taey         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS = main.c \
 	execute.c \
 	cleanup.c \
 	redirections.c \
+	heredoc.c \
 	builtins/mini_pwd.c \
 	builtins/mini_cd.c \
 	builtins/mini_env.c \
