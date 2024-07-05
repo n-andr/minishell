@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/04 17:04:33 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/05 16:05:00 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,31 @@
 
 int	handle_cmd(t_minishell *shell)
 {	
+	char	*cmd;
+	char	*tmp;
+	char	*newcmd;
+	
 	check_redirections(shell);
-	// extract command from array (cmd[0])
-	if (execve(shell->cmd[0], shell->args, shell->envs) == -1)
+	cmd = ft_strdup(shell->commands->args[0]);
+	if(!access(cmd, F_OK))
+		execve(cmd, shell->commands->args, shell->envs);
+	else
 	{
-		perror("Could not execve");
-		return (0);
+		int i;
+
+		i = 0;
+		while(shell->paths[i] != NULL)
+		{
+			tmp = ft_strjoin(shell->paths[i], "/");
+			newcmd = ft_strjoin(tmp, cmd);
+			if(!access(newcmd, F_OK))
+				execve(newcmd, shell->commands->args, shell->envs);
+			free (newcmd);
+			i++;
+		}
 	}
-	return (1);
+	perror("Could not execve");
+	return (0);
 }
 
 static int	scanifbuiltin(char *str, t_minishell *shell)
@@ -45,26 +62,25 @@ int	execute(char *str, t_minishell *shell) // change according to way args are p
 	pid_t	pid;
 	int		status;
 	
-	shell->cmd = (char **)malloc((2 * sizeof(char*)));
-	shell->args = (char **)malloc((3 * sizeof(char*)));
-	shell->cmd[0] = "/usr/bin/cat";
-	shell->cmd[1] = NULL;
-	shell->args[0] = "cat"; // command should be included in the args!
-	shell->args[1] = "tmp_heredoc_file_0";
-	shell->args[2] = NULL;
+	shell->commands = malloc(sizeof(t_args));
+	if (!shell->commands)
+		return (0);
+	shell->commands->args = (char **)malloc((3 * sizeof(char*)));
+	if (!shell->commands->args)
+		return (0);
+	shell->commands->args[0] = "cat"; // "/usr/bin/cat";
+	shell->commands->args[1] = "errors.c";
+	shell->commands->args[2] = NULL;
+	shell->commands->redir = (char **)malloc(1 * sizeof(char *));
+	if (!shell->commands->redir)
+		return (0);
+	shell->commands->redir[0] = NULL;
 
-	/*
-	0. check if arguments are empty
-	1. call expander (?)
-	2. if built-in commands
-		handle these in the parent process */
+	// check if arguments are empty
+	// call expander (?)
 	if (scanifbuiltin(str, shell))
 		return (1);
-	/* 
-	3. external commands */
 	handle_heredoc(shell);
-	/* retrieve path (Natalia already checked with access)
-	use a fork to create child processes and execvp the commands there */
 	pid = fork();
 	if (pid < 0)
 	{
@@ -73,10 +89,7 @@ int	execute(char *str, t_minishell *shell) // change according to way args are p
 	}
 	if (pid == 0)
 		handle_cmd(shell);
-	else // else necessary?
+	else
 		waitpid(pid, &status, 0);
-	/* 4. expand functionality by handling redirections, improving
-	error handling and heredocs
-	*/
 	return (1);
 }

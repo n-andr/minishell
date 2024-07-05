@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:41:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/04 16:55:39 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:54:11 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ int	check_redirections(t_minishell *shell)
 	{
 		if(ft_strcmp(shell->commands->redir[i], "<") == 0)
 		{
-			if (!handle_lefts(shell->commands[0].redir[i + 1])) // checken of dit klopt
+			if (!shell->commands[0].redir[i + 1])
+				return (0);
+			if (!handle_lefts(shell->commands[0].redir[i + 1])) // checken of dit klopt, invalid read
 				return (0);
 		}
 		else if(ft_strcmp(shell->commands->redir[i], "<<") == 0)
@@ -79,6 +81,8 @@ int	check_redirections(t_minishell *shell)
 		else if(ft_strcmp(shell->commands->redir[i], ">") == 0 \
 			|| ft_strcmp(shell->commands->redir[i], ">>") == 0)
 		{
+			if (!shell->commands[0].redir[i + 1])
+				return (0);
 			if (!handle_rights(shell->commands->redir[i], shell->commands->redir[i + 1]))
 				return (0);
 		}

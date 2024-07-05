@@ -6,11 +6,30 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:39:23 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/27 10:58:03 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:43:34 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	create_paths(t_minishell *shell)
+{
+	int	i;
+
+	i = 0;
+	while(shell->envs[i] != NULL)
+	{
+		if (!ft_strncmp(shell->envs[i], "PATH=", 5))
+			shell->paths = ft_split(shell->envs[i] + 5, ':');
+		i++;
+	}
+	/* i = 0;
+	while (shell->paths[i] != NULL)
+	{
+		printf("%s\n", shell->paths[i]);
+		i++;
+	} */
+}
 
 void	store_pwd(t_minishell *shell)
 {
@@ -73,4 +92,5 @@ void	init_environmentals(char **env, t_minishell *shell)
 	}
 	shell->envs[i] = NULL;
 	store_pwd(shell);
+	create_paths(shell);
 }

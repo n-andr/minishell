@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/04 16:43:37 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:01:53 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ typedef struct s_minishell
 {
 	char	**args;
 	char	**envs;
+	char	**paths;
 	char	*pwd;
 	char	*oldpwd;
 	char	*home;
-	char	**cmd; // to be deleted
 	t_args	*commands;
 }	t_minishell;
 
