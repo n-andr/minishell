@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/08 03:00:29 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/08 03:18:30 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*unfold_single(char *str, int *i)
 // check string char by char, if found $ or ' or " do the unfolding, then continue checking till the end of the string
 char	*unfold_argument(char *arg)
 {
-	int	i;
+	int		i;
 	char	*result;
 	char	*temp;
 	char	single_char[2];
@@ -132,6 +132,15 @@ char	*unfold_argument(char *arg)
 	return(result);
 }
 
+// example: $PWD"hi$PWD"hi'$PWD'
+//cases covered:
+// - nothing to do
+// - unfold VAR into VARs value
+// - keep % as %
+// - unfold '' and keep VAR as name only
+// - unfold "" and no Var
+// - unfold "" and get VARs value
+
 void	unfold_input(t_minishell *shell)
 {
 	int	i;
@@ -140,27 +149,16 @@ void	unfold_input(t_minishell *shell)
 	i = 0;
 	while (shell->args[i] != NULL)
 	{
-		// example: $PWD"hi"hi'$PWD'
-		//options:
-		//nothing to do
-		//unfold VAR into VARs value
-		//keep % as %
-		//unfold '' and keep VAR as name only
-		//unfold "" and no Var
-		//unfold "" and get VARs value
-
 		//do check if i even need to unfold/expand anything in the current arg
 		//maybe save straight to struct?
 
-		printf("before unfolding: %s\n", shell->args[i]);
 		result = unfold_argument(shell->args[i]);
 		free(shell->args[i]);
-		// if(result == NULL)
-		// {
-		// 	remove string from the list of args
-		// }
+		if(result == NULL)
+		{
+			//remove string from the list of args
+		}
 		shell->args[i] = result;
-		printf("after unfolding: %s\n", shell->args[i]);
 		i++;
 		
 	}
