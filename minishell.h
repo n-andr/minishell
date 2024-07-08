@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/04 17:01:19 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/06 01:12:14 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	unclosed_quote(void);
 void	error_exec(void);
 // parse
 int	parse_input(char *input, t_minishell *shell);
+void	unfold_input(t_minishell *shell);
 // execute
 int		execute(char *str, t_minishell *shell);
 void	handle_cmd(t_minishell *shell);
