@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:41:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/05 15:54:11 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:34:43 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,36 +54,31 @@ int	handle_lefts(char *file)
 	return (1);
 }
 
-int	check_redirections(t_minishell *shell)
+int	check_redirections(t_args *command)
 {
-	/* shell->commands = malloc(sizeof(t_args));
-	shell->commands->redir = (char **)malloc((3) * sizeof(char *));
-	shell->commands->redir[0] = "<<";
-	shell->commands->redir[1] = "EOF";	
-	shell->commands->redir[2] = NULL; */
 	int i;
 	
 	i = 0;
-	while(shell->commands->redir[i] != NULL)
+	while(command->redir[i] != NULL)
 	{
-		if(ft_strcmp(shell->commands->redir[i], "<") == 0)
+		if(ft_strcmp(command->redir[i], "<") == 0)
 		{
-			if (!shell->commands[0].redir[i + 1])
+			if (!command->redir[i + 1])
 				return (0);
-			if (!handle_lefts(shell->commands[0].redir[i + 1])) // checken of dit klopt, invalid read
+			if (!handle_lefts(command->redir[i + 1]))
 				return (0);
 		}
-		else if(ft_strcmp(shell->commands->redir[i], "<<") == 0)
+		else if(ft_strcmp(command->redir[i], "<<") == 0)
 		{
-			if (!handle_lefts(shell->commands[0].heredoc))
+			if (!handle_lefts(command->heredoc))
 				return (0);
 		}
-		else if(ft_strcmp(shell->commands->redir[i], ">") == 0 \
-			|| ft_strcmp(shell->commands->redir[i], ">>") == 0)
+		else if(ft_strcmp(command->redir[i], ">") == 0 \
+			|| ft_strcmp(command->redir[i], ">>") == 0)
 		{
-			if (!shell->commands[0].redir[i + 1])
+			if (!command->redir[i + 1])
 				return (0);
-			if (!handle_rights(shell->commands->redir[i], shell->commands->redir[i + 1]))
+			if (!handle_rights(command->redir[i], command->redir[i + 1]))
 				return (0);
 		}
 		i++;

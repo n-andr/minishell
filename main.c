@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/27 15:52:44 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:27:40 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		//	8. free memory
 	} */
-	execute("cat", &shell);
+	execute(&shell);
 	free_everything(&shell);
 	return (0);
 }

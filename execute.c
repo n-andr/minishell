@@ -6,22 +6,22 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/05 16:05:00 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:23:16 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_cmd(t_minishell *shell)
+int	handle_cmd(t_minishell *shell, t_args *command)
 {	
 	char	*cmd;
 	char	*tmp;
 	char	*newcmd;
 	
-	check_redirections(shell);
-	cmd = ft_strdup(shell->commands->args[0]);
+	check_redirections(command);
+	cmd = ft_strdup(command->args[0]);
 	if(!access(cmd, F_OK))
-		execve(cmd, shell->commands->args, shell->envs);
+		execve(cmd, command->args, shell->envs);
 	else
 	{
 		int i;
@@ -33,7 +33,6 @@ int	handle_cmd(t_minishell *shell)
 			newcmd = ft_strjoin(tmp, cmd);
 			if(!access(newcmd, F_OK))
 				execve(newcmd, shell->commands->args, shell->envs);
-			free (newcmd);
 			i++;
 		}
 	}
@@ -41,46 +40,67 @@ int	handle_cmd(t_minishell *shell)
 	return (0);
 }
 
-static int	scanifbuiltin(char *str, t_minishell *shell)
+static int	scanifbuiltin(t_args *cmd, t_minishell *shell)
 {
-	if(!ft_strcmp("pwd", str))
-		return (mini_pwd(shell), 1);
-	else if(!ft_strcmp("cd", str))
+	if(!ft_strcmp("pwd", cmd->args[0]))
+		return (mini_pwd(shell), 1); // nog aanpassen in mini_pwd
+	else if(!ft_strcmp("cd", cmd->args[0]))
 		return (mini_cd(shell), 1);
-	else if(!ft_strcmp("env", str))
+	else if(!ft_strcmp("env", cmd->args[0]))
 		return (mini_env(shell), 1);
-	else if(!ft_strcmp("unset", str))
-		return (mini_unset(shell, "MAIL="), 1);
-//	else if(!ft_strcmp("echo", str))
+	else if(!ft_strcmp("unset", cmd->args[0]))
+		return (mini_unset(shell, "MAIL="), 1); // to be corrected
+//	else if(!ft_strcmp("echo", shell->args[0]))
 //		return (mini_echo(data), 1);
 	else
 		return (0);
 }
 
-int	execute(char *str, t_minishell *shell) // change according to way args are parsed into structs
+int testing_init(t_minishell *shell)
+{
+	// commands is eigenlijk een linked list
+	
+	shell->commands = malloc(2 * sizeof(t_args));
+	if (!shell->commands)
+		return (0);
+	shell->commands[0].args = (char **)malloc((3 * sizeof(char*)));
+	if (!shell->commands[0].args)
+		return (0);
+	shell->commands[0].args[0] = "ps"; // "/usr/bin/cat";
+	shell->commands[0].args[1] = "aux";
+	shell->commands[0].args[2] = NULL;
+	shell->commands[0].is_pipe = 1;
+
+	shell->commands[1].args = (char **)malloc((3 * sizeof(char*)));
+	if (!shell->commands[1].args)
+		return (0);
+	shell->commands[1].args[0] = "grep";
+	shell->commands[1].args[1] = "root";
+	shell->commands[1].args[2] = NULL;
+	
+	shell->commands->redir = (char **)malloc(5 * sizeof(char *));
+	if (!shell->commands->redir)
+		return (0);
+	shell->commands->redir[0] = ">>";
+	shell->commands->redir[1] = "test.txt";
+	shell->commands->redir[2] = ">";
+	shell->commands->redir[3] = "test2.txt";
+	shell->commands->redir[4] = NULL; /*
+	shell->commands->redir = (char **)malloc((3) * sizeof(char *));
+	shell->commands->redir[0] = "<<";
+	shell->commands->redir[1] = "EOF";	
+	shell->commands->redir[2] = NULL; */
+	return (1);
+}
+
+int single_cmd(t_minishell *shell, t_args *cmd)
 {
 	pid_t	pid;
 	int		status;
 	
-	shell->commands = malloc(sizeof(t_args));
-	if (!shell->commands)
-		return (0);
-	shell->commands->args = (char **)malloc((3 * sizeof(char*)));
-	if (!shell->commands->args)
-		return (0);
-	shell->commands->args[0] = "cat"; // "/usr/bin/cat";
-	shell->commands->args[1] = "errors.c";
-	shell->commands->args[2] = NULL;
-	shell->commands->redir = (char **)malloc(1 * sizeof(char *));
-	if (!shell->commands->redir)
-		return (0);
-	shell->commands->redir[0] = NULL;
-
-	// check if arguments are empty
-	// call expander (?)
-	if (scanifbuiltin(str, shell))
-		return (1);
-	handle_heredoc(shell);
+	if (scanifbuiltin(cmd, shell))
+	// 	return (1);
+	handle_heredoc(shell); // check where this should go
 	pid = fork();
 	if (pid < 0)
 	{
@@ -88,8 +108,33 @@ int	execute(char *str, t_minishell *shell) // change according to way args are p
 		return (0);
 	}
 	if (pid == 0)
-		handle_cmd(shell);
+		handle_cmd(shell, cmd);
 	else
 		waitpid(pid, &status, 0);
+	return (1);
+}
+
+int	execute(t_minishell *shell)
+{
+	int	i;
+	
+	if (!testing_init(shell)) // to be deleted
+		return (0);
+	if (shell->commands[0].args[0] == NULL || shell->commands[0].args[0][0] == '\0')
+		return (0);
+	// call expander (?)
+	i = 0;
+	if (shell->commands[0].is_pipe == 0)
+		single_cmd(shell, &shell->commands[0]); 
+	else
+	{
+		while (shell->commands->next != NULL)
+		{
+			handle_heredoc(shell);
+			ft_pipe(shell, &shell->commands[i]);		
+			i++;
+			//wait for the child process to end in this function?
+		}
+	}
 	return (1);
 }

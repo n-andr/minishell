@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/05 15:01:53 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:03:40 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ void	error_exec(void);
 // parse
 void	parse_input(char *input, t_minishell *shell);
 // execute
-int		execute(char *str, t_minishell *shell);
-int		handle_cmd(t_minishell *shell);
-int		check_redirections(t_minishell *shell);
+int		execute(t_minishell *shell);
+int		handle_cmd(t_minishell *shell, t_args *command);
 int		handle_heredoc(t_minishell *shell);
-
+int		check_redirections(t_args *command);
+int		ft_pipe(t_minishell *shell, t_args *command);
 // builtins
 void	mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell);
@@ -79,7 +79,6 @@ void	mini_echo(t_minishell *shell);
 // cleanup
 void	free_everything(t_minishell *shell);
 void	free_array(char **array);
-
 // free
 void	free_args(t_minishell *shell);
 
