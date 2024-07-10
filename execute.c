@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/10 13:55:20 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:29:18 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,15 @@ int testing_init(t_minishell *shell)
 	shell->commands[0].args[1] = "some";
 	shell->commands[0].args[2] = "testpoem.txt";
 	shell->commands[0].args[3] = NULL;
-	shell->commands[0].is_pipe = 0;
+	shell->commands[0].is_pipe = 1;
 
-	/* shell->commands[1].args = (char **)malloc((3 * sizeof(char*)));
+	shell->commands[1].args = (char **)malloc((3 * sizeof(char*)));
 	if (!shell->commands[1].args)
 		return (0);
 	shell->commands[1].args[0] = "rev";
 	shell->commands[1].args[1] = NULL;
 	shell->commands[1].args[2] = NULL;
-	shell->commands[1].is_pipe = 0; */
+	shell->commands[1].is_pipe = 0;
 	
 	shell->commands[0].redir = (char **)malloc(1 * sizeof(char *));
 	if (!shell->commands[0].redir)
@@ -128,8 +128,8 @@ int	execute(t_minishell *shell)
 	
 	if (!testing_init(shell)) // to be deleted
 		return (0);
-	// if (shell->commands[0].args[0] == NULL || shell->commands[0].args[0][0] == '\0')
-	//	return (0);
+	if (!shell->commands)
+		return (0);
 	i = 0;
 	if (shell->commands[0].is_pipe == 0)
 	{

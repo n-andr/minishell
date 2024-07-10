@@ -6,12 +6,13 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/10 12:49:32 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:38:28 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// file descriptors are [1] for write side and [0] for read side
 void	handle_leftside(int *pipe_fd, t_minishell *shell, t_args *command)
 {
 	dup2(pipe_fd[1], STDOUT_FILENO);
@@ -22,9 +23,9 @@ void	handle_leftside(int *pipe_fd, t_minishell *shell, t_args *command)
 
 void	handle_rightside(int *pipe_fd, t_minishell *shell, t_args *command)
 {
-	dup2(pipe_fd[0], STDIN_FILENO); // file descriptors are [1] for write side and [0] for read side
+	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
-	close(pipe_fd[1]);
+	// close(pipe_fd[1]);
 	handle_cmd(shell, command);
 }
 
