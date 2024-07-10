@@ -33,6 +33,10 @@ SRCS = main.c \
 	builtins/mini_env.c \
 	builtins/mini_unset.c \
 
+#execute.c \
+	redirections.c \
+	builtins/mini_echo.c \	
+
 OBJS = $(SRCS:.c=.o)
 
 $(NAME) : $(OBJS)

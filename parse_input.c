@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 13:56:03 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/10 01:51:24 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
