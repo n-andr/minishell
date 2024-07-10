@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 02:13:18 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/10 02:28:33 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,19 @@
 
 
 
-t_args	*init_new_command(void) {
-    t_args *new_command = malloc(sizeof(t_args));
-    if (!new_command)
-        return NULL;
-    new_command->args = NULL;
-    new_command->redir = NULL;
-    new_command->is_redir = false;
-    new_command->is_pipe = 0;
-    new_command->next = NULL;
-    return (new_command);
+t_args	*init_new_command(void)
+{
+	t_args	*new_command;
+
+	new_command = malloc(sizeof(t_args));
+	if (!new_command)
+		return NULL;
+	new_command->args = NULL;
+	new_command->redir = NULL;
+	new_command->is_redir = false;
+	new_command->is_pipe = 0;
+	new_command->next = NULL;
+	return (new_command);
 }
 
 void add_command(t_minishell *shell, t_args *new_command) 
@@ -47,24 +50,26 @@ void add_command(t_minishell *shell, t_args *new_command)
 	}
 }
 
-char **realloc_array(char **array, size_t new_size) {
-    char **new_array;
-    size_t i;
+char **realloc_array(char **array, size_t new_size)
+{
+	char	**new_array;
+	size_t	i;
 
-    new_array = malloc(new_size * sizeof(char *));
-    if (!new_array)
-        return (NULL);
-    i = 0;
-    while (array && array[i] && i < new_size - 1) {
-        new_array[i] = array[i];
-        i++;
-    }
+	new_array = malloc(new_size * sizeof(char *));
+	if (!new_array)
+		return (NULL);
+	i = 0;
+	while (array && array[i] && i < new_size - 1) {
+		new_array[i] = array[i];
+		i++;
+	}
 	new_array[new_size - 1] = NULL;
-    free(array);
-    return (new_array);
+	free(array);
+	return (new_array);
 }
 
-void process_pipe(t_minishell *shell, t_args **current_command, int *arg_count, int *redir_count) {
+void process_pipe(t_minishell *shell, t_args **current_command, int *arg_count, int *redir_count)
+{
     (*current_command)->is_pipe++;
     (*current_command)->args = realloc_array((*current_command)->args, *arg_count + 1);
     if (*redir_count > 0) {
@@ -84,13 +89,16 @@ void process_pipe(t_minishell *shell, t_args **current_command, int *arg_count, 
     *redir_count = 0;
 }
 
-void process_redirections(t_args *current_command, char **args, int *i, int *redir_count) {
+void process_redirections(t_args *current_command, char **args, int *i, int *redir_count)
+{
     current_command->is_redir = true;
-    if (!current_command->redir) {
+    if (!current_command->redir)
+	{
         current_command->redir = realloc_array(current_command->redir, 1);
         *redir_count = 0;
     }
-    while (args[*i]) {
+    while (args[*i])
+	{
         current_command->redir = realloc_array(current_command->redir, *redir_count + 2);
         current_command->redir[(*redir_count)++] = ft_strdup(args[*i]);
         (*i)++;
@@ -98,32 +106,16 @@ void process_redirections(t_args *current_command, char **args, int *i, int *red
     current_command->redir[*redir_count] = NULL;
 }
 
-void process_argument(t_args *current_command, char *arg, int *arg_count) {
+void process_argument(t_args *current_command, char *arg, int *arg_count)
+{
     current_command->args = realloc_array(current_command->args, *arg_count + 2);
     current_command->args[(*arg_count)++] = ft_strdup(arg);
 }
 
-int	count_pipes(char **args)
+void handle_combined_cases(t_minishell *shell, t_args **current_command, char *arg, int *i, int *arg_count, int *redir_count)
 {
-	int	i;
-	int	pipe;
-
-	i = 0;
-	pipe = 0;
-	while (args[i])
-	{
-		if (ft_strchr(args[i], '|'))
-		{
-			pipe ++;
-		}
-		i ++;
-	}
-	return (pipe);
-	
-}
-void handle_combined_cases(t_minishell *shell, t_args **current_command, char *arg, int *i, int *arg_count, int *redir_count) {
     char *pipe_pos;
-    char *redir_pos = ft_strchr(arg, '>') ? ft_strchr(arg, '>') : ft_strchr(arg, '<'); //add << and >> 
+    char *redir_pos = ft_strchr(arg, '>') ? ft_strchr(arg, '>') : ft_strchr(arg, '<'); // refactor this //add << and >> 
 
 	pipe_pos = ft_strchr(arg, '|');
     if (pipe_pos && redir_pos) {
@@ -146,34 +138,13 @@ void	organize_struct(t_minishell *shell)
 	int	i;
 	t_args *current_command;
 	char	*arg;
+	int arg_count;
+    int redir_count;
 
 	i = 0;
 	current_command = init_new_command();
 	if (!current_command)
         return;
-	//current_command->is_pipe = count_pipes(shell->args + i);
-	// while (shell->args[i])
-	// {	
-	// 	arg = shell->args[i];
-	// 	if (ft_strchr(arg, '|'))
-	// 	{
-	// 		//save everything before the | into current comand and everything after the pipe into new node
-	// 		// can i make a recurtion here? so i will call organize_struct(t_minishell *shell) and create a new node etc
-	// 	}
-	// 	else if (ft_strstr(arg, ">") || ft_strstr(arg, ">>") || ft_strstr(arg, "<") || ft_strstr(arg, "<<"))
-	// 	{
-	// 		process_redirections();
-	// 		break;
-	// 	}
-	// 	else 
-	// 	{
-	// 		process_argument();
-	// 	}
-	// 	i++;
-	// }
-	int arg_count;
-    int redir_count;
-
 	add_command(shell, current_command);
     i = 0;
     arg_count = 0;
@@ -195,20 +166,20 @@ void	organize_struct(t_minishell *shell)
 
 //tests:
 
-		t_args *cmd = shell->commands;
-    while (cmd) {
-        printf("Command:\n");
-        for (int i = 0; cmd->args[i]; i++) {
-            printf("  Arg[%d]: %s\n", i, cmd->args[i]);
-        }
-        printf("Redirections:\n");
-        if (cmd->redir) {
-            for (int i = 0; cmd->redir[i]; i++) {
-                printf("  Redir[%d]: %s\n", i, cmd->redir[i]);
-            }
-        }
-        printf("Pipes: %ld\n", cmd->is_pipe);
-		printf("Is_redir: %d\n", cmd->is_redir);
-        cmd = cmd->next;
-    }
+	// 	t_args *cmd = shell->commands;
+    // while (cmd) {
+    //     printf("Command:\n");
+    //     for (int i = 0; cmd->args[i]; i++) {
+    //         printf("  Arg[%d]: %s\n", i, cmd->args[i]);
+    //     }
+    //     printf("Redirections:\n");
+    //     if (cmd->redir) {
+    //         for (int i = 0; cmd->redir[i]; i++) {
+    //             printf("  Redir[%d]: %s\n", i, cmd->redir[i]);
+    //         }
+    //     }
+    //     printf("Pipes: %ld\n", cmd->is_pipe);
+	// 	printf("Is_redir: %d\n", cmd->is_redir);
+    //     cmd = cmd->next;
+    // }
 }
