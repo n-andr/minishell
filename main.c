@@ -70,8 +70,8 @@ int	main(int argc, char **argv, char **envp)
 			waitpid(pid, &status, 0);
 		}
 		//	8. free memory
-	} 
-	//execute("cat", &shell);
+	} */
+	execute(&shell);
 	free_everything(&shell);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 01:54:16 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:03:40 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ typedef struct s_minishell
 {
 	char	**args;
 	char	**envs;
+	char	**paths;
 	char	*pwd;
 	char	*oldpwd;
 	char	*home;
-	char	**cmd; // to be deleted
 	t_args	*commands;
 }	t_minishell;
 
@@ -68,11 +68,11 @@ void	unfold_input(t_minishell *shell);
 void	organize_struct(t_minishell *shell);
 
 // execute
-int		execute(char *str, t_minishell *shell);
-int		handle_cmd(t_minishell *shell);
-int		check_redirections(t_minishell *shell);
+int		execute(t_minishell *shell);
+int		handle_cmd(t_minishell *shell, t_args *command);
 int		handle_heredoc(t_minishell *shell);
-
+int		check_redirections(t_args *command);
+int		ft_pipe(t_minishell *shell, t_args *command);
 // builtins
 void	mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell);

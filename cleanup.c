@@ -140,9 +140,11 @@ void	free_commans(t_minishell *shell)
 void	free_everything(t_minishell *shell)
 {
 	free_array(shell->envs);
-	free(shell->args);
-	free(shell->cmd);
 	free(shell->home);
 	free(shell->pwd);
 	free(shell->oldpwd);
+	free_array(shell->paths);
+	free(shell->commands->args);
+	free(shell->commands->redir);
+	free(shell->commands);
 }

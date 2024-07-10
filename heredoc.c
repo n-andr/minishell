@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:05:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/04 16:57:20 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:16:07 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char *generate_filename(void)
 
 	number = ft_itoa(nbr);
 	nbr += 1;
-	filename = ft_strjoin("./tmp_heredoc_file_", number);
+	filename = ft_strjoin("./heredoc_file_", number);
 	free(number);
 	return (filename);
 }
@@ -49,13 +49,11 @@ static int generate_heredoc(t_minishell *shell, char *delimiter)
 
 int	handle_heredoc(t_minishell *shell)
 {	
-	shell->commands = malloc(1 * sizeof(t_args));
-	if (!shell->commands)
-		return (-1);
-	shell->commands[0].redir = (char **)malloc(3 * sizeof(char *));
-	shell->commands[0].redir[0] = "<<";
-	shell->commands[0].redir[1] = "EOF";	
-	shell->commands[0].redir[2] = NULL;
+	// shell->commands->redir = (char **)malloc(1 * sizeof(char *));
+	// shell->commands->redir[0] = NULL;
+	/* shell->commands.redir[0] = "<<";
+	shell->commands.redir[1] = "EOF";	
+	shell->commands.redir[2] = NULL; */
 	
 	int	i;
 	
