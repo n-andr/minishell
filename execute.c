@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/09 16:23:16 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:55:20 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 static int	scanifbuiltin(t_args *cmd, t_minishell *shell)
 {
 	if(!ft_strcmp("pwd", cmd->args[0]))
-		return (mini_pwd(shell), 1); // nog aanpassen in mini_pwd
+		return (mini_pwd(shell), 1);
 	else if(!ft_strcmp("cd", cmd->args[0]))
 		return (mini_cd(shell), 1);
 	else if(!ft_strcmp("env", cmd->args[0]))
@@ -58,38 +58,46 @@ static int	scanifbuiltin(t_args *cmd, t_minishell *shell)
 
 int testing_init(t_minishell *shell)
 {
-	// commands is eigenlijk een linked list
+	// now implemented commands as an array but should actually be a linked list
+	// args and redir are arrays
 	
 	shell->commands = malloc(2 * sizeof(t_args));
 	if (!shell->commands)
 		return (0);
-	shell->commands[0].args = (char **)malloc((3 * sizeof(char*)));
+	shell->commands[0].args = (char **)malloc((4 * sizeof(char*)));
 	if (!shell->commands[0].args)
 		return (0);
-	shell->commands[0].args[0] = "ps"; // "/usr/bin/cat";
-	shell->commands[0].args[1] = "aux";
-	shell->commands[0].args[2] = NULL;
-	shell->commands[0].is_pipe = 1;
+	shell->commands[0].args[0] = "grep"; // "/usr/bin/cat";
+	shell->commands[0].args[1] = "some";
+	shell->commands[0].args[2] = "testpoem.txt";
+	shell->commands[0].args[3] = NULL;
+	shell->commands[0].is_pipe = 0;
 
-	shell->commands[1].args = (char **)malloc((3 * sizeof(char*)));
+	/* shell->commands[1].args = (char **)malloc((3 * sizeof(char*)));
 	if (!shell->commands[1].args)
 		return (0);
-	shell->commands[1].args[0] = "grep";
-	shell->commands[1].args[1] = "root";
+	shell->commands[1].args[0] = "rev";
+	shell->commands[1].args[1] = NULL;
 	shell->commands[1].args[2] = NULL;
+	shell->commands[1].is_pipe = 0; */
 	
-	shell->commands->redir = (char **)malloc(5 * sizeof(char *));
-	if (!shell->commands->redir)
+	shell->commands[0].redir = (char **)malloc(1 * sizeof(char *));
+	if (!shell->commands[0].redir)
 		return (0);
-	shell->commands->redir[0] = ">>";
+	shell->commands[0].redir[0] = NULL;
+	shell->commands[1].redir = (char **)malloc(1 * sizeof(char *));
+	if (!shell->commands[1].redir)
+		return (0);
+	shell->commands[1].redir[0] = NULL;
+	/* shell->commands->redir[0] = ">>";
 	shell->commands->redir[1] = "test.txt";
 	shell->commands->redir[2] = ">";
 	shell->commands->redir[3] = "test2.txt";
-	shell->commands->redir[4] = NULL; /*
+	shell->commands->redir[4] = NULL;
 	shell->commands->redir = (char **)malloc((3) * sizeof(char *));
 	shell->commands->redir[0] = "<<";
-	shell->commands->redir[1] = "EOF";	
-	shell->commands->redir[2] = NULL; */
+	shell->commands->redir[1] = "EOF"; */	
+	
 	return (1);
 }
 
@@ -120,21 +128,24 @@ int	execute(t_minishell *shell)
 	
 	if (!testing_init(shell)) // to be deleted
 		return (0);
-	if (shell->commands[0].args[0] == NULL || shell->commands[0].args[0][0] == '\0')
-		return (0);
-	// call expander (?)
+	// if (shell->commands[0].args[0] == NULL || shell->commands[0].args[0][0] == '\0')
+	//	return (0);
 	i = 0;
 	if (shell->commands[0].is_pipe == 0)
-		single_cmd(shell, &shell->commands[0]); 
+	{
+		single_cmd(shell, &shell->commands[0]);
+		return (1);
+	}
+	// while (shell->commands[i].args != NULL) // implemented it as an array now
+	// {
+		// if (shell->commands[i].is_pipe == 0)
+		// 	single_cmd(shell, &shell->commands[i]);
+		// handle_heredoc(shell);
 	else
 	{
-		while (shell->commands->next != NULL)
-		{
-			handle_heredoc(shell);
-			ft_pipe(shell, &shell->commands[i]);		
-			i++;
-			//wait for the child process to end in this function?
-		}
-	}
+		ft_pipe(shell, &shell->commands[0]);
+	}		
+		// i++;
+	// }
 	return (1);
 }
