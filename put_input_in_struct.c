@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_input_in_struct.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
+/*   Updated: 2024/07/10 02:13:18 by nandreev         ###   ########.fr       */
 /*   Updated: 2024/07/10 13:42:30 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */

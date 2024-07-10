@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/08 03:18:30 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/10 01:54:56 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,19 @@ char	*unfold_argument(char *arg)
 // - unfold '' and keep VAR as name only
 // - unfold "" and no Var
 // - unfold "" and get VARs value
+
+void print_args(t_minishell *shell, char *comment)
+{
+	//delete me
+	int i = 0;
+	printf("%s\n", comment);
+	while (shell->args[i])
+	{
+		printf("%s\n", shell->args[i]);
+		i++;
+	}
+	
+}
 
 void	unfold_input(t_minishell *shell)
 {
