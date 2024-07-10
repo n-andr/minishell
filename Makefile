@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/07/09 15:46:00 by lde-taey         ###   ########.fr        #
+#    Updated: 2024/07/10 16:50:52 by lde-taey         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,8 @@ SRCS = main.c \
 	parsing_unfold.c\
 	put_input_in_struct.c\
 	errors.c \
+	execute.c \
+	free.c \
 	cleanup.c \
 	redirections.c \
 	heredoc.c \

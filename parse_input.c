@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 01:51:24 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:48:13 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,44 +90,7 @@ int	is_builtin(t_minishell *shell)
 
 int 	is_executable(t_minishell *shell) // not working
 {
-	return (0);
-}
-
-int 	is_path(t_minishell *shell) //chech for rederections here
-{
-	if (ft_strchr(shell->args[0], '/')) //not arg 0
-		return (1);
-	else
-		return(0);
-}
-
-int	parse_input(char *input, t_minishell *shell)
-{
-	char	*builtins[8];
-	int	i;
-
-	builtins[0] = "cd";
-    builtins[1] = "exit";
-    builtins[2] = "echo";
-    builtins[3] = "pwd";
-    builtins[4] = "export";
-    builtins[5] = "unset";
-    builtins[6] = "env";
-    builtins[7] = NULL;
-	i = 0;
-	while (builtins[i] != NULL)
-	{
-		if (ft_strcmp(shell->args[0], builtins[i]) == 0) //not arg 0
-			return (1);
-		i ++;
-	}
-	return (0);
-}
-
-int 	is_executable(t_minishell *shell) // not working
-{
-	// if (access(shell->args[0], X_OK) == 0) //not arg 0
-	// 	return (1);
+	shell->commands->is_pipe += 0;
 	return (0);
 }
 
