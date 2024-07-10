@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 01:51:24 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:56:03 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ int	is_builtin(t_minishell *shell)
 
 int 	is_executable(t_minishell *shell) // not working
 {
-	if (access(shell->args[0], X_OK) == 0) //not arg 0
-		return (1);
+	// if (access(shell->args[0], X_OK) == 0) //not arg 0
+	// 	return (1);
 	return (0);
 }
 
@@ -130,11 +130,11 @@ int	parse_input(char *input, t_minishell *shell)
 		printf("%s: command not found\n", input); // not input but unfolded string
 		free_args(shell);
 		free_commans(shell);
+		return (0);
 	}
 	else
-		printf("ready to execute\n"); //call executer here or retern to main
-		
-	return (0);
+		//printf("ready to execute\n"); //call executer here or retern to main
+		return (1);
 	//check if biuld-in → 
 	//check if command →  
 	//check if path (/) or redirection →  repeat for each pipe

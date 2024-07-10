@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/04 16:22:53 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:57:46 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ int	main(int argc, char **argv, char **envp)
 			break;
 		if (ft_strlen(user_input) > 0) // ignore empty input
 			add_history(user_input);
-		parse_input(user_input, &shell);
+		
+		if (parse_input(user_input, &shell) == 1)
+			execute(&shell);
+
 		// 4. build lexer that scans input and puts everything in an array
 		// 5. parse array and put everything into an execution tree
 		// 6. expand (add information about environment to execution tree)

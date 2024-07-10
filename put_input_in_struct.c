@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_input_in_struct.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 02:28:33 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:42:30 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,20 +166,20 @@ void	organize_struct(t_minishell *shell)
 
 //tests:
 
-	// 	t_args *cmd = shell->commands;
-    // while (cmd) {
-    //     printf("Command:\n");
-    //     for (int i = 0; cmd->args[i]; i++) {
-    //         printf("  Arg[%d]: %s\n", i, cmd->args[i]);
-    //     }
-    //     printf("Redirections:\n");
-    //     if (cmd->redir) {
-    //         for (int i = 0; cmd->redir[i]; i++) {
-    //             printf("  Redir[%d]: %s\n", i, cmd->redir[i]);
-    //         }
-    //     }
-    //     printf("Pipes: %ld\n", cmd->is_pipe);
-	// 	printf("Is_redir: %d\n", cmd->is_redir);
-    //     cmd = cmd->next;
-    // }
+		t_args *cmd = shell->commands;
+    while (cmd) {
+        printf("Command:\n");
+        for (int i = 0; cmd->args[i]; i++) {
+            printf("  Arg[%d]: %s\n", i, cmd->args[i]);
+        }
+        printf("Redirections:\n");
+        if (cmd->redir) {
+            for (int i = 0; cmd->redir[i]; i++) {
+                printf("  Redir[%d]: %s\n", i, cmd->redir[i]);
+            }
+        }
+        printf("Pipes: %ld\n", cmd->is_pipe);
+		printf("Is_redir: %d\n", cmd->is_redir);
+        cmd = cmd->next;
+    }
 }
