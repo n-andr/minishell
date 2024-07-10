@@ -6,7 +6,7 @@
 #    By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/07/08 01:44:57 by nandreev         ###   ########.fr        #
+#    Updated: 2024/07/10 01:26:56 by nandreev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS = main.c \
 	utils_2.c \
 	parse_input.c \
 	parsing_unfold.c\
+	put_input_in_struct.c\
 	errors.c \
 	cleanup.c \
 	free.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/04 16:13:22 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/10 02:06:03 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,45 @@ void	free_array(char **array)
 	free(array);
 	array = NULL;
 }
+
+void	free_commands_args(t_args *commands)
+{
+	int i;
+
+	i = 0;
+	while (commands->args[i]) // free args
+	{
+		free (commands->args[i]);
+		i ++;
+	}
+	commands->args = NULL;
+}
+
+void	free_commands_redir(t_args *commands)
+{
+	int i;
+
+	i = 0;
+	if (commands->redir) 
+	{
+		i = 0;
+		while (commands->redir[i]) {
+			free(commands->redir[i]);
+			i++;
+		}
+		free(commands->redir);
+		commands->redir = NULL;
+	}
+}
+
 void	free_commans(t_minishell *shell)
 {
 	t_args *next;
 
     while (shell->commands) {
         next = shell->commands->next;
-		//free args
-		//free redir
+		free_commands_args(shell->commands);
+		free_commands_redir(shell->commands);
         free(shell->commands);
         shell->commands = next;
     }
