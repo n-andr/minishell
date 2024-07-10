@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/08 03:18:30 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/07/10 01:54:56 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,26 +141,48 @@ char	*unfold_argument(char *arg)
 // - unfold "" and no Var
 // - unfold "" and get VARs value
 
+void print_args(t_minishell *shell, char *comment)
+{
+	//delete me
+	int i = 0;
+	printf("%s\n", comment);
+	while (shell->args[i])
+	{
+		printf("%s\n", shell->args[i]);
+		i++;
+	}
+	
+}
+
 void	unfold_input(t_minishell *shell)
 {
 	int	i;
+	int k;
 	char	*result;
 
 	i = 0;
+	//print_args(shell, "old"); //delete
 	while (shell->args[i] != NULL)
 	{
-		//do check if i even need to unfold/expand anything in the current arg
+		//check if i even need to unfold/expand anything in the current arg
 		//maybe save straight to struct?
-
 		result = unfold_argument(shell->args[i]);
 		free(shell->args[i]);
-		if(result == NULL)
+		// if(result == NULL) if we want to keep empty strings
+		if(result == NULL || ft_strlen(result) == 0) //remove string from the list of args
 		{
-			//remove string from the list of args
+			k = i;
+			while (shell->args[k] != NULL)
+			{
+				shell->args[k] = shell->args[k + 1];
+				k ++;
+			}
 		}
-		shell->args[i] = result;
-		i++;
-		
+		else
+		{
+			shell->args[i] = result;
+			i ++;
+		}
 	}
-	
+	//print_args(shell, "new"); //delete
 }
