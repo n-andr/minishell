@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/09 16:03:40 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:13:45 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,12 @@ void	error_exec(void);
 int	parse_input(char *input, t_minishell *shell);
 void	unfold_input(t_minishell *shell);
 void	organize_struct(t_minishell *shell);
-
 // execute
 int		execute(t_minishell *shell);
 int		handle_cmd(t_minishell *shell, t_args *command);
 int		handle_heredoc(t_minishell *shell);
 int		check_redirections(t_args *command);
-int		ft_pipe(t_minishell *shell, t_args *command);
+int		ft_pipe(t_minishell *shell, t_args *command, int i);
 // builtins
 void	mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell);

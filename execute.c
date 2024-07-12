@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/10 16:29:18 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:31:58 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 	
 	check_redirections(command);
 	cmd = ft_strdup(command->args[0]);
+	printf("%s\n", cmd);
 	if(!access(cmd, F_OK))
 		execve(cmd, command->args, shell->envs);
 	else
@@ -67,9 +68,9 @@ int testing_init(t_minishell *shell)
 	shell->commands[0].args = (char **)malloc((4 * sizeof(char*)));
 	if (!shell->commands[0].args)
 		return (0);
-	shell->commands[0].args[0] = "grep"; // "/usr/bin/cat";
-	shell->commands[0].args[1] = "some";
-	shell->commands[0].args[2] = "testpoem.txt";
+	shell->commands[0].args[0] = "cat"; // "/usr/bin/cat";
+	shell->commands[0].args[1] = "free.c";
+	shell->commands[0].args[2] = NULL;
 	shell->commands[0].args[3] = NULL;
 	shell->commands[0].is_pipe = 1;
 
@@ -80,7 +81,15 @@ int testing_init(t_minishell *shell)
 	shell->commands[1].args[1] = NULL;
 	shell->commands[1].args[2] = NULL;
 	shell->commands[1].is_pipe = 0;
-	
+
+	/* shell->commands[2].args = (char **)malloc((3 * sizeof(char*)));
+	if (!shell->commands[2].args)
+		return (0);
+	shell->commands[2].args[0] = "rev";
+	shell->commands[2].args[1] = NULL;
+	shell->commands[2].args[2] = NULL;
+	shell->commands[2].is_pipe = 0;
+	*/
 	shell->commands[0].redir = (char **)malloc(1 * sizeof(char *));
 	if (!shell->commands[0].redir)
 		return (0);
@@ -125,6 +134,7 @@ int single_cmd(t_minishell *shell, t_args *cmd)
 int	execute(t_minishell *shell)
 {
 	int	i;
+	// int	status;
 	
 	if (!testing_init(shell)) // to be deleted
 		return (0);
@@ -136,16 +146,11 @@ int	execute(t_minishell *shell)
 		single_cmd(shell, &shell->commands[0]);
 		return (1);
 	}
-	// while (shell->commands[i].args != NULL) // implemented it as an array now
-	// {
-		// if (shell->commands[i].is_pipe == 0)
-		// 	single_cmd(shell, &shell->commands[i]);
-		// handle_heredoc(shell);
-	else
+	while (shell->commands[i].is_pipe != 0) // implemented it as an array now
 	{
-		ft_pipe(shell, &shell->commands[0]);
-	}		
-		// i++;
-	// }
+		// handle_heredoc(shell); */
+		ft_pipe(shell, &shell->commands[i], i);
+		i++;
+	}
 	return (1);
 }
