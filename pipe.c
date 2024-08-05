@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/05 14:02:06 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:10:16 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_pipe(t_minishell *shell, t_args *command, int i)
 		printf("left ok\n");
 		handle_leftside(pipe_fd, shell, command);
 	}
-	if (command->next != NULL)
+	if (command + 1 != NULL)
 	// adapt to linked list
 	{
 		printf("right ok\n");
