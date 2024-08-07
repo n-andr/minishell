@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/12 16:31:58 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/07 13:54:56 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 	
 	check_redirections(command);
 	cmd = ft_strdup(command->args[0]);
-	printf("%s\n", cmd);
+	// printf("in handle_cmd function\n");
+	// printf("%s\n", cmd);
 	if(!access(cmd, F_OK))
 		execve(cmd, command->args, shell->envs);
 	else
@@ -33,7 +34,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 			tmp = ft_strjoin(shell->paths[i], "/");
 			newcmd = ft_strjoin(tmp, cmd);
 			if(!access(newcmd, F_OK))
-				execve(newcmd, shell->commands->args, shell->envs);
+				execve(newcmd, command->args, shell->envs);
 			i++;
 		}
 	}
@@ -69,7 +70,7 @@ int testing_init(t_minishell *shell)
 	if (!shell->commands[0].args)
 		return (0);
 	shell->commands[0].args[0] = "cat"; // "/usr/bin/cat";
-	shell->commands[0].args[1] = "free.c";
+	shell->commands[0].args[1] = "testpoem.txt";
 	shell->commands[0].args[2] = NULL;
 	shell->commands[0].args[3] = NULL;
 	shell->commands[0].is_pipe = 1;
@@ -77,8 +78,8 @@ int testing_init(t_minishell *shell)
 	shell->commands[1].args = (char **)malloc((3 * sizeof(char*)));
 	if (!shell->commands[1].args)
 		return (0);
-	shell->commands[1].args[0] = "rev";
-	shell->commands[1].args[1] = NULL;
+	shell->commands[1].args[0] = "grep";
+	shell->commands[1].args[1] = "not";
 	shell->commands[1].args[2] = NULL;
 	shell->commands[1].is_pipe = 0;
 
