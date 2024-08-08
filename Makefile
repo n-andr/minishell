@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/07/10 16:50:52 by lde-taey         ###   ########.fr        #
+#    Updated: 2024/08/08 21:54:27 by nandreev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,8 @@ SRCS = main.c \
 	builtins/mini_cd.c \
 	builtins/mini_env.c \
 	builtins/mini_unset.c \
+	builtins/mini_echo.c \
+	builtins/mini_exit.c \
 
 OBJS = $(SRCS:.c=.o)
 

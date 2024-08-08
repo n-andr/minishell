@@ -6,13 +6,11 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 12:09:29 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/05 01:42:59 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/08 21:59:01 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// feel free to delete
-
-#include "minishell.h"
+#include "../minishell.h"
 
 // check if input is valid for exit command
 // check if ft_atoi is enough to convert the string to int or if it is a number only

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 16:48:13 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/09 00:13:57 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,25 @@ int 	is_path(t_minishell *shell) //chech for rederections here
 	else
 		return(0);
 }
+void test_printf(t_minishell *shell) //delete
+{
+	int	j;
+	t_args	*temp;
+
+	j = 0;
+	temp = shell->commands;
+	while (temp != NULL)
+	{
+		while (temp->args[j] != NULL)
+		{
+			printf("%s", temp->args[j]);
+			j++;
+		}
+		printf("\n");
+		j = 0;
+		temp = temp->next;
+	}
+}
 
 int	parse_input(char *input, t_minishell *shell)
 {
@@ -122,16 +141,20 @@ int	parse_input(char *input, t_minishell *shell)
 	postprosess_array(shell);
 	unfold_input(shell);
 	organize_struct(shell);
-	
+	test_printf(shell); //delete
 	if (!is_builtin(shell) && !is_executable(shell) && !is_path(shell))
 	{
 		//fix is_executable
 		printf("%s: command not found\n", input); // not input but unfolded string
 		free_args(shell);
 		free_commans(shell);
+		return (0);
 	}
 	else
+	{
 		printf("ready to execute\n"); //call executer here or retern to main
+		return (1);
+	}
 		
 	return (0);
 	//check if biuld-in → 

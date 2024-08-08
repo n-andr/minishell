@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/05 00:24:19 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/08 21:58:27 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	mini_echo(t_minishell *shell)
 		else
 		{
 			print_echo(shell, i);
-			write (1, '\n', 1); //change to fd for pipes
+			write (1, "\n", 1); //change to fd for pipes
 		}
 	}
 	//free_args(shell);

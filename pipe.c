@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/12 16:23:41 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:31:18 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ int	ft_pipe(t_minishell *shell, t_args *command, int i)
 		return (2);
 	if (child_pid == 0)
 	{
-		printf("left ok\n");
+		// printf("left ok\n");
 		handle_leftside(pipe_fd, shell, command);
 	}
-	if (command + 1 != NULL)
+	if (command->next != NULL)
 	// adapt to linked list
 	{
-		printf("right ok\n");
+		// printf("right ok\n");
 		handle_rightside(pipe_fd, shell, command + 1);
 	}
 	waitpid(child_pid, &status, 0);

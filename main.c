@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 16:54:35 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/09 00:28:39 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ void initiate_null(t_minishell *shell)
 
 }
 
+
 int	main(int argc, char **argv, char **envp)
 {
-	// char	*user_input;
-	// pid_t	pid;
+	char	*user_input;
+	pid_t	pid;
 	t_minishell	shell;
-	// int	status;
+	int	status;
 
 	initiate_null(&shell);
 	// 1. handle arguments
@@ -39,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 	//	1b. add data about current directory and other states to struct
 	
 	// Read-Eval-Print Loop
-	/*while (1)
+	while (1)
 	{
 		//	2. display prompt message
 		//	3. listen for input with a getline function
@@ -70,8 +71,8 @@ int	main(int argc, char **argv, char **envp)
 			waitpid(pid, &status, 0);
 		}
 		//	8. free memory
-	} */
-	execute(&shell);
+	}
+	//execute(&shell);
 	free_everything(&shell);
 	return (0);
 }
