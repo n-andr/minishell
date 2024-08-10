@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/07 13:54:56 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/10 11:44:59 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 	char	*tmp;
 	char	*newcmd;
 	
-	check_redirections(command);
+	// check_redirections(command);
 	cmd = ft_strdup(command->args[0]);
-	// printf("in handle_cmd function\n");
-	// printf("%s\n", cmd);
 	if(!access(cmd, F_OK))
 		execve(cmd, command->args, shell->envs);
 	else
@@ -39,7 +37,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 		}
 	}
 	perror("Could not execve");
-	return (0);
+	return (0); // i think i should fix these return values when execve is succesful
 }
 
 static int	scanifbuiltin(t_args *cmd, t_minishell *shell)
@@ -52,24 +50,25 @@ static int	scanifbuiltin(t_args *cmd, t_minishell *shell)
 		return (mini_env(shell), 1);
 	else if(!ft_strcmp("unset", cmd->args[0]))
 		return (mini_unset(shell, "MAIL="), 1); // to be corrected
-//	else if(!ft_strcmp("echo", shell->args[0]))
+//	else if(!ft_strcmp("echo", cmd->args[0]))
 //		return (mini_echo(data), 1);
+//	else if(!ft_strcmp("exit", cmd->args[0]))
+//		return (mini_exit(shell, cmd->args[0]), 1);
 	else
 		return (0);
 }
 
+// now implemented commands as an array but should actually be a linked list
+// args and redir are arrays
 int testing_init(t_minishell *shell)
 {
-	// now implemented commands as an array but should actually be a linked list
-	// args and redir are arrays
-	
-	shell->commands = malloc(2 * sizeof(t_args));
+	shell->commands = malloc(4 * sizeof(t_args));
 	if (!shell->commands)
 		return (0);
 	shell->commands[0].args = (char **)malloc((4 * sizeof(char*)));
 	if (!shell->commands[0].args)
 		return (0);
-	shell->commands[0].args[0] = "cat"; // "/usr/bin/cat";
+	shell->commands[0].args[0] = "cat";
 	shell->commands[0].args[1] = "testpoem.txt";
 	shell->commands[0].args[2] = NULL;
 	shell->commands[0].args[3] = NULL;
@@ -79,9 +78,25 @@ int testing_init(t_minishell *shell)
 	if (!shell->commands[1].args)
 		return (0);
 	shell->commands[1].args[0] = "grep";
-	shell->commands[1].args[1] = "not";
+	shell->commands[1].args[1] = "some";
 	shell->commands[1].args[2] = NULL;
-	shell->commands[1].is_pipe = 0;
+	shell->commands[1].is_pipe = 1;
+
+	shell->commands[2].args = (char **)malloc((3 * sizeof(char*)));
+	if (!shell->commands[2].args)
+		return (0);
+	shell->commands[2].args[0] = "rev";
+	shell->commands[2].args[1] = NULL;
+	shell->commands[2].args[2] = NULL;
+	shell->commands[2].is_pipe = 0;
+
+	shell->commands[3].args = (char **)malloc((3 * sizeof(char*)));
+	if (!shell->commands[3].args)
+		return (0);
+	shell->commands[3].args[0] = NULL;
+	shell->commands[3].args[1] = NULL;
+	shell->commands[3].args[2] = NULL;
+	shell->commands[3].is_pipe = 0;
 
 	/* shell->commands[2].args = (char **)malloc((3 * sizeof(char*)));
 	if (!shell->commands[2].args)
@@ -117,7 +132,7 @@ int single_cmd(t_minishell *shell, t_args *cmd)
 	int		status;
 	
 	if (scanifbuiltin(cmd, shell))
-	// 	return (1);
+	 	return (1);
 	handle_heredoc(shell); // check where this should go
 	pid = fork();
 	if (pid < 0)
@@ -147,11 +162,13 @@ int	execute(t_minishell *shell)
 		single_cmd(shell, &shell->commands[0]);
 		return (1);
 	}
-	while (shell->commands[i].is_pipe != 0) // implemented it as an array now
-	{
-		// handle_heredoc(shell); */
-		ft_pipe(shell, &shell->commands[i], i);
-		i++;
-	}
+	ft_pipe(shell); //, shell->commands);
+	// while (shell->commands[i].is_pipe != 0) // implemented it as an array now
+	// {
+	// 	// handle_heredoc(shell);
+	// 	printf("%ix\n\n\n\n", i);
+	// 	ft_pipe(shell, &shell->commands[i]);
+	// 	i++;
+	// }
 	return (1);
 }

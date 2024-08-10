@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 16:54:35 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:01:36 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	// char	*user_input;
 	// pid_t	pid;
 	t_minishell	shell;
-	// int	status;
+	// int		status;
 
 	initiate_null(&shell);
 	// 1. handle arguments
@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 	//	1b. add data about current directory and other states to struct
 	
 	// Read-Eval-Print Loop
-	/*while (1)
+	/* while (1)
 	{
 		//	2. display prompt message
 		//	3. listen for input with a getline function
@@ -63,8 +63,8 @@ int	main(int argc, char **argv, char **envp)
 			write(2, "Fork failed\n", 12);
 			exit(1);
 		}
-		// else if (pid == 0) //call child process
-		// 	//execute("unset", &shell);
+		else if (pid == 0) //call child process
+		 	execute(&shell);
 		else
 		{
 			waitpid(pid, &status, 0);
