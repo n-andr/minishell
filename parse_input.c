@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/09 00:13:57 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/10 16:03:01 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int	parse_input(char *input, t_minishell *shell)
 	else
 	{
 		printf("ready to execute\n"); //call executer here or retern to main
+		free_args(shell);
 		return (1);
 	}
 		
