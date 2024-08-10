@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/07 16:27:12 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/10 14:51:37 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <sys/wait.h>
 #include <stdbool.h>
 #include <string.h>
+#include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "libft/libft.h"
@@ -47,6 +48,7 @@ typedef struct s_minishell
 }	t_minishell;
 
 void	init_environmentals(char **env,t_minishell *shell);
+void	signal_config(void);
 // utils
 /* char	*ft_strdup(const char *s);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
@@ -82,7 +84,6 @@ void	mini_echo(t_minishell *shell);
 void	free_everything(t_minishell *shell);
 void	free_array(char **array);
 void	free_commans(t_minishell *shell);
-
 // free
 void	free_args(t_minishell *shell);
 

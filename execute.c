@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/10 14:18:25 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/10 14:52:22 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,8 @@ int testing_init(t_minishell *shell)
 	shell->commands[1].redir = (char **)malloc(3 * sizeof(char *));
 	if (!shell->commands[1].redir)
 		return (0);
-	shell->commands[1].redir[0] = ">";	
-	shell->commands[1].redir[1] = "test.txt";
+	shell->commands[1].redir[0] = NULL;	
+	shell->commands[1].redir[1] = NULL;
 	shell->commands[1].redir[2] = NULL;
 	shell->commands[2].redir = (char **)malloc(1 * sizeof(char *));
 	if (!shell->commands[2].redir)

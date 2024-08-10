@@ -6,7 +6,7 @@
 #    By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/08/07 14:14:35 by lde-taey         ###   ########.fr        #
+#    Updated: 2024/08/10 14:50:38 by lde-taey         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS = main.c \
 	builtins/mini_cd.c \
 	builtins/mini_env.c \
 	builtins/mini_unset.c \
+	signals.c
 
 OBJS = $(SRCS:.c=.o)
 

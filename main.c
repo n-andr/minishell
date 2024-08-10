@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/07 14:01:36 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/10 14:46:10 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	main(int argc, char **argv, char **envp)
 	// int		status;
 
 	initiate_null(&shell);
+	signal_config();
 	// 1. handle arguments
 	if (argc != 1 || argv[1])
 		return (args_error(), -1);
@@ -45,7 +46,10 @@ int	main(int argc, char **argv, char **envp)
 		//	3. listen for input with a getline function
 		user_input = readline("minishell$ ");
 		if (user_input == NULL)
+		{
+			write(STDOUT_FILENO, "exit\n", 5); // NULL means Ctrl-D was detected
 			break;
+		}
 		if (ft_strlen(user_input) > 0) // ignore empty input
 			add_history(user_input);
 		
