@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 12:09:29 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/08 21:59:01 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/10 19:28:24 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,53 +28,35 @@ int check_if_number(char *str)
 	{
 		if (ft_isdigit(str[i]) == 0)
 		{
-			printf("exit\n"); //confirm on school computer if this is the right way to print
-			printf("minishell: exit: %s: numeric argument required\n", str); //shell's intended output format (e.g., using fprintf(stderr, ...) for error messages).
-			//exit(error code); and free everything
-			return(0); 
+			write(2, "minishell: exit: numeric argument required\n", 43);
+			return(2); // exit(2)
 		}
 		i++;
 	}
-	return (1);
+	return (ft_atoi(str));
 }
 
-int	check_if_no_more_args(t_minishell *shell)
+void	mini_exit(t_minishell *shell)
 {
-	if (shell->commands->args[2] != NULL)
+	int exit_code;
+
+	exit_code = 0;
+	printf("exit\n"); //confirm on school computer if this is the right way to print for all cases
+	// check if input is valid for exit command
+	if(shell->commands->args[1] == NULL)
 	{
-		printf("exit\n"); //confirm on school computer if this is the right way to print
-		printf("exit: too many arguments\n"); //shell's intended output format (e.g., using fprintf(stderr, ...) for error messages).
-		//exit(error code); and free everything
-		return (0);
+		exit_code = 0;
 	}
-	return (1);
-}
-
-// 1 - all good, 0 - error
-int check_exit_arg(t_minishell *shell)
-{
-	if (shell->commands->args[1] == NULL)
-		return (1);
+	else if(shell->commands->args[2] == NULL)
+	{
+		exit_code = check_if_number(shell->commands->args[1]);
+	}
 	else
 	{
-		if(check_if_number(shell->commands->args[1]) == 1 && check_if_no_more_args(shell) == 1)
-			return (1);
-		else
-			return (0);
+		write(2, "minishell: exit: too many arguments\n", 37);
+		exit_code = 1; //exit(EXIT_FAILURE);
 	}
-	return (1);
-}
-int	mini_exit(t_minishell *shell)
-{
-	int i;
-
-	i = 0;
-	// check if input is valid for exit command
-	if (check_exit_arg(shell) == 0)
-		return (1);
-	i = ft_atoi(shell->commands->args[1]);
-	// free everything!!! don't know what exactly yet
 	free_everything(shell);
-	printf("exit\n");
-	exit(i);
+	//save exit code for future use
+	exit(exit_code);
 }

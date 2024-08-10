@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/09 00:13:42 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:04:52 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 
 static int	scanifbuiltin(t_minishell *shell)
 {
-	printf("scanifbuildin: %s\n", shell->commands->args[0]); //delete
+	//printf("scanifbuildin: %s\n", shell->commands->args[0]); //delete
 	
 	if(!ft_strcmp("pwd", shell->commands->args[0]))
 		return (mini_pwd(shell), 1);
@@ -117,9 +117,9 @@ int testing_init(t_minishell *shell)
 int single_cmd(t_minishell *shell)
 {
 	pid_t	pid;
-	//int		status;
+	int		status;
 	
-	printf("single_cmd: %s\n", shell->commands->args[0]); //delete
+	//printf("single_cmd: %s\n", shell->commands->args[0]); //delete
 	if (scanifbuiltin(shell))
 		return (1);
 	handle_heredoc(shell); // check where this should go
@@ -129,10 +129,10 @@ int single_cmd(t_minishell *shell)
 		error_exec();
 		return (0);
 	}
-	// if (pid == 0)
-	// 	handle_cmd(shell, cmd);
-	// else
-	// 	waitpid(pid, &status, 0);
+	if (pid == 0)
+		handle_cmd(shell, shell->commands);
+	else
+		waitpid(pid, &status, 0);
 	return (1);
 }
 
@@ -144,12 +144,14 @@ int	execute(t_minishell *shell)
 	
 	// if (!testing_init(shell)) // to be deleted
 	// 	return (0);
-	printf("147 Current command: %s\n", shell->commands->args[0]); //delete
+	printf("debugging 147 Current command: %s\n", shell->commands->args[0]); //delete
 
 	// if (!shell->commands)
 	// 	return (0);
 	// i = 0;
 	single_cmd(shell);
+	free_commans(shell);
+
 	// if (shell->commands[0].is_pipe == 0)
 	// {
 	// 	printf("154 Current command: %s\n", shell->commands->args[0]); //delete
