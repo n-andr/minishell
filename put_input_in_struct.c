@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 02:28:33 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/11 22:49:55 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_args	*init_new_command(void)
 	new_command->redir = NULL;
 	new_command->is_redir = false;
 	new_command->is_pipe = 0;
+	new_command->heredoc = NULL;
 	new_command->next = NULL;
 	return (new_command);
 }

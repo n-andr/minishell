@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/10 18:04:52 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/11 23:22:35 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int	execute(t_minishell *shell)
 	
 	// if (!testing_init(shell)) // to be deleted
 	// 	return (0);
-	printf("debugging 147 Current command: %s\n", shell->commands->args[0]); //delete
+	//printf("debugging 147 Current command: %s\n", shell->commands->args[0]); //delete
 
 	// if (!shell->commands)
 	// 	return (0);

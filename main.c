@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/10 17:41:04 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/11 23:10:44 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void initiate_null(t_minishell *shell)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*user_input;
-	pid_t	pid;
+	//pid_t	pid;
 	t_minishell	shell;
-	int	status;
+	//int	status;
 
 	initiate_null(&shell);
 	// 1. handle arguments
@@ -57,19 +57,19 @@ int	main(int argc, char **argv, char **envp)
 		// 5. parse array and put everything into an execution tree
 		// 6. expand (add information about environment to execution tree)
 		// 7. execute the commands with a fork
-		pid = fork();
-		
-		if (pid < 0) // error
-		{
-			write(2, "Fork failed\n", 12);
-			exit(1);
-		}
-		// else if (pid == 0) //call child process
-		// 	//execute("unset", &shell);
-		else
-		{
-			waitpid(pid, &status, 0);
-		}
+			// pid = fork();
+			
+			// if (pid < 0) // error
+			// {
+			// 	write(2, "Fork failed\n", 12);
+			// 	exit(1);
+			// }
+			// // else if (pid == 0) //call child process
+			// // 	//execute("unset", &shell);
+			// else
+			// {
+			// 	waitpid(pid, &status, 0);
+			// }
 		//	8. free memory
 	}
 	//execute(&shell);
