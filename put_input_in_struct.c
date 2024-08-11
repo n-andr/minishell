@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/11 22:49:55 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/12 00:25:39 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,27 @@ void handle_combined_cases(t_minishell *shell, t_args **current_command, char *a
     }
 }
 
+void pipe_numeration(t_minishell *shell)
+{
+	t_args *tmp;
+	int i;
+
+	i = 0;
+	tmp = shell->commands;
+	while (tmp->next) 
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	tmp = shell->commands;
+	while (tmp->next) 
+	{
+		tmp->is_pipe = i;
+		i--;
+		tmp = tmp->next;
+	}
+}
+
 void	organize_struct(t_minishell *shell)
 {
 	int	i;
@@ -145,42 +166,23 @@ void	organize_struct(t_minishell *shell)
 	i = 0;
 	current_command = init_new_command();
 	if (!current_command)
-        return;
+		return;
 	add_command(shell, current_command);
-    i = 0;
-    arg_count = 0;
-    redir_count = 0;
-    while (shell->args[i]) {
-        arg = shell->args[i];
-        if (ft_strchr(arg, '|') || ft_strchr(arg, '>') || ft_strchr(arg, '<'))//add << and >> 
+	i = 0;
+	arg_count = 0;
+	redir_count = 0;
+	while (shell->args[i]) {
+		arg = shell->args[i];
+		if (ft_strchr(arg, '|') || ft_strchr(arg, '>') || ft_strchr(arg, '<'))//add << and >> 
 		{
-            handle_combined_cases(shell, &current_command, arg, &i, &arg_count, &redir_count);
-        } else {
-            process_argument(current_command, arg, &arg_count);
-        }
-        i++;
-    }
-    current_command->args[arg_count] = NULL;
-    if (current_command->redir)
-        current_command->redir[redir_count] = NULL;
-
-
-//tests:
-
-	// 	t_args *cmd = shell->commands;
-    // while (cmd) {
-    //     printf("Command:\n");
-    //     for (int i = 0; cmd->args[i]; i++) {
-    //         printf("  Arg[%d]: %s\n", i, cmd->args[i]);
-    //     }
-    //     printf("Redirections:\n");
-    //     if (cmd->redir) {
-    //         for (int i = 0; cmd->redir[i]; i++) {
-    //             printf("  Redir[%d]: %s\n", i, cmd->redir[i]);
-    //         }
-    //     }
-    //     printf("Pipes: %ld\n", cmd->is_pipe);
-	// 	printf("Is_redir: %d\n", cmd->is_redir);
-    //     cmd = cmd->next;
-    // }
+			handle_combined_cases(shell, &current_command, arg, &i, &arg_count, &redir_count);
+		} else {
+			process_argument(current_command, arg, &arg_count);
+		}
+		i++;
+	}
+	current_command->args[arg_count] = NULL;
+	if (current_command->redir)
+		current_command->redir[redir_count] = NULL;
+	pipe_numeration(shell);
 }

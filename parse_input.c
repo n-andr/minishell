@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/11 23:22:44 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/12 00:24:23 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ void test_printf(t_minishell *shell) //delete
 			}
 		}
 		printf("shell->commands->is_redir: %i\n", temp->is_redir);
-		printf("shell->commands->is_pipe: %i\n", temp->is_redir);
+		printf("shell->commands->is_pipe: %li\n", temp->is_pipe);
 		if (temp->heredoc != NULL) {
 			printf("shell->commands->heredoc: %s\n", temp->heredoc);
 		} else {
@@ -215,7 +215,7 @@ int	parse_input(char *input, t_minishell *shell)
 	organize_struct(shell);
 	
 	//printing all content of shell->commands
-	//test_printf(shell); //delete 
+	test_printf(shell); //delete 
 
 	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
 	{
