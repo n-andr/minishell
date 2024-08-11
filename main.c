@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/11 23:10:44 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/12 00:12:25 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void initiate_null(t_minishell *shell)
 	shell->envs = NULL;
     shell->pwd = NULL;
     shell->oldpwd = NULL;
+	shell->paths = NULL;
     shell->home = NULL;
     shell->commands = NULL;
 
@@ -47,11 +48,14 @@ int	main(int argc, char **argv, char **envp)
 		user_input = readline("minishell$ ");
 		if (user_input == NULL)
 			break;
-		if (ft_strlen(user_input) > 0) // ignore empty input
-			add_history(user_input);
+		if (user_input != NULL && ft_strlen(user_input) > 0) // ignore empty input
+			{
+				add_history(user_input);
+				if (parse_input(user_input, &shell) == 1)
+					execute(&shell);
+			}
 		
-		if (parse_input(user_input, &shell) == 1)
-			execute(&shell);
+		
 
 		// 4. build lexer that scans input and puts everything in an array
 		// 5. parse array and put everything into an execution tree
