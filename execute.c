@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/12 12:37:43 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/12 14:29:39 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,14 +176,15 @@ int	execute(t_minishell *shell)
 	//int	i;
 	// int	status;
 	
-	if (!testing_init(shell)) // to be deleted
-		return (0);
+	// if (!testing_init(shell)) // to be deleted
+	// 	return (0);
 	if (!shell->commands)
 		return (0);
-	i = 0;
+	//i = 0;
 	if (shell->commands[0].is_pipe == 0)
 	{
-		single_cmd(shell, &shell->commands[0]);
+		single_cmd(shell);
+		free_commans(shell);
 		return (1);
 	}
 	ft_pipe(shell);
