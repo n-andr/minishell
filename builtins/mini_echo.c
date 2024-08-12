@@ -3,69 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/27 11:03:35 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/08 21:58:27 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	open_single_quotes(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == '\'')
-			s++;
-		else
-		{
-			write (1, &s[i], 1);
-			s++;
-		}
-	}
-}
-
-void	open_double_quotes(char *s)
-{
-	int	i;
-
-	i = 0;
-	
-
-}
-
-void	write_environmentals(char *s)
-{
-	
-
-}
-
-
 void	print_echo(t_minishell *shell, int i)
 {
-	char *single_quote;
-	char *double_quote;
-
-	while (shell->args[i])
+	while (shell->commands->args[i] != NULL)
 	{
-		single_quote = ft_strchr(shell->args[i], '\'');
-    	double_quote = ft_strchr(shell->args[i], '\"');
-		if (single_quote && (!double_quote || single_quote < double_quote))
-		{
-			open_single_quotes(shell->args[i]);
-		}
-		else if (double_quote && (!single_quote || double_quote < single_quote))
-		{
-			open_double_quotes(shell->args[i]);
-		}
-		else
-			printf("%s", shell->args[i]);
-		i ++;
+		write(1, shell->commands->args[i], ft_strlen(shell->commands->args[i])); //change to fd for pipes
+		if (shell->commands->args[i + 1] != NULL)
+			write(1, " ", 1); //change to fd for pipes
+		i++;
 	}
+}
+
+int	check_flags(t_minishell *shell, int i)
+{
+	int j;
+
+	j = 0;
+	while(shell->commands->args[i] && shell->commands->args[i][j] == '-')
+	{
+		j ++;
+		
+		while (shell->commands->args[i][j] != '\0')
+		{
+			if (shell->commands->args[i][j] == 'n')
+			{
+				j ++;
+			}
+			else
+				return (i);
+		}
+		i++;
+		j = 0;
+	}
+	return (i);
 }
 
 void	mini_echo(t_minishell *shell)
@@ -73,20 +52,19 @@ void	mini_echo(t_minishell *shell)
 	int	i;
 
 	i = 0;
-	if (shell->args[i] && ft_strcmp(shell->args[i], "echo") == 0)
+	if (shell->commands->args[i] && ft_strcmp(shell->commands->args[i], "echo") == 0)
 	{
-		i ++;
-		if (shell->args[i] && ft_strcmp(shell->args[i], "-n") == 0)
+		i++;
+		if (check_flags(shell, i) != i)
 		{
-			print_echo(shell, i++);
-		}
-		else if(shell->args[i] && ft_strcmp(shell->args[i], "-n") != 0)
-		{
+			i = check_flags(shell, i);
 			print_echo(shell, i);
-			write (1, '\n', 1);
 		}
 		else
-			write (1, '\n', 1);
+		{
+			print_echo(shell, i);
+			write (1, "\n", 1); //change to fd for pipes
+		}
 	}
-	free_args(shell);
+	//free_args(shell);
 }

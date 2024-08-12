@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 16:48:13 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/12 00:24:23 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,13 @@ static void	postprosess_array(t_minishell *shell)
 	}
 }
 
-int	is_builtin(t_minishell *shell)
+int	is_builtin(char *str)
 {
 	char	*builtins[8];
 	int	i;
 
+	if(str == NULL)
+		return (0);
 	builtins[0] = "cd";
     builtins[1] = "exit";
     builtins[2] = "echo";
@@ -81,25 +83,114 @@ int	is_builtin(t_minishell *shell)
 	i = 0;
 	while (builtins[i] != NULL)
 	{
-		if (ft_strcmp(shell->args[0], builtins[i]) == 0) //not arg 0
+		if (ft_strcmp(str, builtins[i]) == 0) //not arg 0
 			return (1);
 		i ++;
 	}
 	return (0);
 }
 
-int 	is_executable(t_minishell *shell) // not working
+int 	is_executable(t_minishell *shell, char *str) // not working
 {
-	shell->commands->is_pipe += 0;
-	return (0);
+	char	*tmp;
+	char	*newcmd;
+	int i;
+
+	if(str == NULL)
+		return (0);
+	if (access(str, X_OK) == 0)
+        return (1);
+	else
+	{
+		i = 0;
+		while(shell->paths[i] != NULL)
+		{
+			tmp = ft_strjoin(shell->paths[i], "/");
+			newcmd = ft_strjoin(tmp, str);
+			if (access(newcmd, X_OK) == 0)
+        		return (1);
+			i++;
+		}
+	}
+    return (0);
 }
 
-int 	is_path(t_minishell *shell) //chech for rederections here
+int 	is_path(char *str) //chech for rederections here
 {
-	if (ft_strchr(shell->args[0], '/')) //not arg 0
+	if(str == NULL)
+		return (0);
+	if (ft_strchr(str, '/')) //not arg 0
 		return (1);
 	else
 		return(0);
+}
+
+void test_printf(t_minishell *shell) //delete
+{
+	int	j;
+	t_args	*temp;
+
+	j = 0;
+	temp = shell->commands;
+	while (temp != NULL)
+	{
+		printf("shell->commands->args:\n");
+		while (temp->args[j] != NULL)
+		{
+			printf("   %s\n", temp->args[j]);
+			j++;
+		}
+		j = 0;
+		if (temp->redir == NULL) {
+			printf("shell->commands->redir: NULL\n");
+		} else {
+			printf("shell->commands->redir:\n");
+			while (temp->redir[j] != NULL)
+			{
+				printf("   %s\n", temp->redir[j]);
+				j++;
+			}
+		}
+		printf("shell->commands->is_redir: %i\n", temp->is_redir);
+		printf("shell->commands->is_pipe: %li\n", temp->is_pipe);
+		if (temp->heredoc != NULL) {
+			printf("shell->commands->heredoc: %s\n", temp->heredoc);
+		} else {
+			printf("shell->commands->heredoc: NULL\n");
+		}
+		printf("shell->commands->next: %p\n", temp->next);
+		j = 0;
+		temp = temp->next;
+	}
+}
+
+// if buil-in or executable or path or redirection -> return 1
+// error for each command (if two pipes, check two commands -> return 2 errors)
+// return: 0 - invalid, 1 - valid
+int check_if_cmd_valid(t_minishell *shell)
+{
+	t_args	*temp;
+	int		input_valid;
+
+	input_valid = 1;
+	temp = shell->commands;
+	while (temp != NULL)
+	{
+		if (is_builtin(temp->args[0]) 
+			|| is_executable(shell, temp->args[0])  
+			|| is_path(temp->args[0]))
+			temp = temp->next;
+		//else if (temp->is_redir == 1)
+		else if (temp->is_redir == 1 && temp->args[0] == NULL)
+			temp = temp->next;
+		else
+		{
+			printf("%s: command not found\n", temp->args[0]);
+			input_valid = 0;
+			temp = temp->next;
+		}
+	}
+	return (input_valid);
 }
 
 int	parse_input(char *input, t_minishell *shell)
@@ -123,19 +214,20 @@ int	parse_input(char *input, t_minishell *shell)
 	unfold_input(shell);
 	organize_struct(shell);
 	
-	if (!is_builtin(shell) && !is_executable(shell) && !is_path(shell))
+	//printing all content of shell->commands
+	test_printf(shell); //delete 
+
+	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
 	{
-		//fix is_executable
-		printf("%s: command not found\n", input); // not input but unfolded string
 		free_args(shell);
 		free_commans(shell);
+		return (0);
 	}
 	else
-		printf("ready to execute\n"); //call executer here or retern to main
-		
+	{
+		//printf("ready to execute\n"); //delete call executer here or retern to main
+		free_args(shell);
+		return (1);
+	}
 	return (0);
-	//check if biuld-in → 
-	//check if command →  
-	//check if path (/) or redirection →  repeat for each pipe
-	//if any of that is true →  get env var and unfold qoutes save as struct
 }

@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
+/*   Updated: 2024/08/10 19:20:36 by nandreev         ###   ########.fr       */
 /*   Updated: 2024/08/10 14:51:37 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -44,6 +45,7 @@ typedef struct s_minishell
 	char	*pwd;
 	char	*oldpwd;
 	char	*home;
+	//int		exit_code;
 	t_args	*commands;
 }	t_minishell;
 
@@ -80,6 +82,8 @@ int		mini_cd(t_minishell *shell);
 int		mini_env(t_minishell *shell);
 int		mini_unset(t_minishell *shell, char *str);
 void	mini_echo(t_minishell *shell);
+void	mini_exit(t_minishell *shell);
+
 // cleanup
 void	free_everything(t_minishell *shell);
 void	free_array(char **array);
