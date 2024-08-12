@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/12 14:29:39 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/12 14:48:23 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,14 +173,10 @@ int single_cmd(t_minishell *shell)
 
 int	execute(t_minishell *shell)
 {
-	//int	i;
-	// int	status;
-	
 	// if (!testing_init(shell)) // to be deleted
 	// 	return (0);
 	if (!shell->commands)
 		return (0);
-	//i = 0;
 	if (shell->commands[0].is_pipe == 0)
 	{
 		single_cmd(shell);
