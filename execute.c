@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/11 23:22:35 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/12 12:37:43 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 	
 	check_redirections(command);
 	cmd = ft_strdup(command->args[0]);
-	printf("%s\n", cmd);
 	if(!access(cmd, F_OK))
 		execve(cmd, command->args, shell->envs);
 	else
@@ -33,12 +32,12 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 			tmp = ft_strjoin(shell->paths[i], "/");
 			newcmd = ft_strjoin(tmp, cmd);
 			if(!access(newcmd, F_OK))
-				execve(newcmd, shell->commands->args, shell->envs);
+				execve(newcmd, command->args, shell->envs);
 			i++;
 		}
 	}
 	perror("Could not execve");
-	return (0);
+	return (0); // i think i should fix these return values when execve is succesful?
 }
 
 static int	scanifbuiltin(t_minishell *shell)
@@ -61,19 +60,18 @@ static int	scanifbuiltin(t_minishell *shell)
 		return (0);
 }
 
+// now implemented commands as an array but should actually be a linked list
+// args and redir are arrays
 int testing_init(t_minishell *shell)
 {
-	// now implemented commands as an array but should actually be a linked list
-	// args and redir are arrays
-	
-	shell->commands = malloc(2 * sizeof(t_args));
+	shell->commands = malloc(4 * sizeof(t_args));
 	if (!shell->commands)
 		return (0);
 	shell->commands[0].args = (char **)malloc((4 * sizeof(char*)));
 	if (!shell->commands[0].args)
 		return (0);
-	shell->commands[0].args[0] = "cat"; // "/usr/bin/cat";
-	shell->commands[0].args[1] = "free.c";
+	shell->commands[0].args[0] = "cat";
+	shell->commands[0].args[1] = "testpoem.txt";
 	shell->commands[0].args[2] = NULL;
 	shell->commands[0].args[3] = NULL;
 	shell->commands[0].is_pipe = 1;
@@ -81,10 +79,26 @@ int testing_init(t_minishell *shell)
 	shell->commands[1].args = (char **)malloc((3 * sizeof(char*)));
 	if (!shell->commands[1].args)
 		return (0);
-	shell->commands[1].args[0] = "rev";
-	shell->commands[1].args[1] = NULL;
+	shell->commands[1].args[0] = "grep";
+	shell->commands[1].args[1] = "some";
 	shell->commands[1].args[2] = NULL;
-	shell->commands[1].is_pipe = 0;
+	shell->commands[1].is_pipe = 1;
+
+	shell->commands[2].args = (char **)malloc((3 * sizeof(char*)));
+	if (!shell->commands[2].args)
+		return (0);
+	shell->commands[2].args[0] = "rev";
+	shell->commands[2].args[1] = NULL;
+	shell->commands[2].args[2] = NULL;
+	shell->commands[2].is_pipe = 0;
+
+	shell->commands[3].args = (char **)malloc((3 * sizeof(char*)));
+	if (!shell->commands[3].args)
+		return (0);
+	shell->commands[3].args[0] = NULL;
+	shell->commands[3].args[1] = NULL;
+	shell->commands[3].args[2] = NULL;
+	shell->commands[3].is_pipe = 0;
 
 	/* shell->commands[2].args = (char **)malloc((3 * sizeof(char*)));
 	if (!shell->commands[2].args)
@@ -98,10 +112,30 @@ int testing_init(t_minishell *shell)
 	if (!shell->commands[0].redir)
 		return (0);
 	shell->commands[0].redir[0] = NULL;
-	shell->commands[1].redir = (char **)malloc(1 * sizeof(char *));
+	/* shell->commands[1].redir = (char **)malloc(1 * sizeof(char *));
 	if (!shell->commands[1].redir)
 		return (0);
-	shell->commands[1].redir[0] = NULL;
+	shell->commands[1].redir[0] = NULL; */
+	shell->commands[1].redir = (char **)malloc(3 * sizeof(char *));
+	if (!shell->commands[1].redir)
+		return (0);
+	shell->commands[1].redir[0] = ">>";	
+	shell->commands[1].redir[1] = "test2.txt";
+	shell->commands[1].redir[2] = NULL;
+	shell->commands[2].redir = (char **)malloc(1 * sizeof(char *));
+	if (!shell->commands[2].redir)
+		return (0);
+	shell->commands[2].redir[0] = NULL;
+	shell->commands[3].redir = (char **)malloc(1 * sizeof(char *));
+	if (!shell->commands[3].redir)
+		return (0);
+	shell->commands[3].redir[0] = NULL;
+	/* shell->commands[2].redir = (char **)malloc(3 * sizeof(char *));
+	if (!shell->commands[2].redir)
+		return (0);
+	shell->commands[2].redir[0] = ">";	
+	shell->commands[2].redir[1] = "test.txt";
+	shell->commands[2].redir[2] = NULL; */
 	/* shell->commands->redir[0] = ">>";
 	shell->commands->redir[1] = "test.txt";
 	shell->commands->redir[2] = ">";
@@ -142,27 +176,17 @@ int	execute(t_minishell *shell)
 	//int	i;
 	// int	status;
 	
-	// if (!testing_init(shell)) // to be deleted
-	// 	return (0);
-	//printf("debugging 147 Current command: %s\n", shell->commands->args[0]); //delete
-
-	// if (!shell->commands)
-	// 	return (0);
-	// i = 0;
-	single_cmd(shell);
+	if (!testing_init(shell)) // to be deleted
+		return (0);
+	if (!shell->commands)
+		return (0);
+	i = 0;
+	if (shell->commands[0].is_pipe == 0)
+	{
+		single_cmd(shell, &shell->commands[0]);
+		return (1);
+	}
+	ft_pipe(shell);
 	free_commans(shell);
-
-	// if (shell->commands[0].is_pipe == 0)
-	// {
-	// 	printf("154 Current command: %s\n", shell->commands->args[0]); //delete
-	// 	single_cmd(shell);
-	// 	return (1);
-	// }
-	// while (shell->commands[i].is_pipe != 0) // implemented it as an array now
-	// {
-	// 	// handle_heredoc(shell); */
-	// 	ft_pipe(shell, &shell->commands[i], i);
-	// 	i++;
-	// }
 	return (1);
 }

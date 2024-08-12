@@ -6,7 +6,7 @@
 #    By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/08/08 21:54:27 by nandreev         ###   ########.fr        #
+#    Updated: 2024/08/10 14:50:38 by lde-taey         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Werror -Wall -Wextra
+CFLAGS = -Werror -Wall -Wextra -g
 
 SRCS = main.c \
 	init.c \
@@ -36,6 +36,7 @@ SRCS = main.c \
 	builtins/mini_unset.c \
 	builtins/mini_echo.c \
 	builtins/mini_exit.c \
+	signals.c
 
 OBJS = $(SRCS:.c=.o)
 

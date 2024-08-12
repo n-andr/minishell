@@ -6,15 +6,15 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:05:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/05 15:16:07 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/10 14:12:52 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *generate_filename(void)
+static char	*generate_filename(void)
 {
-	char 		*filename;
+	char		*filename;
 	char		*number;
 	static int	nbr;
 
@@ -25,17 +25,17 @@ static char *generate_filename(void)
 	return (filename);
 }
 
-static int generate_heredoc(t_minishell *shell, char *delimiter)
-{	
+static int	generate_heredoc(t_minishell *shell, char *delimiter)
+{
 	int		fd;
 	char	*line;
-	
+
 	shell->commands[0].heredoc = generate_filename();
 	fd = open(shell->commands[0].heredoc, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return (0);
 	line = readline(">");
-	while(line && ft_strncmp(delimiter, line, ft_strlen(delimiter)))
+	while (line && ft_strncmp(delimiter, line, ft_strlen(delimiter)))
 	{
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
@@ -48,15 +48,9 @@ static int generate_heredoc(t_minishell *shell, char *delimiter)
 }
 
 int	handle_heredoc(t_minishell *shell)
-{	
-	// shell->commands->redir = (char **)malloc(1 * sizeof(char *));
-	// shell->commands->redir[0] = NULL;
-	/* shell->commands.redir[0] = "<<";
-	shell->commands.redir[1] = "EOF";	
-	shell->commands.redir[2] = NULL; */
-	
+{
 	int	i;
-	
+
 	i = 0;
 	while (shell->commands->redir[i] != NULL)
 	{
