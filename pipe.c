@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/12 15:14:06 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:28:15 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ int	ft_pipe(t_minishell *shell)
 			return (2);
 		}
 		if (child_pid == 0)
-			child_process(pipe_fd, shell, shell->commands, &in_fd);
+			child_process(pipe_fd, shell, temp, &in_fd);
 		parent_process(pipe_fd, &in_fd);
-		shell->commands = shell->commands->next;
+		temp = temp->next;
 	}
 	while (wait(NULL) > 0);
 	return (1);
