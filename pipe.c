@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/10 14:09:45 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:49:16 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	parent_process(int *pipe_fd, int *in_fd)
 	*in_fd = pipe_fd[0];
 }
 
-int	ft_pipe(t_minishell *shell) //, t_args *command)
+int	ft_pipe(t_minishell *shell) 
 {
 	int		pipe_fd[2];
 	pid_t	child_pid;

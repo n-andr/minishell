@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/10 14:52:22 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/12 12:37:43 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 		}
 	}
 	perror("Could not execve");
-	return (0); // i think i should fix these return values when execve is succesful
+	return (0); // i think i should fix these return values when execve is succesful?
 }
 
 static int	scanifbuiltin(t_args *cmd, t_minishell *shell)
@@ -119,8 +119,8 @@ int testing_init(t_minishell *shell)
 	shell->commands[1].redir = (char **)malloc(3 * sizeof(char *));
 	if (!shell->commands[1].redir)
 		return (0);
-	shell->commands[1].redir[0] = NULL;	
-	shell->commands[1].redir[1] = NULL;
+	shell->commands[1].redir[0] = ">>";	
+	shell->commands[1].redir[1] = "test2.txt";
 	shell->commands[1].redir[2] = NULL;
 	shell->commands[2].redir = (char **)malloc(1 * sizeof(char *));
 	if (!shell->commands[2].redir)
@@ -184,7 +184,6 @@ int	execute(t_minishell *shell)
 		single_cmd(shell, &shell->commands[0]);
 		return (1);
 	}
-	// handle_heredoc(shell); // this the right place?
 	ft_pipe(shell);
 	return (1);
 }
