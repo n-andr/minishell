@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
 /*   Updated: 2024/08/14 14:30:09 by nandreev         ###   ########.fr       */
@@ -156,7 +156,7 @@ int single_cmd(t_minishell *shell)
 	//printf("single_cmd: %s\n", shell->commands->args[0]); //delete
 	if (scanifbuiltin(shell))
 		return (1);
-	handle_heredoc(shell); // check where this should go
+	// handle_heredoc(shell); // check where this should go
 	pid = fork();
 	if (pid < 0)
 	{
