@@ -6,13 +6,13 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 01:54:56 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:37:42 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*expand_variable(char *str, int *i)
+char	*expand_variable(char *str, int *i, t_minishell *shell)
 {
 	char	*var_name;
 	char	*var_value;
@@ -20,12 +20,28 @@ char	*expand_variable(char *str, int *i)
 	int		len;
 
 	start = (*i) + 1;
-	if (!ft_isalnum(str[*i + 1]) && str[*i + 1] != '_')
+	if (!ft_isalnum(str[*i + 1]) && str[*i + 1] != '_' 
+		&& str[*i + 1] != '?' 
+		//&& str[*i + 1] != '$'
+		)
 	{
 		(*i)++;
 		return (ft_strdup("$"));
 	}
 	(*i)++;
+	if (str[*i] == '?')
+	{
+		var_value = ft_itoa(shell->exit_code);
+		(*i)++;
+		return ft_strdup(var_value);
+	}
+	// if (str[*i] == '$')
+	// {
+	// 	var_value = ft_itoa(); // getpid(); is not allowed by the subject
+	// 	(*i)++;
+	// 	return ft_strdup(var_value);
+	// }
+	
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
 	len = *i - start;
@@ -41,7 +57,7 @@ char	*expand_variable(char *str, int *i)
 		return ft_strdup("");
 }
 
-char	*unfold_double(char *str, int *i)
+char	*unfold_double(char *str, int *i, t_minishell *shell)
 {
 	int		start;
 	char	*unfolded;
@@ -57,7 +73,7 @@ char	*unfold_double(char *str, int *i)
 			temp = ft_strjoin(unfolded, ft_substr(str, start, *i - start));
 			free(unfolded);
 			unfolded = temp;
-			var_expanded = expand_variable(str, i);
+			var_expanded = expand_variable(str, i, shell);
 			temp = ft_strjoin(unfolded, var_expanded);
 			free(unfolded);
 			free(var_expanded);
@@ -90,7 +106,7 @@ char	*unfold_single(char *str, int *i)
 }
 
 // check string char by char, if found $ or ' or " do the unfolding, then continue checking till the end of the string
-char	*unfold_argument(char *arg)
+char	*unfold_argument(char *arg, t_minishell *shell)
 {
 	int		i;
 	char	*result;
@@ -103,7 +119,7 @@ char	*unfold_argument(char *arg)
 	{
 		if (arg[i] == '$')
 		{
-			temp = ft_strjoin(result, expand_variable(arg, &i));
+			temp = ft_strjoin(result, expand_variable(arg, &i, shell));
 			free(result);
 			result = temp;
 		}
@@ -115,7 +131,7 @@ char	*unfold_argument(char *arg)
 		}
 		else if (arg[i] == '"')
 		{
-			temp = ft_strjoin(result, unfold_double(arg, &i));
+			temp = ft_strjoin(result, unfold_double(arg, &i, shell));
 			free(result);
 			result = temp;
 		}
@@ -166,7 +182,7 @@ void	unfold_input(t_minishell *shell)
 	{
 		//check if i even need to unfold/expand anything in the current arg
 		//maybe save straight to struct?
-		result = unfold_argument(shell->args[i]);
+		result = unfold_argument(shell->args[i], shell);
 		free(shell->args[i]);
 		// if(result == NULL) if we want to keep empty strings
 		if(result == NULL || ft_strlen(result) == 0) //remove string from the list of args

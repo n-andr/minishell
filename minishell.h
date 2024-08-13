@@ -6,10 +6,10 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/10 19:20:36 by nandreev         ###   ########.fr       */
-/*   Updated: 2024/08/10 14:51:37 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:12:38 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,7 +45,7 @@ typedef struct s_minishell
 	char	*pwd;
 	char	*oldpwd;
 	char	*home;
-	//int		exit_code;
+	int		exit_code;
 	t_args	*commands;
 }	t_minishell;
 
