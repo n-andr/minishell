@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   put_input_in_struct.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/12 00:25:39 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:49:21 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //WIP add to makefile when ready
-
-
 
 t_args	*init_new_command(void)
 {

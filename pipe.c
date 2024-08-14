@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/12 15:28:15 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:50:28 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,18 @@ void	parent_process(int *pipe_fd, int *in_fd)
 	*in_fd = pipe_fd[0];
 }
 
-int	ft_pipe(t_minishell *shell) 
+int	ft_pipe(t_minishell *shell)
 {
 	int		pipe_fd[2];
 	pid_t	child_pid;
 	t_args	*temp;
 	int		in_fd;
-	
+
 	in_fd = -1;
 	temp = shell->commands;
-	while (temp != NULL) // adapt to linked lists
+	while (temp != NULL)
 	{
-		if (temp->next != NULL) // adapt to linked lists
+		if (temp->next != NULL)
 		{
 			if (pipe(pipe_fd) == -1)
 				return (0);
@@ -72,5 +72,6 @@ int	ft_pipe(t_minishell *shell)
 		temp = temp->next;
 	}
 	while (wait(NULL) > 0);
+	free (temp);
 	return (1);
 }

@@ -3,32 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/12 14:47:35 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:44:01 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-void initiate_null(t_minishell *shell)
+void	initiate_null(t_minishell *shell)
 {
 	shell->args = NULL;
 	shell->envs = NULL;
-    shell->pwd = NULL;
-    shell->oldpwd = NULL;
+	shell->pwd = NULL;
+	shell->oldpwd = NULL;
 	shell->paths = NULL;
-    shell->home = NULL;
-    shell->commands = NULL;
-
+	shell->home = NULL;
+	shell->commands = NULL;
+	shell->exit_code = 0;
 }
-
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*user_input;
+	char		*user_input;
 	t_minishell	shell;
 
 	initiate_null(&shell);
@@ -41,17 +39,16 @@ int	main(int argc, char **argv, char **envp)
 		user_input = readline("minishell$ ");
 		if (user_input == NULL)
 		{
-			write(STDOUT_FILENO, "exit\n", 5); // NULL means Ctrl-D was detected
-			break;
+			write (STDOUT_FILENO, "exit\n", 5); // NULL means Ctrl-D was detected
+			break ;
 		}
 		if (user_input != NULL && ft_strlen(user_input) > 0) // ignore empty input
-			{
-				add_history(user_input);
-				if (parse_input(user_input, &shell) == 1)
-					execute(&shell);
-			}
+		{
+			add_history(user_input);
+			if (parse_input(user_input, &shell) == 1)
+				execute(&shell);
+		}
 	}
-	//execute(&shell);
 	free_everything(&shell);
 	return (0);
 }

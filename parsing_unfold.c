@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_unfold.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/07/10 01:54:56 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:28:01 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ void print_args(t_minishell *shell, char *comment)
 		printf("%s\n", shell->args[i]);
 		i++;
 	}
-	
 }
 
 void	unfold_input(t_minishell *shell)
