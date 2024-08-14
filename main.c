@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/14 15:52:41 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:53:14 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	main(int argc, char **argv, char **envp)
 			{
 				add_history(user_input);
 				if (parse_input(user_input, &shell) == 1)
+					execute(&shell);
+				
 			}
 			//inisiaite_null(&shell);
 	}
