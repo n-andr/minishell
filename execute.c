@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/12 14:48:23 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:30:09 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,9 +181,9 @@ int	execute(t_minishell *shell)
 	{
 		single_cmd(shell);
 		free_commans(shell);
-		return (1);
+		return (0);//  maybe return exit-code
 	}
 	ft_pipe(shell);
 	free_commans(shell);
-	return (1);
+	return (0);
 }

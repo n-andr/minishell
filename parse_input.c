@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/12 15:15:43 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:53:49 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	is_builtin(char *str)
 	return (0);
 }
 
-int 	is_executable(t_minishell *shell, char *str) // not working
+int 	is_executable(t_minishell *shell, char *str)
 {
 	char	*tmp;
 	char	*newcmd;
@@ -185,7 +185,8 @@ int check_if_cmd_valid(t_minishell *shell)
 			temp = temp->next;
 		else
 		{
-			printf("%s: command not found\n", temp->args[0]);
+			write(2, temp->args[0], ft_strlen(temp->args[0]));
+            write(2, ": command not found\n", 20);
 			input_valid = 0;
 			temp = temp->next;
 		}
@@ -212,16 +213,18 @@ int	parse_input(char *input, t_minishell *shell)
 	}
 	postprosess_array(shell);
 	unfold_input(shell);
+	shell->exit_code = 0;
 	organize_struct(shell);
 	
 	//printing all content of shell->commands
-	test_printf(shell); //delete 
+	//test_printf(shell); //delete 
 
 	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
 	{
 		free_args(shell);
 		free_commans(shell);
-		return (0);
+		shell->exit_code = 127; // bash exit code
+		return (0); 
 	}
 	else
 	{
