@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/14 14:53:49 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:58:27 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	preprosess_quotes(char *input, int i, char quote)
 }
 
 // TBD: maybe i need to copy string and free it after instead of changing an initial string
+// to do: pipe and redir check here !!!
 static int	preprosess_string(char *input)
 {
 	int	i;
@@ -38,6 +39,7 @@ static int	preprosess_string(char *input)
 		if (input[i] == '\0')
 		{
 			unclosed_quote();
+			
 			return (-1);
 		}
 		i ++;
@@ -202,6 +204,7 @@ int	parse_input(char *input, t_minishell *shell)
 	// what to do with tabs?
 	if (i == -1)
 	{
+		shell->exit_code = 1; //to be checked
 		return(-1);
 	}
 	shell->args = ft_split(input, ' ');
@@ -217,7 +220,7 @@ int	parse_input(char *input, t_minishell *shell)
 	organize_struct(shell);
 	
 	//printing all content of shell->commands
-	//test_printf(shell); //delete 
+	test_printf(shell); //delete 
 
 	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
 	{
