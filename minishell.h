@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/14 16:43:47 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/15 11:16:36 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_minishell
 	char	*home;
 	int		exit_code;
 	t_args	*commands;
+	int		pid;
 }	t_minishell;
 
 void	init_environmentals(char **env,t_minishell *shell);
