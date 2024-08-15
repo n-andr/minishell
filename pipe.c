@@ -49,7 +49,7 @@ void	parent_process(int *pipe_fd, int *in_fd)
 int	ft_pipe(t_minishell *shell)
 {
 	int		pipe_fd[2];
-	pid_t	child_pid;
+	pid_t	child_pid; // use the value in the struct instead
 	t_args	*temp;
 	int		in_fd;
 	int		status;
@@ -68,7 +68,7 @@ int	ft_pipe(t_minishell *shell)
 			pipe_fd[0] = -1;
 			pipe_fd[1] = -1;
 		}
-		child_pid = fork();
+		child_pid = fork(); // store in struct
 		if (child_pid == -1)
 		{
 			perror("child process");

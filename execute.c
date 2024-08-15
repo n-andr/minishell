@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/23 14:12:54 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:40:31 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	execute(t_minishell *shell)
 		return (0);//  maybe return exit-code
 	}
 	else if (shell->commands->next)
-		ft_pipe(shell);
+		ft_pipe(shell); // what with builtins in the pipe?
 	free_commans(shell);
 	return (0);
 }

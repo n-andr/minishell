@@ -86,4 +86,5 @@ int	check_redirections(t_args *command)
 		i++;
 	}
 	return (1);
+	// file descriptors should be set back to what they were
 }
