@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/14 17:09:30 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:40:31 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 	char	*newcmd;
 	int		i;
 
-	// check_redirections(command);
+	check_redirections(command);
 	i = 0;
 	cmd = ft_strdup(command->args[0]);
 	if (!access(cmd, F_OK))
@@ -42,7 +42,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 static int	scanifbuiltin(t_minishell *shell)
 {
 	//printf("scanifbuildin: %s\n", shell->commands->args[0]); //delete
-	// check_redirections(shell->commands);
+	// implement redirections
 	if (!ft_strcmp("pwd", shell->commands->args[0]))
 		return (mini_pwd(shell), 1);
 	else if (!ft_strcmp("cd", shell->commands->args[0]))
@@ -76,8 +76,10 @@ int	single_cmd(t_minishell *shell)
 	}
 	if (pid == 0)
 		handle_cmd(shell, shell->commands);
-	else
-		waitpid(pid, &status, 0);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		shell->exit_code = WEXITSTATUS(status);
+	// do reset here
 	return (1);
 }
 
@@ -92,7 +94,7 @@ int	execute(t_minishell *shell)
 		return (0);//  maybe return exit-code
 	}
 	else if (shell->commands->next)
-		ft_pipe(shell);
+		ft_pipe(shell); // what with builtins in the pipe?
 	free_commans(shell);
 	return (0);
 }

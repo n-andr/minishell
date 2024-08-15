@@ -47,6 +47,7 @@ typedef struct s_minishell
 	char	*home;
 	int		exit_code;
 	t_args	*commands;
+	int		pid;
 }	t_minishell;
 
 void	init_environmentals(char **env,t_minishell *shell);
