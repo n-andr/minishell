@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/15 15:50:25 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/16 12:32:08 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,13 +171,19 @@ void	organize_struct(t_minishell *shell)
 	redir_count = 0;
 	while (shell->args[i]) {
 		arg = shell->args[i];
-		if (ft_strchr(arg, '|') || ft_strchr(arg, '>') || ft_strchr(arg, '<'))//add << and >> 
+		if (ft_strchr(arg, '|'))//add << and >> 
 		{
 			handle_combined_cases(shell, &current_command, arg, &i, &arg_count, &redir_count);
-		} else {
-			process_argument(current_command, arg, &arg_count);
+			i++;
 		}
-		i++;
+		else if  (ft_strchr(arg, '>') || ft_strchr(arg, '<'))
+			handle_combined_cases(shell, &current_command, arg, &i, &arg_count, &redir_count);
+		else 
+		{
+			process_argument(current_command, arg, &arg_count);
+			i++;
+		}
+		// i++;
 	}
 	current_command->args[arg_count] = NULL;
 	if (current_command->redir)

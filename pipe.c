@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/15 15:47:10 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:55:47 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ void	child_process(int *pipe_fd, t_minishell *shell, t_args *command, int *in_fd
 		close(pipe_fd[1]);
 	}
 	close(pipe_fd[0]);
-	// check for builtins here? special treatment of cd and exit?
-	handle_cmd(shell, command);
+	handle_cmd(shell, command, STDOUT_FILENO);
 	exit(0);
 }
 
@@ -38,6 +37,7 @@ void	parent_process(int *pipe_fd, int *in_fd)
 	if (pipe_fd[1] != -1)
 		close(pipe_fd[1]);
 	*in_fd = pipe_fd[0];
+	// exit(0);
 }
 
 int	ft_pipe(t_minishell *shell)
@@ -68,19 +68,20 @@ int	ft_pipe(t_minishell *shell)
 			perror("child process");
 			return (2);
 		}
-		if (child_pid == 0)
+		else if (child_pid == 0)
 			child_process(pipe_fd, shell, temp, &in_fd);
-		parent_process(pipe_fd, &in_fd);
+		else
+			parent_process(pipe_fd, &in_fd);
 		temp = temp->next;
 	}
+	// free (temp);
 	// while (wait(NULL) > 0);
 	while ((child_pid = waitpid(-1, &status, 0)) > 0)
 	{
 		if (WIFEXITED(status))
-			shell->exit_code = WEXITSTATUS(status);
+			shell->exit_code = WEXITSTATUS(status); // does it make sense to update this value in a loop?
 		else
 			shell->exit_code = EXIT_FAILURE;
 	}
-	free (temp);
 	return (1);
 }
