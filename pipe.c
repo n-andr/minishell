@@ -89,7 +89,7 @@ int	ft_pipe(t_minishell *shell)
 	{
 		waitpid(temp->childpid, &status, 0);
 		if (WIFEXITED(status))
-			shell->exit_code = WEXITSTATUS(status);
+			shell->exit_code = WEXITSTATUS(status); // does it make sense to update this value in a loop?
 		else
 			shell->exit_code = EXIT_FAILURE;
 		temp = temp->next;

@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	print_echo(t_minishell *shell, int i)
+void	print_echo(t_minishell *shell, int i, int fd)
 {
 	while (shell->commands->args[i] != NULL)
 	{
@@ -47,7 +47,7 @@ int	check_flags(t_minishell *shell, int i)
 	return (i);
 }
 
-void	mini_echo(t_minishell *shell)
+void	mini_echo(t_minishell *shell, int fd)
 {
 	int	i;
 
@@ -58,7 +58,7 @@ void	mini_echo(t_minishell *shell)
 		if (check_flags(shell, i) != i)
 		{
 			i = check_flags(shell, i);
-			print_echo(shell, i);
+			print_echo(shell, i, fd);
 		}
 		else
 		{
