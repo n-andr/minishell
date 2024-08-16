@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/12 00:25:39 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/16 02:40:54 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,3 +186,74 @@ void	organize_struct(t_minishell *shell)
 		current_command->redir[redir_count] = NULL;
 	pipe_numeration(shell);
 }
+
+
+// ERROR: endless loop somwhere in the commented out code
+//
+
+
+// char **copy_array(char **dest, char **src, int len)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	if (len == 0)
+// 		return (NULL);
+// 	dest = malloc((len + 1) * sizeof(char *));
+// 	if (!dest)
+// 		return (NULL);
+// 	while (i < len)
+// 	{
+// 		dest[i] = ft_strdup(src[i]);
+// 		i++;
+// 	}
+// 	dest[i] = NULL;
+// 	return (dest);
+// }
+
+// void	organize_struct(t_minishell *shell)
+// {
+// 	int	i;
+// 	int k;
+// 	t_args *current_command;
+// 	int arg_count;
+//     int redir_count;
+
+// 	i = 0;
+// 	k = 0;
+// 	arg_count = 0;
+// 	redir_count = 0;
+// 	while (shell->args[i])
+// 	{
+// 		while (shell->args[k] == NULL 
+// 			|| shell->args[k][0] == '|')
+// 		{
+// 			if (shell->args[k][0] == '>' || shell->args[k][0] == '<')
+// 			{
+// 				while (shell->args[k] == NULL 
+// 					|| shell->args[k][0] == '|')
+// 				{
+// 					redir_count ++;
+// 				}
+// 			}
+// 			else
+// 				arg_count ++;
+// 			k++;
+// 		}
+// 		current_command = init_new_command();
+// 		if (!current_command)
+// 			return;
+// 		add_command(shell, current_command);
+// 		if (arg_count > 0)
+// 			current_command->args = copy_array(current_command->args, shell->args + i, arg_count);
+// 		if (redir_count > 0)
+// 		{
+// 			current_command->redir = copy_array(current_command->redir, shell->args + i + arg_count, redir_count);
+// 			current_command->is_redir = true;
+// 		}
+// 		if (shell->args[k] != NULL && ft_strchr(shell->args[k], '|'))
+// 			k++;
+// 		i = k;
+// 	}
+// 	pipe_numeration(shell);
+// }

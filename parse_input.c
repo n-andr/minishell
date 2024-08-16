@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/14 17:58:27 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/16 01:18:47 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,123 @@ static int	preprosess_quotes(char *input, int i, char quote)
 	return(i);
 }
 
+static char *insert_spaces(char *input, int i, int len)
+{
+	char	*new_input;
+	int		j;
+	int		k;
+
+	j = 0;
+	k = 0;
+	new_input = malloc((ft_strlen(input) + 3) * sizeof(char)); // 3 = for 2 spaces and \0
+	if (!new_input)
+		return (NULL);
+	while (input[j] != '\0')
+	{
+		if (j == i)
+		{
+			new_input[k] = ' ';
+			k++;
+			while (len > 0)
+			{
+				new_input[k] = input[j];
+				j++;
+				k++;
+				len--;
+			}
+			new_input[k] = ' ';
+			k++;
+		}
+		else
+		{
+			new_input[k] = input[j];
+			j++;
+			k++;
+		}
+	}
+	new_input[k] = '\0';
+	return (new_input);
+}
+
+static int preprosess_pipe_redir(char **input, int i)
+{
+	if ((*input)[i] == '|')
+	{
+		if ((*input)[i + 1] == '|')
+		{
+			write(2, "minishell: syntax error near '|'\n", 33);
+			return (-1);
+		}
+		else
+		{
+			//pipe
+			(*input) = insert_spaces((*input), i, 1);
+			i += 2;
+		}
+	}
+	else if ((*input)[i] == '<')
+	{
+		if ((*input)[i + 1] == '<')
+		{
+			//redir << 
+			(*input) = insert_spaces((*input), i, 2);
+			i += 3;
+		}
+		else
+		{
+			// redir <
+			(*input) = insert_spaces((*input), i, 1);
+			i += 2;
+		}
+		
+	}
+	else if ((*input)[i] == '>')
+	{
+		if ((*input)[i + 1] == '>')
+		{
+			//redir >> 
+			(*input) = insert_spaces((*input), i, 2);
+			i += 3;
+		}
+		else
+		{
+			// redir >
+			(*input) = insert_spaces((*input), i, 1);
+			i += 2;
+		}
+	}
+	return (i);
+}
+
 // TBD: maybe i need to copy string and free it after instead of changing an initial string
 // to do: pipe and redir check here !!!
-static int	preprosess_string(char *input)
+
+static int	preprosess_string(char **input)
 {
 	int	i;
 
 	i = 0;
-	while(input[i] != '\0')
+	while((*input)[i] != '\0')
 	{
-		if (input[i] == '\'' || input[i] == '\"')
-			i = preprosess_quotes(input, i + 1, input[i]);
-		if (input[i] == '\0')
+		if ((*input)[i] == '\'' || (*input)[i] == '\"')
+			i = preprosess_quotes((*input), i + 1, (*input)[i]);
+		if ((*input)[i] == '\0')
 		{
 			unclosed_quote();
 			
 			return (-1);
 		}
+		if ((*input)[i] == '|' || (*input)[i] == '<' || (*input)[i] == '>')
+		{
+			i = preprosess_pipe_redir(input, i);
+			if (i == -1)
+				return (-1);
+		}
 		i ++;
 	}
 	return(0);
 }
+
 
 static void	postprosess_array(t_minishell *shell)
 {
@@ -199,24 +295,35 @@ int check_if_cmd_valid(t_minishell *shell)
 int	parse_input(char *input, t_minishell *shell)
 {
 	int	i;
+	char	*temp;
 
-	i = preprosess_string(input);
+	temp = malloc(ft_strlen(input) + 1);
+	if (!temp)
+		return (-1);
+	ft_strlcpy(temp, input, ft_strlen(input) + 1);
+	i = preprosess_string(&temp);
 	// what to do with tabs?
 	if (i == -1)
 	{
-		shell->exit_code = 1; //to be checked
+		free(temp);
+		shell->exit_code = 2; //to be checked
 		return(-1);
 	}
-	shell->args = ft_split(input, ' ');
+	// printing input string after preprosessing
+	printf("temp: %s\n", temp); //delete 
+	
+	shell->args = ft_split(temp, ' ');
+	free(temp);
 	if (shell->args[0] == NULL) 
 	{
-		//free(input);
 		free(shell->args);
 		shell->args = NULL;
+		shell->exit_code = 0;
+		return (1); //nothing to do
 	}
 	postprosess_array(shell);
 	unfold_input(shell);
-	shell->exit_code = 0;
+	shell->exit_code = 0; // must be after unfold_input
 	organize_struct(shell);
 	
 	//printing all content of shell->commands
@@ -227,13 +334,13 @@ int	parse_input(char *input, t_minishell *shell)
 		free_args(shell);
 		free_commans(shell);
 		shell->exit_code = 127; // bash exit code
-		return (0); 
+		return (1); 
 	}
 	else
 	{
 		//printf("ready to execute\n"); //delete call executer here or retern to main
 		free_args(shell);
-		return (1);
+		return (0);
 	}
 	return (0);
 }

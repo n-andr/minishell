@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/14 15:53:14 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/15 19:21:18 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ int	main(int argc, char **argv, char **envp)
 		if (user_input != NULL && ft_strlen(user_input) > 0) // ignore empty input
 			{
 				add_history(user_input);
-				if (parse_input(user_input, &shell) == 1)
+				if (parse_input(user_input, &shell) == 0)
 					execute(&shell);
-				
+				//free_commans(&shell);
 			}
 			//inisiaite_null(&shell);
 	}
