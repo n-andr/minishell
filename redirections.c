@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:41:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/14 18:05:18 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/16 12:26:00 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,4 @@ int	check_redirections(t_args *command)
 		i++;
 	}
 	return (1);
-	// file descriptors should be set back to what they were
 }

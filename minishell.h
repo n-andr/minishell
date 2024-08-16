@@ -48,6 +48,7 @@ typedef struct s_minishell
 	int		exit_code;
 	t_args	*commands;
 	int		pid;
+	int		fd_in;
 }	t_minishell;
 
 void	init_environmentals(char **env,t_minishell *shell);
@@ -74,16 +75,18 @@ void	unfold_input(t_minishell *shell);
 void	organize_struct(t_minishell *shell);
 // execute
 int		execute(t_minishell *shell);
-int		handle_cmd(t_minishell *shell, t_args *command);
+int		handle_cmd(t_minishell *shell, t_args *command, int fd);
 int		handle_heredoc(t_minishell *shell);
 int		check_redirections(t_args *command);
 int		ft_pipe(t_minishell *shell); //, t_args *command);
+int		scanifbuiltin_for_redir(t_minishell *shell, int fd);
+int		scanifbuiltin_no_redir(t_minishell *shell);
 // builtins
 void	mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell);
 int		mini_env(t_minishell *shell);
 int		mini_unset(t_minishell *shell, char *str);
-void	mini_echo(t_minishell *shell);
+void	mini_echo(t_minishell *shell, int fd);
 void	mini_exit(t_minishell *shell);
 
 // cleanup
