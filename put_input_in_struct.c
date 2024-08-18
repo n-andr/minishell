@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/16 02:40:54 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/17 02:40:22 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,38 +154,39 @@ void pipe_numeration(t_minishell *shell)
 		tmp = tmp->next;
 	}
 }
+// last pushed version
 
-void	organize_struct(t_minishell *shell)
-{
-	int	i;
-	t_args *current_command;
-	char	*arg;
-	int arg_count;
-    int redir_count;
+// void	organize_struct(t_minishell *shell)
+// {
+// 	int	i;
+// 	t_args *current_command;
+// 	char	*arg;
+// 	int arg_count;
+//     int redir_count;
 
-	i = 0;
-	current_command = init_new_command();
-	if (!current_command)
-		return;
-	add_command(shell, current_command);
-	i = 0;
-	arg_count = 0;
-	redir_count = 0;
-	while (shell->args[i]) {
-		arg = shell->args[i];
-		if (ft_strchr(arg, '|') || ft_strchr(arg, '>') || ft_strchr(arg, '<'))//add << and >> 
-		{
-			handle_combined_cases(shell, &current_command, arg, &i, &arg_count, &redir_count);
-		} else {
-			process_argument(current_command, arg, &arg_count);
-		}
-		i++;
-	}
-	current_command->args[arg_count] = NULL;
-	if (current_command->redir)
-		current_command->redir[redir_count] = NULL;
-	pipe_numeration(shell);
-}
+// 	i = 0;
+// 	current_command = init_new_command();
+// 	if (!current_command)
+// 		return;
+// 	add_command(shell, current_command);
+// 	i = 0;
+// 	arg_count = 0;
+// 	redir_count = 0;
+// 	while (shell->args[i]) {
+// 		arg = shell->args[i];
+// 		if (ft_strchr(arg, '|') || ft_strchr(arg, '>') || ft_strchr(arg, '<'))//add << and >> 
+// 		{
+// 			handle_combined_cases(shell, &current_command, arg, &i, &arg_count, &redir_count);
+// 		} else {
+// 			process_argument(current_command, arg, &arg_count);
+// 		}
+// 		i++;
+// 	}
+// 	current_command->args[arg_count] = NULL;
+// 	if (current_command->redir)
+// 		current_command->redir[redir_count] = NULL;
+// 	pipe_numeration(shell);
+// }
 
 
 // ERROR: endless loop somwhere in the commented out code
@@ -257,3 +258,72 @@ void	organize_struct(t_minishell *shell)
 // 	}
 // 	pipe_numeration(shell);
 // }
+
+char **copy_array(char **dest, char **src, int len)
+{
+	int i;
+
+	i = 0;
+	if (len == 0)
+		return (NULL);
+	dest = malloc((len + 1) * sizeof(char *));
+	if (!dest)
+		return (NULL);
+	while (i < len)
+	{
+		dest[i] = ft_strdup(src[i]);
+		i++;
+	}
+	dest[i] = NULL;
+	return (dest);
+}
+
+char **organize_current_node(t_args *current_command, char **args)
+{
+	int len_args;
+	int len_redir;
+
+	len_args = 0;
+	len_redir = 0;
+	while (args[len_args] && !ft_strchr(args[len_args], '|'))
+	{
+		if (ft_strchr(args[len_args], '>') || ft_strchr(args[len_args], '<'))
+		{
+			len_redir ++;
+			while (args[len_args + len_redir] && !ft_strchr(args[len_args + len_redir], '|'))
+				len_redir++;
+		}
+		else
+			len_args++;
+	}
+	if(len_args > 0)
+		current_command->args = copy_array(current_command->args, args, len_args);
+	if(len_redir > 0)
+	{
+		current_command->redir = copy_array(current_command->redir, args + len_args, len_redir);
+		current_command->is_redir = true;
+	}
+	return (args + len_args + len_redir);
+}
+
+void	organize_struct(t_minishell *shell)
+{
+	char	**arg_tmp;
+	t_args *current_command;
+
+	arg_tmp = shell->args;
+	while (arg_tmp)
+	{
+		current_command = init_new_command();
+		if (!current_command)
+			return;
+		add_command(shell, current_command);
+		while (arg_tmp && !ft_strchr(*arg_tmp, '|'))
+		{
+			arg_tmp = organize_current_node(current_command, arg_tmp);
+		}
+		if (arg_tmp && ft_strchr(*arg_tmp, '|'))
+			arg_tmp++;
+	}
+	pipe_numeration(shell);
+}
