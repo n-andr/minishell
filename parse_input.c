@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/16 01:18:47 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/19 01:11:04 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,8 +206,14 @@ int 	is_executable(t_minishell *shell, char *str)
 			tmp = ft_strjoin(shell->paths[i], "/");
 			newcmd = ft_strjoin(tmp, str);
 			if (access(newcmd, X_OK) == 0)
+			{
+				free(tmp);
+				free(newcmd);
         		return (1);
+			}
 			i++;
+			free(tmp);
+			free(newcmd);
 		}
 	}
     return (0);
@@ -232,13 +238,17 @@ void test_printf(t_minishell *shell) //delete
 	temp = shell->commands;
 	while (temp != NULL)
 	{
-		printf("shell->commands->args:\n");
-		while (temp->args[j] != NULL)
-		{
-			printf("   %s\n", temp->args[j]);
-			j++;
+		if (temp->args == NULL) {
+			printf("shell->commands->args: NULL\n");
+		} else {
+			printf("shell->commands->args:\n");
+			while (temp->args[j] != NULL)
+			{
+				printf("   %s\n", temp->args[j]);
+				j++;
+			}
+			j = 0;
 		}
-		j = 0;
 		if (temp->redir == NULL) {
 			printf("shell->commands->redir: NULL\n");
 		} else {
@@ -256,7 +266,7 @@ void test_printf(t_minishell *shell) //delete
 		} else {
 			printf("shell->commands->heredoc: NULL\n");
 		}
-		printf("shell->commands->next: %p\n", temp->next);
+		printf("shell->commands->next: %p\n\n", temp->next);
 		j = 0;
 		temp = temp->next;
 	}
@@ -274,12 +284,22 @@ int check_if_cmd_valid(t_minishell *shell)
 	temp = shell->commands;
 	while (temp != NULL)
 	{
-		if (is_builtin(temp->args[0]) 
+		if (temp->args == NULL && temp->is_redir == 0 && temp->is_pipe == 0)
+		{
+			//to be checked on school computer
+			return (0);
+		}
+		else if (temp->args == NULL && temp->is_redir == 0 && temp->is_pipe != 0)
+		{
+			write(2, "minishell: syntax error near unexpected token `|'\n", 50); //to be checked on school computer
+			return (0);
+		}
+		else if (temp->args != NULL && (is_builtin(temp->args[0]) 
 			|| is_executable(shell, temp->args[0])  
-			|| is_path(temp->args[0]))
+			|| is_path(temp->args[0])))
 			temp = temp->next;
-		//else if (temp->is_redir == 1)
-		else if (temp->is_redir == 1 && temp->args[0] == NULL)
+		else if (temp->is_redir == 1)
+		//else if (temp->is_redir == 1 && temp->args[0] == NULL)
 			temp = temp->next;
 		else
 		{
@@ -309,8 +329,8 @@ int	parse_input(char *input, t_minishell *shell)
 		shell->exit_code = 2; //to be checked
 		return(-1);
 	}
-	// printing input string after preprosessing
-	printf("temp: %s\n", temp); //delete 
+	// // printing input string after preprosessing
+	// printf("temp: %s\n", temp); //delete 
 	
 	shell->args = ft_split(temp, ' ');
 	free(temp);
@@ -338,7 +358,7 @@ int	parse_input(char *input, t_minishell *shell)
 	}
 	else
 	{
-		//printf("ready to execute\n"); //delete call executer here or retern to main
+		printf("ready to execute\n"); //delete call executer here or retern to main
 		free_args(shell);
 		return (0);
 	}

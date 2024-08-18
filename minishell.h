@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/12 16:12:38 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/18 22:50:21 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,9 @@ void	free_array(char **array);
 void	free_commans(t_minishell *shell);
 // free
 void	free_args(t_minishell *shell);
+
+// tests
+void test_printf(t_minishell *shell); //delete
+
 
 #endif
