@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/19 01:08:53 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/19 01:38:54 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char **organize_current_node(t_args *current_command, char **args)
 		&& !starts_with_char(args[len_args], '>') 
 		&& !starts_with_char(args[len_args], '<')) // if there is | inside quotes, it will NOT be ignored
 		len_args++;
-	while (args[len_args + len_redir] && !starts_with_char(args[len_args], '|'))
+	while (args[len_args + len_redir] && !starts_with_char(args[len_args + len_redir], '|'))
 		len_redir++;
 	if(len_args > 0)
 		current_command->args = copy_array(current_command->args, args, len_args);
