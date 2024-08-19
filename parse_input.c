@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/19 01:11:04 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/20 00:54:13 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,6 +275,7 @@ void test_printf(t_minishell *shell) //delete
 // if buil-in or executable or path or redirection -> return 1
 // error for each command (if two pipes, check two commands -> return 2 errors)
 // return: 0 - invalid, 1 - valid
+
 int check_if_cmd_valid(t_minishell *shell)
 {
 	t_args	*temp;
@@ -298,8 +299,8 @@ int check_if_cmd_valid(t_minishell *shell)
 			|| is_executable(shell, temp->args[0])  
 			|| is_path(temp->args[0])))
 			temp = temp->next;
-		else if (temp->is_redir == 1)
-		//else if (temp->is_redir == 1 && temp->args[0] == NULL)
+		//else if (temp->is_redir == 1)
+		else if (temp->is_redir == 1 && temp->args == NULL)
 			temp = temp->next;
 		else
 		{
@@ -345,6 +346,8 @@ int	parse_input(char *input, t_minishell *shell)
 	unfold_input(shell);
 	shell->exit_code = 0; // must be after unfold_input
 	organize_struct(shell);
+	// unfold_struct(shell);
+	// shell->exit_code = 0; // must be after unfold_input
 	
 	//printing all content of shell->commands
 	test_printf(shell); //delete 

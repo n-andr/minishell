@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/19 01:38:54 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/19 23:21:43 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_args	*init_new_command(void)
 
 	new_command = malloc(sizeof(t_args));
 	if (!new_command)
-		return NULL;
+		return (NULL);
 	new_command->args = NULL;
 	new_command->redir = NULL;
 	new_command->is_redir = false;
@@ -28,18 +28,18 @@ t_args	*init_new_command(void)
 	return (new_command);
 }
 
-void add_command(t_minishell *shell, t_args *new_command) 
+void	add_command(t_minishell *shell, t_args *new_command)
 {
 	t_args	*current;
 
-	if (!shell->commands) 
+	if (!shell->commands)
 	{
 		shell->commands = new_command;
-	} 
-	else 
+	}
+	else
 	{
 		current = shell->commands;
-		while (current->next) 
+		while (current->next)
 		{
 			current = current->next;
 		}
@@ -47,21 +47,20 @@ void add_command(t_minishell *shell, t_args *new_command)
 	}
 }
 
-
-void pipe_numeration(t_minishell *shell)
+void	pipe_numeration(t_minishell *shell)
 {
-	t_args *tmp;
-	int i;
+	t_args	*tmp;
+	int		i;
 
 	i = 0;
 	tmp = shell->commands;
-	while (tmp->next) 
+	while (tmp->next)
 	{
 		i++;
 		tmp = tmp->next;
 	}
 	tmp = shell->commands;
-	while (tmp->next) 
+	while (tmp->next)
 	{
 		tmp->is_pipe = i;
 		i--;
@@ -69,9 +68,9 @@ void pipe_numeration(t_minishell *shell)
 	}
 }
 
-char **copy_array(char **dest, char **src, int len)
+char	**copy_array(char **dest, char **src, int len)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (len == 0)
@@ -88,7 +87,7 @@ char **copy_array(char **dest, char **src, int len)
 	return (dest);
 }
 
-bool starts_with_char(char *str, char c)
+bool	starts_with_char(char *str, char c)
 {
 	if (!str || !str[0])
 		return (false);
@@ -97,23 +96,24 @@ bool starts_with_char(char *str, char c)
 	return (false);
 }
 
-char **organize_current_node(t_args *current_command, char **args)
+char	**organize_current_node(t_args *current_command, char **args)
 {
-	int len_args;
-	int len_redir;
+	int	len_args;
+	int	len_redir;
 
 	len_args = 0;
 	len_redir = 0;
-	while (args[len_args] 
-		&& !starts_with_char(args[len_args], '|') 
-		&& !starts_with_char(args[len_args], '>') 
-		&& !starts_with_char(args[len_args], '<')) // if there is | inside quotes, it will NOT be ignored
+	while (args[len_args]
+		&& !starts_with_char(args[len_args], '|')
+		&& !starts_with_char(args[len_args], '>')
+		&& !starts_with_char(args[len_args], '<'))
 		len_args++;
-	while (args[len_args + len_redir] && !starts_with_char(args[len_args + len_redir], '|'))
+	while (args[len_args + len_redir]
+		&& !starts_with_char(args[len_args + len_redir], '|'))
 		len_redir++;
-	if(len_args > 0)
+	if (len_args > 0)
 		current_command->args = copy_array(current_command->args, args, len_args);
-	if(len_redir > 0)
+	if (len_redir > 0)
 	{
 		current_command->redir = copy_array(current_command->redir, args + len_args, len_redir);
 		current_command->is_redir = true;
@@ -124,14 +124,14 @@ char **organize_current_node(t_args *current_command, char **args)
 void	organize_struct(t_minishell *shell)
 {
 	char	**arg_tmp;
-	t_args *current_command;
+	t_args	*current_command;
 
 	arg_tmp = shell->args;
 	while (arg_tmp && *arg_tmp)
 	{
 		current_command = init_new_command();
 		if (!current_command)
-			return;
+			return ;
 		add_command(shell, current_command);
 		while (*arg_tmp && !starts_with_char(*arg_tmp, '|'))
 		{

@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/18 22:50:21 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/20 00:54:24 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	error_exec(void);
 // parse
 int	parse_input(char *input, t_minishell *shell);
 void	unfold_input(t_minishell *shell);
+//void	unfold_struct(t_minishell *shell);
 void	organize_struct(t_minishell *shell);
 // execute
 int		execute(t_minishell *shell);

@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/13 18:37:42 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/20 00:54:00 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ char	*expand_variable(char *str, int *i, t_minishell *shell)
 
 	start = (*i) + 1;
 	if (!ft_isalnum(str[*i + 1]) && str[*i + 1] != '_' 
-		&& str[*i + 1] != '?' 
-		//&& str[*i + 1] != '$'
-		)
+		&& str[*i + 1] != '?')
 	{
 		(*i)++;
 		return (ft_strdup("$"));
@@ -33,15 +31,8 @@ char	*expand_variable(char *str, int *i, t_minishell *shell)
 	{
 		var_value = ft_itoa(shell->exit_code);
 		(*i)++;
-		return ft_strdup(var_value);
+		return (ft_strdup(var_value));
 	}
-	// if (str[*i] == '$')
-	// {
-	// 	var_value = ft_itoa(); // getpid(); is not allowed by the subject
-	// 	(*i)++;
-	// 	return ft_strdup(var_value);
-	// }
-	
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
 	len = *i - start;
@@ -52,9 +43,9 @@ char	*expand_variable(char *str, int *i, t_minishell *shell)
 	free(var_name);
 	//return (var_value ? ft_strdup(var_value) : ft_strdup(""));
 	if (var_value)
-		return ft_strdup(var_value);
+		return (ft_strdup(var_value));
 	else
-		return ft_strdup("");
+		return (ft_strdup(""));
 }
 
 char	*unfold_double(char *str, int *i, t_minishell *shell)
@@ -157,19 +148,6 @@ char	*unfold_argument(char *arg, t_minishell *shell)
 // - unfold "" and no Var
 // - unfold "" and get VARs value
 
-void print_args(t_minishell *shell, char *comment)
-{
-	//delete me
-	int i = 0;
-	printf("%s\n", comment);
-	while (shell->args[i])
-	{
-		printf("%s\n", shell->args[i]);
-		i++;
-	}
-	
-}
-
 void	unfold_input(t_minishell *shell)
 {
 	int	i;
@@ -177,7 +155,6 @@ void	unfold_input(t_minishell *shell)
 	char	*result;
 
 	i = 0;
-	//print_args(shell, "old"); //delete
 	while (shell->args[i] != NULL)
 	{
 		//check if i even need to unfold/expand anything in the current arg
@@ -200,5 +177,64 @@ void	unfold_input(t_minishell *shell)
 			i ++;
 		}
 	}
-	//print_args(shell, "new"); //delete
 }
+
+
+
+// new version of unfold_input inside the struct (not working)
+
+// void	unfold_struct(t_minishell *shell)
+// {
+// 	int	i;
+// 	int k;
+// 	char	*result;
+// 	t_args	*tmp;
+
+// 	i = 0;
+// 	tmp = shell->commands;
+// 	while (tmp != NULL)
+// 	{
+// 		while (tmp->args != NULL && tmp->args[i] != NULL)
+// 		{
+// 			result = unfold_argument(tmp->args[i], shell);
+// 			free(tmp->args[i]);
+// 			if(result == NULL || ft_strlen(result) == 0) //remove string from the list of args
+// 			{
+// 				k = i;
+// 				while (shell->args[k] != NULL)
+// 				{
+// 					shell->args[k] = shell->args[k + 1];
+// 					k ++;
+// 				}
+// 			}
+// 			else
+// 			{
+// 				shell->args[i] = result;
+// 				i ++;
+// 			}
+// 			i ++;
+// 		}
+// 		i = 0;
+// 		while (tmp->redir != NULL && tmp->redir[i] != NULL)
+// 		{
+// 			result = unfold_argument(tmp->redir[i], shell);
+// 			free(tmp->redir[i]);
+// 			if(result == NULL || ft_strlen(result) == 0) //remove string from the list of args
+// 			{
+// 				k = i;
+// 				while (shell->args[k] != NULL)
+// 				{
+// 					shell->args[k] = shell->args[k + 1];
+// 					k ++;
+// 				}
+// 			}
+// 			else
+// 			{
+// 				shell->args[i] = result;
+// 				i ++;
+// 			}
+// 			i ++;
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// }
