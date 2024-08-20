@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 14:46:29 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/10 14:55:11 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:33:42 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	sigint_handler(int sig)
 	rl_redisplay();
 }
 
-// Signal handler for SIGQUIT (Ctrl-\)
+// Signal handler for SIGQUIT (Ctrl-\) TODO
 void	sigquit_handler(int sig)
 {
 	(void)sig;
