@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
 /*   Updated: 2024/08/15 15:46:55 by lde-taey         ###   ########.fr       */
@@ -31,6 +31,8 @@ void	free_commands_args(t_args *commands)
 	int i;
 
 	i = 0;
+	if (commands->args == NULL)
+		return ;
 	while (commands->args[i]) // free args
 	{
 		free (commands->args[i]);

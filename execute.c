@@ -106,10 +106,10 @@ int	execute(t_minishell *shell)
 	{
 		single_cmd(shell);
 		free_commans(shell);
-		return (1);
+		return (0);//  maybe return exit-code
 	}
 	else if (shell->commands->next)
 		ft_pipe(shell);
 	free_commans(shell);
-	return (1);
+	return (0);
 }

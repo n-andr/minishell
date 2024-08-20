@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
 /*   Updated: 2024/08/15 15:46:43 by lde-taey         ###   ########.fr       */
@@ -31,7 +31,6 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	shell;
 
 	initiate_null(&shell);
-	signal_config();
 	if (argc != 1 || argv[1])
 		return (args_error(), -1);
 	init_environmentals(envp, &shell);

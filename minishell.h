@@ -72,6 +72,7 @@ void	error_exec(void);
 // parse
 int	parse_input(char *input, t_minishell *shell);
 void	unfold_input(t_minishell *shell);
+//void	unfold_struct(t_minishell *shell);
 void	organize_struct(t_minishell *shell);
 // execute
 int		execute(t_minishell *shell);
@@ -95,5 +96,9 @@ void	free_array(char **array);
 void	free_commans(t_minishell *shell);
 // free
 void	free_args(t_minishell *shell);
+
+// tests
+void test_printf(t_minishell *shell); //delete
+
 
 #endif
