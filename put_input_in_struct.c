@@ -21,6 +21,7 @@ t_args	*init_new_command(void)
 		return (NULL);
 	new_command->args = NULL;
 	new_command->redir = NULL;
+	new_command->finished = 0;
 	new_command->is_redir = false;
 	new_command->is_pipe = 0;
 	new_command->heredoc = NULL;

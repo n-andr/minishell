@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/16 16:55:47 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:52:30 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,23 @@ void	child_process(int *pipe_fd, t_minishell *shell, t_args *command, int *in_fd
 {
 	if (*in_fd != -1)
 	{
-		dup2(*in_fd, STDIN_FILENO);
-		close(*in_fd);
+		if (dup2(*in_fd, STDIN_FILENO) == -1)
+			perror ("dup 1 failed");
+		else
+			close(*in_fd);
 	}
 	if (pipe_fd[1] != -1)
 	{
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[1]);
+		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+			perror ("dup 2 failed");
+		else
+			close(pipe_fd[1]);
 	}
-	close(pipe_fd[0]);
-	handle_cmd(shell, command, STDOUT_FILENO);
-	exit(0);
+	if (pipe_fd[0] != -1)
+		close(pipe_fd[0]);
+	handle_cmd(shell, command);
+	command->finished = 1;
+	// exit(0);
 }
 
 void	parent_process(int *pipe_fd, int *in_fd)
@@ -37,7 +43,7 @@ void	parent_process(int *pipe_fd, int *in_fd)
 	if (pipe_fd[1] != -1)
 		close(pipe_fd[1]);
 	*in_fd = pipe_fd[0];
-	// exit(0);
+	// exit(0); // important to leave it commented out -- messes with pipes and system functions
 }
 
 int	ft_pipe(t_minishell *shell)
