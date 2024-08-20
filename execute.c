@@ -6,13 +6,13 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/16 16:55:11 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:49:46 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_cmd(t_minishell *shell, t_args *command, int fd)
+int	handle_cmd(t_minishell *shell, t_args *command)
 {
 	char	*cmd;
 	char	*tmp;
@@ -88,7 +88,7 @@ int	single_cmd(t_minishell *shell)
 		return (0);
 	}
 	if (pid == 0)
-		handle_cmd(shell, shell->commands, STDOUT_FILENO);
+		handle_cmd(shell, shell->commands);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		shell->exit_code = WEXITSTATUS(status);

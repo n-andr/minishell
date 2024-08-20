@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	print_echo(t_minishell *shell, int i, int fd)
+void	print_echo(t_minishell *shell, int i)
 {
 	while (shell->commands->args[i] != NULL)
 	{
@@ -47,18 +47,19 @@ int	check_flags(t_minishell *shell, int i)
 	return (i);
 }
 
-void	mini_echo(t_minishell *shell, int fd)
+void	mini_echo(t_minishell *shell)
 {
 	int	i;
 
 	i = 0;
+	// should this be a loop? or maybe do use the command instead of the shell?
 	if (shell->commands->args[i] && ft_strcmp(shell->commands->args[i], "echo") == 0)
 	{
 		i++;
 		if (check_flags(shell, i) != i)
 		{
 			i = check_flags(shell, i);
-			print_echo(shell, i, fd);
+			print_echo(shell, i);
 		}
 		else
 		{
