@@ -6,19 +6,20 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/16 16:08:18 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/19 15:53:50 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_echo(t_minishell *shell, int i, int fd)
+void	print_echo(t_minishell *shell, int i)
 {
 	while (shell->commands->args[i] != NULL)
 	{
-		write(fd, shell->commands->args[i], ft_strlen(shell->commands->args[i])); //change to fd for pipes
+		write(STDOUT_FILENO, shell->commands->args[i], ft_strlen(shell->commands->args[i])); //change to fd for pipes
+		// printf("%s", shell->commands->args[i]);
 		if (shell->commands->args[i + 1] != NULL)
-			write(fd, " ", 1); //change to fd for pipes
+			write(STDOUT_FILENO, " ", 1); //change to fd for pipes
 		i++;
 	}
 }
@@ -47,23 +48,25 @@ int	check_flags(t_minishell *shell, int i)
 	return (i);
 }
 
-void	mini_echo(t_minishell *shell, int fd)
+void	mini_echo(t_minishell *shell)
 {
 	int	i;
 
 	i = 0;
+	// should this be a loop? or maybe do use the command instead of the shell?
 	if (shell->commands->args[i] && ft_strcmp(shell->commands->args[i], "echo") == 0)
 	{
 		i++;
 		if (check_flags(shell, i) != i)
 		{
 			i = check_flags(shell, i);
-			print_echo(shell, i, fd);
+			print_echo(shell, i);
 		}
 		else
 		{
-			print_echo(shell, i, fd);
-			write (fd, "\n", 1); //change to fd for pipes
+			print_echo(shell, i);
+			// printf("\n");
+			write (STDOUT_FILENO, "\n", 1); //change to fd for pipes
 		}
 	}
 	//free_args(shell);

@@ -6,13 +6,13 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/16 16:55:11 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:49:46 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_cmd(t_minishell *shell, t_args *command, int fd)
+int	handle_cmd(t_minishell *shell, t_args *command)
 {
 	char	*cmd;
 	char	*tmp;
@@ -21,8 +21,11 @@ int	handle_cmd(t_minishell *shell, t_args *command, int fd)
 	// int		exit_code;
 
 	check_redirections(command);
-	if (scanifbuiltin_for_redir(shell, fd))
-		_exit (EXIT_SUCCESS); // check exit_code
+	if (scanifbuiltin_for_redir(shell))
+	{
+		if (command->finished == 1)
+			exit(EXIT_SUCCESS); // check exit_code
+	}
 	cmd = ft_strdup(command->args[0]);
 	i = 0;
 	if (!access(cmd, F_OK))
@@ -42,7 +45,7 @@ int	handle_cmd(t_minishell *shell, t_args *command, int fd)
 	return (0);
 }
 
-int	scanifbuiltin_for_redir(t_minishell *shell, int fd)
+int	scanifbuiltin_for_redir(t_minishell *shell)
 {
 	//printf("scanifbuildin: %s\n", shell->commands->args[0]); //delete
 	if (!ft_strcmp("pwd", shell->commands->args[0]))
@@ -50,7 +53,7 @@ int	scanifbuiltin_for_redir(t_minishell *shell, int fd)
 	else if (!ft_strcmp("env", shell->commands->args[0]))
 		return (mini_env(shell), 1);
 	else if (!ft_strcmp("echo", shell->commands->args[0]))
-		return (mini_echo(shell, fd), 1); // to be confirmed
+		return (mini_echo(shell), 1); // to be confirmed
 	else
 		return (0);
 }
@@ -85,13 +88,12 @@ int	single_cmd(t_minishell *shell)
 		return (0);
 	}
 	if (pid == 0)
-		handle_cmd(shell, shell->commands, STDOUT_FILENO);
+		handle_cmd(shell, shell->commands);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		shell->exit_code = WEXITSTATUS(status);
 	else
 		shell->exit_code = EXIT_FAILURE;
-	// do reset here
 	return (1);
 }
 
