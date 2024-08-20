@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/19 15:53:50 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:39:38 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ void	print_echo(t_minishell *shell, int i)
 {
 	while (shell->commands->args[i] != NULL)
 	{
-		write(STDOUT_FILENO, shell->commands->args[i], ft_strlen(shell->commands->args[i])); //change to fd for pipes
-		// printf("%s", shell->commands->args[i]);
+		write(STDOUT_FILENO, shell->commands->args[i], ft_strlen(shell->commands->args[i])); 
 		if (shell->commands->args[i + 1] != NULL)
-			write(STDOUT_FILENO, " ", 1); //change to fd for pipes
+			write(STDOUT_FILENO, " ", 1); 
 		i++;
 	}
 }
@@ -53,7 +52,6 @@ void	mini_echo(t_minishell *shell)
 	int	i;
 
 	i = 0;
-	// should this be a loop? or maybe do use the command instead of the shell?
 	if (shell->commands->args[i] && ft_strcmp(shell->commands->args[i], "echo") == 0)
 	{
 		i++;
@@ -65,8 +63,7 @@ void	mini_echo(t_minishell *shell)
 		else
 		{
 			print_echo(shell, i);
-			// printf("\n");
-			write (STDOUT_FILENO, "\n", 1); //change to fd for pipes
+			write (STDOUT_FILENO, "\n", 1);
 		}
 	}
 	//free_args(shell);
