@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/20 15:42:02 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:01:04 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,13 +343,17 @@ int	parse_input(char *input, t_minishell *shell)
 		return (0); //nothing to do
 	}
 	postprosess_array(shell);
-	unfold_input(shell);
-	shell->exit_code = 0; // must be after unfold_input
+	// unfold_input(shell);
+	// shell->exit_code = 0; // must be after unfold
 	organize_struct(shell);
-	// unfold_struct(shell);
-	// shell->exit_code = 0; // must be after unfold_input
+
+	test_printf(shell); //delete 
+	
+	unfold_struct(shell);
+	shell->exit_code = 0; // must be after unfold
 	
 	//printing all content of shell->commands
+	printf("\n\nafter unfolding: \n");
 	test_printf(shell); //delete 
 
 	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
