@@ -52,7 +52,6 @@ void	mini_echo(t_minishell *shell)
 	int	i;
 
 	i = 0;
-	// should this be a loop? or maybe do use the command instead of the shell?
 	if (shell->commands->args[i] && ft_strcmp(shell->commands->args[i], "echo") == 0)
 	{
 		i++;
