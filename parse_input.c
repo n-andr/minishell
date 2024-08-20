@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/20 00:54:13 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:42:02 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,7 +340,7 @@ int	parse_input(char *input, t_minishell *shell)
 		free(shell->args);
 		shell->args = NULL;
 		shell->exit_code = 0;
-		return (1); //nothing to do
+		return (0); //nothing to do
 	}
 	postprosess_array(shell);
 	unfold_input(shell);
@@ -357,13 +357,13 @@ int	parse_input(char *input, t_minishell *shell)
 		free_args(shell);
 		free_commans(shell);
 		shell->exit_code = 127; // bash exit code
-		return (1); 
+		return (0); 
 	}
 	else
 	{
-		printf("ready to execute\n"); //delete call executer here or retern to main
+		printf("ready to execute\n"); //delete
 		free_args(shell);
-		return (0);
+		return (1);
 	}
-	return (0);
+	return (1);
 }

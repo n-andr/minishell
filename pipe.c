@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/12 11:49:16 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:50:28 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,18 @@ void	parent_process(int *pipe_fd, int *in_fd)
 	*in_fd = pipe_fd[0];
 }
 
-int	ft_pipe(t_minishell *shell) 
+int	ft_pipe(t_minishell *shell)
 {
 	int		pipe_fd[2];
 	pid_t	child_pid;
+	t_args	*temp;
 	int		in_fd;
-	int		i;
 
 	in_fd = -1;
-	i = 0;
-	while (shell->commands[i].args[0] != NULL) // adapt to linked lists
+	temp = shell->commands;
+	while (temp != NULL)
 	{
-		if (shell->commands[i + 1].args[0] != NULL) // adapt to linked lists
+		if (temp->next != NULL)
 		{
 			if (pipe(pipe_fd) == -1)
 				return (0);
@@ -67,10 +67,11 @@ int	ft_pipe(t_minishell *shell)
 			return (2);
 		}
 		if (child_pid == 0)
-			child_process(pipe_fd, shell, &shell->commands[i], &in_fd);
+			child_process(pipe_fd, shell, temp, &in_fd);
 		parent_process(pipe_fd, &in_fd);
-		i++;
+		temp = temp->next;
 	}
 	while (wait(NULL) > 0);
+	free (temp);
 	return (1);
 }

@@ -81,5 +81,7 @@ void	free_everything(t_minishell *shell)
 	free_array(shell->paths);
 	//free(shell->commands->args);
 	//free_array(shell->commands->redir); // sth wrong here
+	// free(shell->commands->args);
+	// free_array(shell->commands->redir); // sth wrong here
 	free(shell->commands);
 }
