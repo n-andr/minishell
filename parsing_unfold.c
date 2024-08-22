@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_unfold.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/20 17:11:52 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/23 00:30:34 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,33 @@ char	*unfold_single(char *str, int *i)
 	return (unfolded);
 }
 
+// check if the result is empty, 
+// check if the arg is empty or if it contains qoutes
+// Example $NON_EXISTANT_VAR returns NULL
+// Example "$NON_EXISTANT_VAR" returns empty string ("\0")
+// Example "" returns empty string ("\0")
+char	*empty_result_check(char *result, char *arg)
+{
+	int	i;
+	bool	qoute;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '"')
+		{
+			qoute = true;
+			break;
+		}
+		i++;
+	}
+	free(result);
+	if (qoute == true)
+		return (ft_strdup(""));
+	else
+		return (NULL);
+}
+
 // check string char by char, if found $ or ' or " do the unfolding, then continue checking till the end of the string
 char	*unfold_argument(char *arg, t_minishell *shell)
 {
@@ -134,8 +161,10 @@ char	*unfold_argument(char *arg, t_minishell *shell)
 			free(result);
 			result = temp;
 			i++;
-		}	
+		}
 	}
+	if (result == NULL || ft_strlen(result) == 0 )
+		result = empty_result_check(result, arg);
 	return(result);
 }
 
@@ -198,11 +227,11 @@ void	unfold_struct(t_minishell *shell)
 	{
 		while (tmp->args != NULL && tmp->args[i] != NULL)
 		{
-			printf("tmp->args[i]: %s \n", tmp->args[i]);
+			// printf("tmp->args[i]: %s \n", tmp->args[i]);
 			result = unfold_argument(tmp->args[i], shell);
-			printf("result: %s \n", result);
+			// printf("result: %s \n", result);
 			free(tmp->args[i]);
-			if(result == NULL || ft_strlen(result) == 0) //remove string from the list of args
+			if(result == NULL) //remove NULL string from the list of args
 			{
 				k = i;
 				while (tmp->args[k] != NULL)
@@ -218,12 +247,17 @@ void	unfold_struct(t_minishell *shell)
 				i ++;
 			}
 		}
+		if (tmp->args != NULL && tmp->args[0] == NULL)
+		{
+			free(tmp->args);
+			tmp->args = NULL;
+		}	
 		i = 0;
 		while (tmp->redir != NULL && tmp->redir[i] != NULL)
 		{
 			result = unfold_argument(tmp->redir[i], shell);
 			free(tmp->redir[i]);
-			if(result == NULL || ft_strlen(result) == 0) //remove string from the list of args
+			if(result == NULL) //remove NULL string from the list of args
 			{
 				k = i;
 				while (tmp->redir[k] != NULL)
@@ -239,6 +273,12 @@ void	unfold_struct(t_minishell *shell)
 			}
 			i ++;
 		}
+		if (tmp->redir != NULL && tmp->redir[0] == NULL)
+		{
+			free(tmp->redir);
+			tmp->is_redir = false;
+			tmp->redir = NULL;
+		}	
 		tmp = tmp->next;
 	}
 }

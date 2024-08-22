@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/20 17:01:04 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/23 00:43:38 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ int 	is_executable(t_minishell *shell, char *str)
 	char	*newcmd;
 	int i;
 
-	if(str == NULL)
+	if(str == NULL || ft_strlen(str) == 0)
 		return (0);
 	if (access(str, X_OK) == 0)
         return (1);
@@ -223,7 +223,7 @@ int 	is_path(char *str) //chech for rederections here
 {
 	if(str == NULL)
 		return (0);
-	if (ft_strchr(str, '/')) //not arg 0
+	if (ft_strchr(str, '/'))
 		return (1);
 	else
 		return(0);
@@ -347,13 +347,13 @@ int	parse_input(char *input, t_minishell *shell)
 	// shell->exit_code = 0; // must be after unfold
 	organize_struct(shell);
 
-	test_printf(shell); //delete 
+	// test_printf(shell); //delete 
 	
 	unfold_struct(shell);
 	shell->exit_code = 0; // must be after unfold
 	
 	//printing all content of shell->commands
-	printf("\n\nafter unfolding: \n");
+	// printf("\n\nafter unfolding: \n");
 	test_printf(shell); //delete 
 
 	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
