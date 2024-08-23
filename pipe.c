@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/23 14:11:14 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:32:43 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	parent_process(int *pipe_fd, int *in_fd)
 int	ft_pipe(t_minishell *shell)
 {
 	int		pipe_fd[2];
-	pid_t	child_pid;
+	pid_t	child_pid; // use the value in the struct instead
 	t_args	*temp;
 	int		in_fd;
 	int		status;
@@ -68,7 +68,7 @@ int	ft_pipe(t_minishell *shell)
 			pipe_fd[0] = -1;
 			pipe_fd[1] = -1;
 		}
-		child_pid = fork();
+		child_pid = fork(); // store in struct
 		if (child_pid == -1)
 		{
 			perror("child process");

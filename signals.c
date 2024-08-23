@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 14:46:29 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/23 14:18:55 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:29:35 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ void	sigint_handler(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+// Signal handler for SIGQUIT (Ctrl-\) TODO
+void	sigquit_handler(int sig)
+{
+	(void)sig;
 }
 
 void	signal_config(void)
