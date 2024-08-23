@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/19 16:52:30 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:11:14 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	child_process(int *pipe_fd, t_minishell *shell, t_args *command, int *in_fd
 	if (pipe_fd[0] != -1)
 		close(pipe_fd[0]);
 	handle_cmd(shell, command);
-	command->finished = 1;
+	shell->cmd_done = 1;
 	// exit(0);
 }
 
@@ -49,7 +49,7 @@ void	parent_process(int *pipe_fd, int *in_fd)
 int	ft_pipe(t_minishell *shell)
 {
 	int		pipe_fd[2];
-	pid_t	child_pid; // use the value in the struct instead
+	pid_t	child_pid;
 	t_args	*temp;
 	int		in_fd;
 	int		status;
@@ -68,26 +68,39 @@ int	ft_pipe(t_minishell *shell)
 			pipe_fd[0] = -1;
 			pipe_fd[1] = -1;
 		}
-		child_pid = fork(); // store in struct
+		child_pid = fork();
 		if (child_pid == -1)
 		{
 			perror("child process");
 			return (2);
 		}
 		else if (child_pid == 0)
+		{
+			temp->childpid = child_pid;
 			child_process(pipe_fd, shell, temp, &in_fd);
+		}
 		else
 			parent_process(pipe_fd, &in_fd);
 		temp = temp->next;
 	}
 	// free (temp);
+	temp = shell->commands;
+	while (temp != NULL)
+	{
+		waitpid(temp->childpid, &status, 0);
+		if (WIFEXITED(status))
+			shell->exit_code = WEXITSTATUS(status);
+		else
+			shell->exit_code = EXIT_FAILURE;
+		temp = temp->next;
+	}
 	// while (wait(NULL) > 0);
-	while ((child_pid = waitpid(-1, &status, 0)) > 0)
+	/* while ((child_pid = waitpid(-1, &status, 0)) > 0)
 	{
 		if (WIFEXITED(status))
 			shell->exit_code = WEXITSTATUS(status); // does it make sense to update this value in a loop?
 		else
 			shell->exit_code = EXIT_FAILURE;
-	}
+	} */
 	return (1);
 }

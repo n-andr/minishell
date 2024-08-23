@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/19 16:49:46 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:12:54 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 	check_redirections(command);
 	if (scanifbuiltin_for_redir(shell))
 	{
-		if (command->finished == 1)
+		if (shell->cmd_done == 1)
 			exit(EXIT_SUCCESS); // check exit_code
 	}
 	cmd = ft_strdup(command->args[0]);
@@ -99,9 +99,10 @@ int	single_cmd(t_minishell *shell)
 
 int	execute(t_minishell *shell)
 {
-	shell->fd_in = STDIN_FILENO; // check if this is necessary for redirections
+	// shell->fd_in = STDIN_FILENO; // check if this is necessary for redirections
 	if (!shell->commands)
 		return (0);
+	signal(SIGINT, child_signals);
 	if (shell->commands->is_pipe == 0)
 	{
 		single_cmd(shell);
