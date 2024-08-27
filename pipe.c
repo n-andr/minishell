@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/23 14:11:14 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/27 17:01:52 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 // file descriptors are [1] for write side and [0] for read side
 void	child_process(int *pipe_fd, t_minishell *shell, t_args *command, int *in_fd)
 {
-	if (*in_fd != -1)
+	if (*in_fd != -1) // replace with -> previous != NULL
 	{
 		if (dup2(*in_fd, STDIN_FILENO) == -1)
 			perror ("dup 1 failed");
 		else
 			close(*in_fd);
 	}
-	if (pipe_fd[1] != -1)
+	if (pipe_fd[1] != -1) // replace with -> next != NULL
 	{
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 			perror ("dup 2 failed");
@@ -76,7 +76,7 @@ int	ft_pipe(t_minishell *shell)
 		}
 		else if (child_pid == 0)
 		{
-			temp->childpid = child_pid;
+			// temp->childpid = child_pid;
 			child_process(pipe_fd, shell, temp, &in_fd);
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/27 13:40:44 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/27 19:21:29 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,108 +178,120 @@ char	*unfold_argument(char *arg, t_minishell *shell)
 // - unfold "" and no Var
 // - unfold "" and get VARs value
 
-// delete:
+void	expand_array(t_minishell *shell, char **array)
+{
+	char	*result;
+	int	i;
+	int	k;
 
-// void	unfold_input(t_minishell *shell)
-// {
-// 	int	i;
-// 	int k;
-// 	char	*result;
+	i = 0;
+	k = 0;
+	result = NULL;
+	while (array != NULL && array[i] != NULL)
+	{
+		// printf("array[i]: %s \n", array[i]);
+		result = unfold_argument(array[i], shell);
+		// printf("result: %s \n", result);
+		free(array[i]);
+		if(result == NULL) //remove NULL string from the list of args
+		{
+			k = i;
+			while (array[k] != NULL)
+			{
+				array[k] = array[k + 1];
+				k ++;
+			}
+			free(result);
+		}
+		else
+		{
+			array[i] = result;
+			i ++;
+		}
+	}
+	if (array != NULL && array[0] == NULL)
+	{
+		free(array);
+		array = NULL;
+	}	
+	return;
+}
 
-// 	i = 0;
-// 	while (shell->args[i] != NULL)
-// 	{
-// 		//check if i even need to unfold/expand anything in the current arg
-// 		//maybe save straight to struct?
-// 		result = unfold_argument(shell->args[i], shell);
-// 		free(shell->args[i]);
-// 		// if(result == NULL) if we want to keep empty strings
-// 		if(result == NULL || ft_strlen(result) == 0) //remove string from the list of args
-// 		{
-// 			k = i;
-// 			while (shell->args[k] != NULL)
-// 			{
-// 				shell->args[k] = shell->args[k + 1];
-// 				k ++;
-// 			}
-// 		}
-// 		else
-// 		{
-// 			shell->args[i] = result;
-// 			i ++;
-// 		}
-// 	}
-// }
-
-
-
-// new version of unfold_input inside the struct
+void	expand_command(t_minishell *shell, t_args *command)
+{
+	expand_array(shell, command->args);
+	expand_array(shell, command->redir);
+	printf("command after expantion\n");
+	test_printf_command(command);
+	//shell->exit_code = 0; not here, after all command are done
+}
 
 void	unfold_struct(t_minishell *shell)
 {
 	int	i;
-	int k;
-	char	*result;
+	// int k;
+	// char	*result;
 	t_args	*tmp;
 
 	i = 0;
 	tmp = shell->commands;
 	while (tmp != NULL)
 	{
-		while (tmp->args != NULL && tmp->args[i] != NULL)
-		{
-			// printf("tmp->args[i]: %s \n", tmp->args[i]);
-			result = unfold_argument(tmp->args[i], shell);
-			// printf("result: %s \n", result);
-			free(tmp->args[i]);
-			if(result == NULL) //remove NULL string from the list of args
-			{
-				k = i;
-				while (tmp->args[k] != NULL)
-				{
-					tmp->args[k] = tmp->args[k + 1];
-					k ++;
-				}
-				free(result);
-			}
-			else
-			{
-				tmp->args[i] = result;
-				i ++;
-			}
-		}
-		if (tmp->args != NULL && tmp->args[0] == NULL)
-		{
-			free(tmp->args);
-			tmp->args = NULL;
-		}	
-		i = 0;
-		while (tmp->redir != NULL && tmp->redir[i] != NULL)
-		{
-			result = unfold_argument(tmp->redir[i], shell);
-			free(tmp->redir[i]);
-			if(result == NULL) //remove NULL string from the list of args
-			{
-				k = i;
-				while (tmp->redir[k] != NULL)
-				{
-					tmp->redir[k] = tmp->redir[k + 1];
-					k ++;
-				}
-			}
-			else
-			{
-				tmp->redir[i] = result;
-				i ++;
-			}
-			i ++;
-		}
-		if (tmp->redir != NULL && tmp->redir[0] == NULL)
-		{
-			free(tmp->redir);
-			tmp->is_redir = false;
-			tmp->redir = NULL;
-		}	
+		expand_command(shell, tmp);
+		// while (tmp->args != NULL && tmp->args[i] != NULL)
+		// {
+		// 	// printf("tmp->args[i]: %s \n", tmp->args[i]);
+		// 	result = unfold_argument(tmp->args[i], shell);
+		// 	// printf("result: %s \n", result);
+		// 	free(tmp->args[i]);
+		// 	if(result == NULL) //remove NULL string from the list of args
+		// 	{
+		// 		k = i;
+		// 		while (tmp->args[k] != NULL)
+		// 		{
+		// 			tmp->args[k] = tmp->args[k + 1];
+		// 			k ++;
+		// 		}
+		// 		free(result);
+		// 	}
+		// 	else
+		// 	{
+		// 		tmp->args[i] = result;
+		// 		i ++;
+		// 	}
+		// }
+		// if (tmp->args != NULL && tmp->args[0] == NULL)
+		// {
+		// 	free(tmp->args);
+		// 	tmp->args = NULL;
+		// }	
+		// i = 0;
+		// while (tmp->redir != NULL && tmp->redir[i] != NULL)
+		// {
+		// 	result = unfold_argument(tmp->redir[i], shell);
+		// 	free(tmp->redir[i]);
+		// 	if(result == NULL) //remove NULL string from the list of args
+		// 	{
+		// 		k = i;
+		// 		while (tmp->redir[k] != NULL)
+		// 		{
+		// 			tmp->redir[k] = tmp->redir[k + 1];
+		// 			k ++;
+		// 		}
+		// 	}
+		// 	else
+		// 	{
+		// 		tmp->redir[i] = result;
+		// 		i ++;
+		// 	}
+		// 	i ++;
+		// }
+		// if (tmp->redir != NULL && tmp->redir[0] == NULL)
+		// {
+		// 	free(tmp->redir);
+		// 	tmp->is_redir = false;
+		// 	tmp->redir = NULL;
+		// }
 		tmp = tmp->next;
 	}
 }
