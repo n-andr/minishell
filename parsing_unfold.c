@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_unfold.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/23 00:30:34 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/27 13:40:44 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,27 +97,28 @@ char	*unfold_single(char *str, int *i)
 }
 
 // check if the result is empty, 
-// check if the arg is empty or if it contains qoutes
+// check if the arg is empty or if it contains quotes
 // Example $NON_EXISTANT_VAR returns NULL
 // Example "$NON_EXISTANT_VAR" returns empty string ("\0")
 // Example "" returns empty string ("\0")
 char	*empty_result_check(char *result, char *arg)
 {
 	int	i;
-	bool	qoute;
+	bool	quote;
 
+	quote = false;
 	i = 0;
 	while (arg[i])
 	{
 		if (arg[i] == '"')
 		{
-			qoute = true;
+			quote = true;
 			break;
 		}
 		i++;
 	}
 	free(result);
-	if (qoute == true)
+	if (quote == true)
 		return (ft_strdup(""));
 	else
 		return (NULL);
