@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/15 19:21:18 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:46:43 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	initiate_null(t_minishell *shell)
 	shell->home = NULL;
 	shell->commands = NULL;
 	shell->exit_code = 0;
+	shell->pid = 0;
 }
 
 int	main(int argc, char **argv, char **envp)

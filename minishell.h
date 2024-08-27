@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/20 00:54:24 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:31:07 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_args
 	size_t	is_pipe;
 	t_args	*next;
 	char	*heredoc;
+	int		childpid;
 }	t_args;
 
 typedef struct s_minishell
@@ -47,6 +48,9 @@ typedef struct s_minishell
 	char	*home;
 	int		exit_code;
 	t_args	*commands;
+	int		pid;
+	int		fd_in;
+	bool	cmd_done;
 }	t_minishell;
 
 void	init_environmentals(char **env,t_minishell *shell);
@@ -77,6 +81,10 @@ int		handle_cmd(t_minishell *shell, t_args *command);
 int		handle_heredoc(t_minishell *shell);
 int		check_redirections(t_args *command);
 int		ft_pipe(t_minishell *shell); //, t_args *command);
+int		scanifbuiltin_for_redir(t_minishell *shell);
+int		scanifbuiltin_no_redir(t_minishell *shell);
+void	child_signals(int sig);
+
 // builtins
 void	mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell);

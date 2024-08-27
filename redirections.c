@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:41:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/14 15:46:48 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/16 12:26:00 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	check_redirections(t_args *command)
 	int i;
 	
 	i = 0;
+	if (!command->redir)
+		return (0);
 	while(command->redir[i] != NULL)
 	{
 		if(ft_strcmp(command->redir[i], "<") == 0)

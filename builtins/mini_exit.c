@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 12:09:29 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/10 19:28:24 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/16 12:54:05 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ void	mini_exit(t_minishell *shell)
 		exit_code = 1; //exit(EXIT_FAILURE);
 	}
 	free_everything(shell);
-	//save exit code for future use
+	// printf("This is the exit_code: %i\n", exit_code);
 	exit(exit_code);
 }

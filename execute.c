@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/14 17:09:30 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:30:21 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,16 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 	char	*tmp;
 	char	*newcmd;
 	int		i;
+	// int		exit_code;
 
-	// check_redirections(command);
-	i = 0;
+	check_redirections(command);
+	if (scanifbuiltin_for_redir(shell))
+	{
+		if (shell->cmd_done == 1)
+			exit(EXIT_SUCCESS); // check exit_code
+	}
 	cmd = ft_strdup(command->args[0]);
+	i = 0;
 	if (!access(cmd, F_OK))
 		execve(cmd, command->args, shell->envs);
 	else
@@ -39,22 +45,29 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 	return (0);
 }
 
-static int	scanifbuiltin(t_minishell *shell)
+int	scanifbuiltin_for_redir(t_minishell *shell)
 {
 	//printf("scanifbuildin: %s\n", shell->commands->args[0]); //delete
-	// check_redirections(shell->commands);
 	if (!ft_strcmp("pwd", shell->commands->args[0]))
 		return (mini_pwd(shell), 1);
-	else if (!ft_strcmp("cd", shell->commands->args[0]))
-		return (mini_cd(shell), 1);
 	else if (!ft_strcmp("env", shell->commands->args[0]))
 		return (mini_env(shell), 1);
-	else if (!ft_strcmp("unset", shell->commands->args[0]))
-		return (mini_unset(shell, "MAIL="), 1); // to be corrected
 	else if (!ft_strcmp("echo", shell->commands->args[0]))
 		return (mini_echo(shell), 1); // to be confirmed
+	else
+		return (0);
+}
+
+int	scanifbuiltin_no_redir(t_minishell *shell)
+{
+	if (!ft_strcmp("cd", shell->commands->args[0]))
+		return (mini_cd(shell), 1);
+	else if (!ft_strcmp("unset", shell->commands->args[0]))
+		return (mini_unset(shell, "MAIL="), 1); // to be corrected
 	else if (!ft_strcmp("exit", shell->commands->args[0]))
 		return (mini_exit(shell), 1); // to be confirmed
+	// else if (!ft_strcmp("export", shell->commands->args[0]))
+	//	return (mini_export(shell), 1); // TODO
 	else
 		return (0);
 }
@@ -65,9 +78,9 @@ int	single_cmd(t_minishell *shell)
 	int		status;
 
 	//printf("single_cmd: %s\n", shell->commands->args[0]); //delete
-	if (scanifbuiltin(shell))
-		return (1);
-	// handle_heredoc(shell); // check where this should go
+	if (scanifbuiltin_no_redir(shell))
+		return (1); // return exit_status?
+	// handle_heredoc(shell);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -76,15 +89,20 @@ int	single_cmd(t_minishell *shell)
 	}
 	if (pid == 0)
 		handle_cmd(shell, shell->commands);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		shell->exit_code = WEXITSTATUS(status);
 	else
-		waitpid(pid, &status, 0);
+		shell->exit_code = EXIT_FAILURE;
 	return (1);
 }
 
 int	execute(t_minishell *shell)
 {
+	// shell->fd_in = STDIN_FILENO; // check if this is necessary for redirections
 	if (!shell->commands)
 		return (0);
+	signal(SIGINT, child_signals);
 	if (shell->commands->is_pipe == 0)
 	{
 		single_cmd(shell);

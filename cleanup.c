@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/19 01:20:42 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:46:55 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	free_commans(t_minishell *shell)
 		free_commands_args(shell->commands);
 		free_commands_redir(shell->commands);
         free(shell->commands);
+		shell->pid = 0; // check again
         shell->commands = next;
     }
 }
@@ -79,9 +80,5 @@ void	free_everything(t_minishell *shell)
 	free(shell->pwd);
 	free(shell->oldpwd);
 	free_array(shell->paths);
-	//free(shell->commands->args);
-	//free_array(shell->commands->redir); // sth wrong here
-	// free(shell->commands->args);
-	// free_array(shell->commands->redir); // sth wrong here
 	free(shell->commands);
 }
