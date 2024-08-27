@@ -347,14 +347,14 @@ int	parse_input(char *input, t_minishell *shell)
 	// shell->exit_code = 0; // must be after unfold
 	organize_struct(shell);
 
-	// test_printf(shell); //delete 
+	//test_printf(shell); //delete 
 	
 	unfold_struct(shell);
 	shell->exit_code = 0; // must be after unfold
 	
 	//printing all content of shell->commands
 	// printf("\n\nafter unfolding: \n");
-	test_printf(shell); //delete 
+	// test_printf(shell); //delete 
 
 	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
 	{
@@ -365,7 +365,7 @@ int	parse_input(char *input, t_minishell *shell)
 	}
 	else
 	{
-		printf("ready to execute\n"); //delete
+		//printf("ready to execute\n"); //delete
 		free_args(shell);
 		return (1);
 	}
