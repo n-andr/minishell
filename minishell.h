@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/20 16:36:04 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/27 18:23:57 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ typedef struct s_args
 	bool	is_redir;
 	size_t	is_pipe;
 	t_args	*next;
+	t_args *previous;
 	char	*heredoc;
+	int		childpid;
 }	t_args;
 
 typedef struct s_minishell
@@ -47,6 +49,9 @@ typedef struct s_minishell
 	char	*home;
 	int		exit_code;
 	t_args	*commands;
+	int		pid;
+	int		fd_in;
+	bool	cmd_done;
 }	t_minishell;
 
 void	init_environmentals(char **env,t_minishell *shell);
@@ -71,12 +76,18 @@ int	parse_input(char *input, t_minishell *shell);
 void	unfold_input(t_minishell *shell);
 void	unfold_struct(t_minishell *shell);
 void	organize_struct(t_minishell *shell);
+//expantion
+void	expand_command(t_minishell *shell, t_args *command);
 // execute
 int		execute(t_minishell *shell);
 int		handle_cmd(t_minishell *shell, t_args *command);
 int		handle_heredoc(t_minishell *shell);
 int		check_redirections(t_args *command);
 int		ft_pipe(t_minishell *shell); //, t_args *command);
+int		scanifbuiltin_for_redir(t_minishell *shell);
+int		scanifbuiltin_no_redir(t_minishell *shell);
+void	child_signals(int sig);
+
 // builtins
 void	mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell);
@@ -94,6 +105,7 @@ void	free_args(t_minishell *shell);
 
 // tests
 void test_printf(t_minishell *shell); //delete
+void test_printf_command(t_args	*temp); //delete
 
 
 #endif

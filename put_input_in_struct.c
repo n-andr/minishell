@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_input_in_struct.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/19 23:21:43 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/27 16:54:30 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_args	*init_new_command(void)
 	new_command->is_redir = false;
 	new_command->is_pipe = 0;
 	new_command->heredoc = NULL;
+	new_command->previous = NULL;
 	new_command->next = NULL;
 	return (new_command);
 }
@@ -44,6 +45,7 @@ void	add_command(t_minishell *shell, t_args *new_command)
 			current = current->next;
 		}
 		current->next = new_command;
+		new_command->previous = current;
 	}
 }
 

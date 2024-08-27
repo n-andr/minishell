@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:05:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/10 14:12:52 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/19 12:58:32 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,3 +63,4 @@ int	handle_heredoc(t_minishell *shell)
 	}
 	return (1);
 }
+ 

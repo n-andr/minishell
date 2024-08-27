@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/23 00:43:38 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/27 19:22:09 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,10 +266,55 @@ void test_printf(t_minishell *shell) //delete
 		} else {
 			printf("shell->commands->heredoc: NULL\n");
 		}
+		printf("shell->commands->previous: %p\n", temp->previous);
 		printf("shell->commands->next: %p\n\n", temp->next);
 		j = 0;
 		temp = temp->next;
 	}
+}
+
+void test_printf_command(t_args	*temp) //delete
+{
+	int	j;
+	j = 0;
+	if (temp == NULL)
+	{
+		printf("shell->commands: NULL\n");
+	}
+
+
+	if (temp->args == NULL) {
+		printf("shell->commands->args: NULL\n");
+	} else {
+		printf("shell->commands->args:\n");
+		while (temp->args[j] != NULL)
+		{
+			printf("   %s\n", temp->args[j]);
+			j++;
+		}
+		j = 0;
+	}
+	if (temp->redir == NULL) {
+		printf("shell->commands->redir: NULL\n");
+	} else {
+		printf("shell->commands->redir:\n");
+		while (temp->redir[j] != NULL)
+		{
+			printf("   %s\n", temp->redir[j]);
+			j++;
+		}
+	}
+	printf("shell->commands->is_redir: %i\n", temp->is_redir);
+	printf("shell->commands->is_pipe: %li\n", temp->is_pipe);
+	if (temp->heredoc != NULL) {
+		printf("shell->commands->heredoc: %s\n", temp->heredoc);
+	} else {
+		printf("shell->commands->heredoc: NULL\n");
+	}
+	printf("shell->commands->previous: %p\n", temp->previous);
+	printf("shell->commands->next: %p\n\n", temp->next);
+	j = 0;
+	
 }
 
 // if buil-in or executable or path or redirection -> return 1
@@ -354,11 +399,12 @@ int	parse_input(char *input, t_minishell *shell)
 	
 	//printing all content of shell->commands
 	// printf("\n\nafter unfolding: \n");
-	// test_printf(shell); //delete 
+	//test_printf(shell); //delete 
+
+	free_args(shell);
 
 	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
 	{
-		free_args(shell);
 		free_commans(shell);
 		shell->exit_code = 127; // bash exit code
 		return (0); 
@@ -366,7 +412,6 @@ int	parse_input(char *input, t_minishell *shell)
 	else
 	{
 		//printf("ready to execute\n"); //delete
-		free_args(shell);
 		return (1);
 	}
 	return (1);
