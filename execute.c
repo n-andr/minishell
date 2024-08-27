@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/19 16:49:46 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/27 19:23:37 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 	int		i;
 	// int		exit_code;
 
+	//expand_command and check if valid
 	check_redirections(command);
 	if (scanifbuiltin_for_redir(shell))
 	{
@@ -39,6 +40,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 			if (!access(newcmd, F_OK))
 				execve(newcmd, command->args, shell->envs);
 			i++;
+			//free stuff
 		}
 	}
 	perror("Could not execve");

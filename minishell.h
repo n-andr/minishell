@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/23 14:15:43 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/27 18:23:57 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_args
 	bool	is_redir;
 	size_t	is_pipe;
 	t_args	*next;
+	t_args *previous;
 	char	*heredoc;
 	int		childpid;
 }	t_args;
@@ -75,6 +76,8 @@ int	parse_input(char *input, t_minishell *shell);
 void	unfold_input(t_minishell *shell);
 void	unfold_struct(t_minishell *shell);
 void	organize_struct(t_minishell *shell);
+//expantion
+void	expand_command(t_minishell *shell, t_args *command);
 // execute
 int		execute(t_minishell *shell);
 int		handle_cmd(t_minishell *shell, t_args *command);
@@ -102,6 +105,7 @@ void	free_args(t_minishell *shell);
 
 // tests
 void test_printf(t_minishell *shell); //delete
+void test_printf_command(t_args	*temp); //delete
 
 
 #endif

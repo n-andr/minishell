@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/15 15:46:55 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/27 18:22:05 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	free_commands_redir(t_args *commands)
 void	free_commans(t_minishell *shell)
 {
 	t_args *next;
+	//check previous command to start freeing from the begininning
 
     while (shell->commands) {
         next = shell->commands->next;
