@@ -22,6 +22,7 @@ void	initiate_null(t_minishell *shell)
 	shell->home = NULL;
 	shell->commands = NULL;
 	shell->exit_code = 0;
+	shell->pid = 0;
 }
 
 int	main(int argc, char **argv, char **envp)

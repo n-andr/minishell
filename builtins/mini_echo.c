@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/08 21:58:27 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:39:38 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	print_echo(t_minishell *shell, int i)
 {
 	while (shell->commands->args[i] != NULL)
 	{
-		write(1, shell->commands->args[i], ft_strlen(shell->commands->args[i])); //change to fd for pipes
+		write(STDOUT_FILENO, shell->commands->args[i], ft_strlen(shell->commands->args[i])); 
 		if (shell->commands->args[i + 1] != NULL)
-			write(1, " ", 1); //change to fd for pipes
+			write(STDOUT_FILENO, " ", 1); 
 		i++;
 	}
 }
@@ -63,7 +63,7 @@ void	mini_echo(t_minishell *shell)
 		else
 		{
 			print_echo(shell, i);
-			write (1, "\n", 1); //change to fd for pipes
+			write (STDOUT_FILENO, "\n", 1);
 		}
 	}
 	//free_args(shell);
