@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/23 14:31:35 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/23 00:43:38 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ int 	is_executable(t_minishell *shell, char *str)
 	char	*newcmd;
 	int i;
 
-	if(str == NULL)
+	if(str == NULL || ft_strlen(str) == 0)
 		return (0);
 	if (access(str, X_OK) == 0)
         return (1);
@@ -223,7 +223,7 @@ int 	is_path(char *str) //chech for rederections here
 {
 	if(str == NULL)
 		return (0);
-	if (ft_strchr(str, '/')) //not arg 0
+	if (ft_strchr(str, '/'))
 		return (1);
 	else
 		return(0);
@@ -343,14 +343,18 @@ int	parse_input(char *input, t_minishell *shell)
 		return (0); //nothing to do
 	}
 	postprosess_array(shell);
-	unfold_input(shell);
-	shell->exit_code = 0; // must be after unfold_input
+	// unfold_input(shell);
+	// shell->exit_code = 0; // must be after unfold
 	organize_struct(shell);
-	// unfold_struct(shell);
-	// shell->exit_code = 0; // must be after unfold_input
+
+	//test_printf(shell); //delete 
+	
+	unfold_struct(shell);
+	shell->exit_code = 0; // must be after unfold
 	
 	//printing all content of shell->commands
-	test_printf(shell); //delete 
+	// printf("\n\nafter unfolding: \n");
+	// test_printf(shell); //delete 
 
 	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
 	{
@@ -361,7 +365,7 @@ int	parse_input(char *input, t_minishell *shell)
 	}
 	else
 	{
-		printf("ready to execute\n"); //delete
+		//printf("ready to execute\n"); //delete
 		free_args(shell);
 		return (1);
 	}
