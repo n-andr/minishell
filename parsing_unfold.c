@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/27 19:21:29 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:40:35 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,8 +221,8 @@ void	expand_command(t_minishell *shell, t_args *command)
 {
 	expand_array(shell, command->args);
 	expand_array(shell, command->redir);
-	printf("command after expantion\n");
-	test_printf_command(command);
+	// printf("command after expantion\n");
+	// test_printf_command(command);
 	//shell->exit_code = 0; not here, after all command are done
 }
 
