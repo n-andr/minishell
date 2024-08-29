@@ -93,6 +93,7 @@ int	single_cmd(t_minishell *shell, t_args *cmd)
 	pid_t	pid;
 	int		status;
 
+	// handle_heredoc(shell);
 	if (scanifbuiltin(cmd) == 1)
 	{
 		save_fds(shell);
@@ -102,7 +103,6 @@ int	single_cmd(t_minishell *shell, t_args *cmd)
 		reset_fds(shell);
 		return (1); // return exit_status? // shell->exit_code = execbuiltin(shell);
 	}
-	// handle_heredoc(shell);
 	pid = fork();
 	if (pid < 0)
 	{
