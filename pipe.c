@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/27 15:48:18 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:58:49 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,22 @@
 // file descriptors are [1] for write side and [0] for read side
 void	child_process(int *pipe_fd, t_minishell *shell, t_args *command, int *in_fd)
 {
-	if (*in_fd != -1) // replace with -> previous != NULL
+	if (command->previous != NULL)
 	{
 		if (dup2(*in_fd, STDIN_FILENO) == -1)
 			perror ("dup 1 failed");
 		else
 			close(*in_fd);
 	}
-	if (pipe_fd[1] != -1) // replace with -> next != NULL
+	if (command->next != NULL)
 	{
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 			perror ("dup 2 failed");
 		else
 			close(pipe_fd[1]);
 	}
-	if (pipe_fd[0] != -1)
-		close(pipe_fd[0]);
+	close(pipe_fd[0]);
 	handle_cmd(shell, command);
-	// shell->cmd_done = 1;
 	exit(0);
 }
 
@@ -49,7 +47,7 @@ void	parent_process(int *pipe_fd, int *in_fd)
 int	ft_pipe(t_minishell *shell)
 {
 	int		pipe_fd[2];
-	pid_t	child_pid; // use the value in the struct instead
+	pid_t	child_pid;
 	t_args	*temp;
 	int		in_fd;
 	int		status;
@@ -63,22 +61,14 @@ int	ft_pipe(t_minishell *shell)
 			if (pipe(pipe_fd) == -1)
 				return (0);
 		}
-		else
-		{
-			pipe_fd[0] = -1;
-			pipe_fd[1] = -1;
-		}
-		child_pid = fork(); // store in struct
+		child_pid = fork();
 		if (child_pid == -1)
 		{
 			perror("child process");
 			return (2);
 		}
 		else if (child_pid == 0)
-		{
-			// temp->childpid = child_pid;
 			child_process(pipe_fd, shell, temp, &in_fd);
-		}
 		else
 			parent_process(pipe_fd, &in_fd);
 		temp = temp->next;
@@ -94,13 +84,5 @@ int	ft_pipe(t_minishell *shell)
 			shell->exit_code = EXIT_FAILURE;
 		temp = temp->next;
 	} 
-	// while (wait(NULL) > 0);
-	/* while ((child_pid = waitpid(-1, &status, 0)) > 0)
-	{
-		if (WIFEXITED(status))
-			shell->exit_code = WEXITSTATUS(status); // does it make sense to update this value in a loop?
-		else
-			shell->exit_code = EXIT_FAILURE;
-	} */
 	return (1);
 }

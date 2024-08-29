@@ -51,7 +51,6 @@ typedef struct s_minishell
 	t_args	*commands;
 	int		pid;
 	int		fd_in;
-	bool	cmd_done;
 }	t_minishell;
 
 void	init_environmentals(char **env,t_minishell *shell);
@@ -71,7 +70,7 @@ void	args_error(void);
 void	malloc_error(void);
 void	unclosed_quote(void);
 void	error_exec(void);
-void	cd_args_error(void);
+void	too_many_args_error(void);
 // parse
 int	parse_input(char *input, t_minishell *shell);
 void	unfold_input(t_minishell *shell);

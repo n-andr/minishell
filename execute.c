@@ -19,10 +19,10 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 	char	*tmp;
 	char	*newcmd;
 	int		i;
-	// int		exit_code;
 
 	//expand_command and check if valid
-	check_redirections(command);
+	if (!check_redirections(command))
+		exit(EXIT_FAILURE);
 	if (scanifbuiltin(command) == 1)
 	{
 		execbuiltin(shell, command);
@@ -39,7 +39,6 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 			tmp = ft_strjoin(shell->paths[i], "/");
 			newcmd = ft_strjoin(tmp, cmd);
 			if (!access(newcmd, F_OK))
-				// printf("we are here\n");
 				execve(newcmd, command->args, shell->envs);
 			i++;
 			//free stuff
@@ -118,7 +117,6 @@ int	single_cmd(t_minishell *shell, t_args *cmd)
 
 int	execute(t_minishell *shell)
 {
-	// shell->fd_in = STDIN_FILENO; // check if this is necessary for redirections
 	if (!shell->commands)
 		return (0);
 	signal(SIGINT, child_signals);
