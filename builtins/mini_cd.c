@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 18:53:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/06/27 11:48:12 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:06:23 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,37 @@ and '~' automatically, so these are the only two special cases)
 3. checks if the directory change was successful by checking the return value
 4. if yes, it updates the environmental values
 */
-int	mini_cd(t_minishell *shell)
+int	mini_cd(t_minishell *shell, t_args *cmd)
 {
-	char	arg[100] = "~/projects/Circle_3";
 	int		ret;
 	char	lastdir[MAX_INPUT_SIZE];
 
+	if (cmd->args[2])
+	{
+		too_many_args_error();
+		shell->exit_code = 1;
+		return (1);
+	}
 	if (!getcwd(lastdir, sizeof(lastdir)))
-		return (-1);
-	if (!ft_strcmp(arg, "-"))
+	{
+		shell->exit_code = 1;
+		return (1);
+	}
+	if (!ft_strcmp(cmd->args[1], "-"))
 		ret = chdir(shell->oldpwd);
-	else if (!strcmp(arg, ""))
+	else if (!strcmp(cmd->args[1], ""))
 		ret = chdir(shell->home);
 	else
 	{
-		check_relative_path(arg, shell);
-		ret = chdir(arg);
+		check_relative_path(cmd->args[1], shell);
+		ret = chdir(cmd->args[1]);
 	}
 	if (ret != 0)
-		return (-1); // TODO error handling with perror
+	{
+		perror ("cd");
+		shell->exit_code = 1;
+		return (1);
+	}
 	add_environmentals(shell, lastdir);
 	return (0);
 }
