@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/19 23:21:43 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/27 15:45:43 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_args	*init_new_command(void)
 		return (NULL);
 	new_command->args = NULL;
 	new_command->redir = NULL;
-	new_command->finished = 0;
 	new_command->is_redir = false;
 	new_command->is_pipe = 0;
 	new_command->heredoc = NULL;
