@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:51:26 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/26 16:44:27 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:24:32 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,17 @@ int	process_arg(char *arg)
 		// if the var doesn't exist: add var to env
 		// if it does exist: assign new value with setenv (maybe avoid setenv)
 	}
-	
 }
 
 int	check_if_valid(char *arg)
 {
+	// check only part before equal sign
+	
 	int i;
+	char *eq_pos;
+	
+	eq_pos = ft_strchr(arg, '=');
+	// arg - *eq_pos = '\0';
 	
 	if(arg[0] != '_' && ft_isalpha(arg[0]) != 1)
 		return (0);

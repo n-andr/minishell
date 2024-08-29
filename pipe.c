@@ -32,8 +32,8 @@ void	child_process(int *pipe_fd, t_minishell *shell, t_args *command, int *in_fd
 	if (pipe_fd[0] != -1)
 		close(pipe_fd[0]);
 	handle_cmd(shell, command);
-	shell->cmd_done = 1;
-	// exit(0);
+	// shell->cmd_done = 1;
+	exit(0);
 }
 
 void	parent_process(int *pipe_fd, int *in_fd)
@@ -93,7 +93,7 @@ int	ft_pipe(t_minishell *shell)
 		else
 			shell->exit_code = EXIT_FAILURE;
 		temp = temp->next;
-	}
+	} 
 	// while (wait(NULL) > 0);
 	/* while ((child_pid = waitpid(-1, &status, 0)) > 0)
 	{
