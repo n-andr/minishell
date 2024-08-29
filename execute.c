@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/29 15:53:59 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:47:19 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,11 @@ int	single_cmd(t_minishell *shell, t_args *cmd)
 
 	if (scanifbuiltin(cmd) == 1)
 	{
+		save_fds(shell);
+		if (!check_redirections(cmd))
+			exit(EXIT_FAILURE);
 		execbuiltin(shell, cmd);
+		reset_fds(shell);
 		return (1); // return exit_status? // shell->exit_code = execbuiltin(shell);
 	}
 	// handle_heredoc(shell);

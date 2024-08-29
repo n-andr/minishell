@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:41:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/29 15:51:00 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:39:37 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,18 @@ int	check_redirections(t_args *command)
 		i++;
 	}
 	return (1);
+}
+
+void	save_fds(t_minishell *shell)
+{
+	shell->fds->stdin = dup(STDIN_FILENO);
+	shell->fds->stdout = dup(STDOUT_FILENO);
+}
+
+void	reset_fds(t_minishell *shell)
+{
+	dup2(shell->fds->stdin, STDIN_FILENO);
+	dup2(shell->fds->stdout, STDOUT_FILENO);
+	close(shell->fds->stdin);
+	close(shell->fds->stdout);
 }
