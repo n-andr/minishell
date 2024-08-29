@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/27 19:23:37 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:40:49 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 void	execbuiltin(t_minishell *shell, t_args *cmd)
 {
 	if (!ft_strcmp("cd", cmd->args[0]))
-		mini_cd(shell);
+		mini_cd(shell, cmd);
 	else if (!ft_strcmp("unset", cmd->args[0]))
 		mini_unset(shell, "MAIL=");
 	else if (!ft_strcmp("exit", cmd->args[0]))

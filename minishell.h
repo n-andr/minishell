@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/27 18:23:57 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/29 14:56:40 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	args_error(void);
 void	malloc_error(void);
 void	unclosed_quote(void);
 void	error_exec(void);
+void	cd_args_error(void);
 // parse
 int	parse_input(char *input, t_minishell *shell);
 void	unfold_input(t_minishell *shell);
@@ -90,7 +91,7 @@ void	child_signals(int sig);
 
 // builtins
 int		mini_pwd(t_minishell *shell);
-int		mini_cd(t_minishell *shell);
+int		mini_cd(t_minishell *shell, t_args *cmd);
 int		mini_env(t_minishell *shell);
 int		mini_unset(t_minishell *shell, char *str);
 int		mini_echo(t_args *cmd);
