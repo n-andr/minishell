@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/29 14:13:02 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:12:17 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		mini_echo(t_args *cmd)
 			print_echo(cmd, i);
 			//free_args(cmd);
 			return (0);
-		}
+}
 		else
 		{
 			print_echo(cmd, i);
