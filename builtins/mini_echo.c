@@ -6,37 +6,36 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/20 15:39:38 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:12:17 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_echo(t_minishell *shell, int i)
+void	print_echo(t_args *cmd, int i)
 {
-	while (shell->commands->args[i] != NULL)
+	while (cmd->args[i] != NULL)
 	{
-		write(STDOUT_FILENO, shell->commands->args[i], ft_strlen(shell->commands->args[i])); 
-		if (shell->commands->args[i + 1] != NULL)
+		write(STDOUT_FILENO, cmd->args[i], ft_strlen(cmd->args[i])); 
+		if (cmd->args[i + 1] != NULL)
 			write(STDOUT_FILENO, " ", 1); 
 		i++;
 	}
 }
 
-int	check_flags(t_minishell *shell, int i)
+int	check_flags(t_args *cmd, int i)
 {
 	int j;
 
 	j = 0;
-	while(shell->commands->args[i] && shell->commands->args[i][j] == '-')
+	while(cmd->args[i] && cmd->args[i][j] == '-')
 	{
-		j ++;
-		
-		while (shell->commands->args[i][j] != '\0')
+		j++;
+		while (cmd->args[i][j] != '\0')
 		{
-			if (shell->commands->args[i][j] == 'n')
+			if (cmd->args[i][j] == 'n')
 			{
-				j ++;
+				j++;
 			}
 			else
 				return (i);
@@ -47,24 +46,28 @@ int	check_flags(t_minishell *shell, int i)
 	return (i);
 }
 
-void	mini_echo(t_minishell *shell)
+int		mini_echo(t_args *cmd)
 {
 	int	i;
 
 	i = 0;
-	if (shell->commands->args[i] && ft_strcmp(shell->commands->args[i], "echo") == 0)
+	if (cmd->args[i] && ft_strcmp(cmd->args[i], "echo") == 0)
 	{
 		i++;
-		if (check_flags(shell, i) != i)
+		if (check_flags(cmd, i) != i)
 		{
-			i = check_flags(shell, i);
-			print_echo(shell, i);
-		}
+			i = check_flags(cmd, i);
+			print_echo(cmd, i);
+			//free_args(cmd);
+			return (0);
+}
 		else
 		{
-			print_echo(shell, i);
+			print_echo(cmd, i);
 			write (STDOUT_FILENO, "\n", 1);
+			//free_args(cmd);
+			return (0);
 		}
 	}
-	//free_args(shell);
+	return (1);
 }
