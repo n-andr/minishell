@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/27 19:23:37 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:23:55 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 
 	//expand_command and check if valid
 	check_redirections(command);
-	if (scanifbuiltin_for_redir(shell))
+	if (scanifbuiltin(command) == 1)
 	{
-		if (shell->cmd_done == 1)
-			exit(EXIT_SUCCESS); // check exit_code
+		execbuiltin(shell, command);
+		exit(EXIT_SUCCESS);
 	}
 	cmd = ft_strdup(command->args[0]);
 	i = 0;
@@ -38,6 +38,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 			tmp = ft_strjoin(shell->paths[i], "/");
 			newcmd = ft_strjoin(tmp, cmd);
 			if (!access(newcmd, F_OK))
+				// printf("we are here\n");
 				execve(newcmd, command->args, shell->envs);
 			i++;
 			//free stuff
@@ -47,41 +48,56 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 	return (0);
 }
 
-int	scanifbuiltin_for_redir(t_minishell *shell)
+void	execbuiltin(t_minishell *shell, t_args *cmd)
 {
-	//printf("scanifbuildin: %s\n", shell->commands->args[0]); //delete
-	if (!ft_strcmp("pwd", shell->commands->args[0]))
-		return (mini_pwd(shell), 1);
-	else if (!ft_strcmp("env", shell->commands->args[0]))
-		return (mini_env(shell), 1);
-	else if (!ft_strcmp("echo", shell->commands->args[0]))
-		return (mini_echo(shell), 1); // to be confirmed
+	if (!ft_strcmp("cd", cmd->args[0]))
+		mini_cd(shell);
+	else if (!ft_strcmp("unset", cmd->args[0]))
+		mini_unset(shell, "MAIL=");
+	else if (!ft_strcmp("exit", cmd->args[0]))
+		mini_exit(shell); // to be confirmed
+	// else if (!ft_strcmp("export", cmd->args[0]))
+	//	(mini_export(shell)); // TODO
+	else if (!ft_strcmp("pwd", cmd->args[0]))
+		mini_pwd(shell);
+	else if (!ft_strcmp("env", cmd->args[0]))
+		mini_env(shell);
+	else if (!ft_strcmp("echo", cmd->args[0]))
+		mini_echo(cmd); // to be confirmed
+	else
+		return ;
+}
+
+int	scanifbuiltin(t_args *cmd)
+{
+	if (!ft_strcmp("cd", cmd->args[0]))
+		return (1);
+	else if (!ft_strcmp("unset", cmd->args[0]))
+		return (1);
+	else if (!ft_strcmp("exit", cmd->args[0]))
+		return (1); 
+	else if (!ft_strcmp("export", cmd->args[0]))
+		return (1);
+	else if (!ft_strcmp("pwd", cmd->args[0]))
+		return (1);
+	else if (!ft_strcmp("env", cmd->args[0]))
+		return (1); 
+	else if (!ft_strcmp("echo", cmd->args[0]))
+		return (1);
 	else
 		return (0);
 }
 
-int	scanifbuiltin_no_redir(t_minishell *shell)
-{
-	if (!ft_strcmp("cd", shell->commands->args[0]))
-		return (mini_cd(shell), 1);
-	else if (!ft_strcmp("unset", shell->commands->args[0]))
-		return (mini_unset(shell, "MAIL="), 1); // to be corrected
-	else if (!ft_strcmp("exit", shell->commands->args[0]))
-		return (mini_exit(shell), 1); // to be confirmed
-	// else if (!ft_strcmp("export", shell->commands->args[0]))
-	//	return (mini_export(shell), 1); // TODO
-	else
-		return (0);
-}
-
-int	single_cmd(t_minishell *shell)
+int	single_cmd(t_minishell *shell, t_args *cmd)
 {
 	pid_t	pid;
 	int		status;
 
-	//printf("single_cmd: %s\n", shell->commands->args[0]); //delete
-	if (scanifbuiltin_no_redir(shell))
-		return (1); // return exit_status?
+	if (scanifbuiltin(cmd) == 1)
+	{
+		execbuiltin(shell, cmd);
+		return (1); // return exit_status? // shell->exit_code = execbuiltin(shell);
+	}
 	// handle_heredoc(shell);
 	pid = fork();
 	if (pid < 0)
@@ -90,7 +106,7 @@ int	single_cmd(t_minishell *shell)
 		return (0);
 	}
 	if (pid == 0)
-		handle_cmd(shell, shell->commands);
+		handle_cmd(shell, cmd);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		shell->exit_code = WEXITSTATUS(status);
@@ -107,7 +123,7 @@ int	execute(t_minishell *shell)
 	signal(SIGINT, child_signals);
 	if (shell->commands->is_pipe == 0)
 	{
-		single_cmd(shell);
+		single_cmd(shell, shell->commands);
 		free_commans(shell);
 		return (0);//  maybe return exit-code
 	}

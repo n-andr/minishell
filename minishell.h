@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/27 18:23:57 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/08/29 13:12:38 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,16 @@ int		handle_cmd(t_minishell *shell, t_args *command);
 int		handle_heredoc(t_minishell *shell);
 int		check_redirections(t_args *command);
 int		ft_pipe(t_minishell *shell); //, t_args *command);
-int		scanifbuiltin_for_redir(t_minishell *shell);
-int		scanifbuiltin_no_redir(t_minishell *shell);
+int		scanifbuiltin(t_args *cmd);
+void	execbuiltin(t_minishell *shell, t_args *cmd);
 void	child_signals(int sig);
 
 // builtins
-void	mini_pwd(t_minishell *shell);
+int		mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell);
 int		mini_env(t_minishell *shell);
 int		mini_unset(t_minishell *shell, char *str);
-void	mini_echo(t_minishell *shell);
+int		mini_echo(t_args *cmd);
 void	mini_exit(t_minishell *shell);
 
 // cleanup
