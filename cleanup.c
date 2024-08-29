@@ -83,4 +83,5 @@ void	free_everything(t_minishell *shell)
 	free(shell->oldpwd);
 	free_array(shell->paths);
 	free(shell->commands);
+	free(shell->fds);
 }

@@ -27,6 +27,12 @@
 
 typedef struct s_args t_args;
 
+typedef struct s_storefd
+{
+	int		stdin;
+	int		stdout;
+} t_storefd;
+
 typedef struct s_args
 {
 	char 	**args;
@@ -51,6 +57,7 @@ typedef struct s_minishell
 	t_args	*commands;
 	int		pid;
 	int		fd_in;
+	t_storefd	*fds;
 }	t_minishell;
 
 void	init_environmentals(char **env,t_minishell *shell);
@@ -83,6 +90,8 @@ int		execute(t_minishell *shell);
 int		handle_cmd(t_minishell *shell, t_args *command);
 int		handle_heredoc(t_minishell *shell);
 int		check_redirections(t_args *command);
+void	save_fds(t_minishell *shell);
+void	reset_fds(t_minishell *shell);
 int		ft_pipe(t_minishell *shell); //, t_args *command);
 int		scanifbuiltin(t_args *cmd);
 void	execbuiltin(t_minishell *shell, t_args *cmd);

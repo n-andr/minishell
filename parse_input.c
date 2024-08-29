@@ -400,7 +400,7 @@ int	parse_input(char *input, t_minishell *shell)
 	
 	//printing all content of shell->commands
 	// printf("\n\nafter unfolding: \n");
-	//test_printf(shell); //delete 
+	// test_printf(shell); //delete 
 
 	free_args(shell);
 

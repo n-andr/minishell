@@ -95,7 +95,11 @@ int	single_cmd(t_minishell *shell, t_args *cmd)
 
 	if (scanifbuiltin(cmd) == 1)
 	{
+		save_fds(shell);
+		if (!check_redirections(cmd))
+			exit(EXIT_FAILURE);
 		execbuiltin(shell, cmd);
+		reset_fds(shell);
 		return (1); // return exit_status? // shell->exit_code = execbuiltin(shell);
 	}
 	// handle_heredoc(shell);
