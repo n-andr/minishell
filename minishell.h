@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/29 13:12:38 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/02 20:31:31 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int		mini_cd(t_minishell *shell);
 int		mini_env(t_minishell *shell);
 int		mini_unset(t_minishell *shell, char *str);
 int		mini_echo(t_args *cmd);
+int		mini_export(t_minishell *shell, t_args *cmd);
 void	mini_exit(t_minishell *shell);
 
 // cleanup

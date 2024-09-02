@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_unfold.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/29 14:40:35 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/02 20:18:23 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,12 +228,12 @@ void	expand_command(t_minishell *shell, t_args *command)
 
 void	unfold_struct(t_minishell *shell)
 {
-	int	i;
+	//int	i;
 	// int k;
 	// char	*result;
 	t_args	*tmp;
 
-	i = 0;
+	//i = 0;
 	tmp = shell->commands;
 	while (tmp != NULL)
 	{

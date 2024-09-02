@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/29 13:23:55 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/02 20:35:56 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	execbuiltin(t_minishell *shell, t_args *cmd)
 		mini_unset(shell, "MAIL=");
 	else if (!ft_strcmp("exit", cmd->args[0]))
 		mini_exit(shell); // to be confirmed
-	// else if (!ft_strcmp("export", cmd->args[0]))
-	//	(mini_export(shell)); // TODO
+	else if (!ft_strcmp("export", cmd->args[0]))
+		(mini_export(shell, cmd)); // TODO
 	else if (!ft_strcmp("pwd", cmd->args[0]))
 		mini_pwd(shell);
 	else if (!ft_strcmp("env", cmd->args[0]))
