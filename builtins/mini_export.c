@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:51:26 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/03 00:41:05 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/03 01:34:49 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,6 @@ char	**realloc_env_array(char **envs, char *new_var)
 	new_envs = malloc(sizeof(char *) * (size + 2));
 	if (!new_envs)
 		return (NULL);
-	// while (envs[i] != NULL)
-	// {
-	// 	//add alphabetically
-	// 	new_envs[i] = envs[i];
-	// 	i++;
-	// }
-	// new_envs[i] = new_var;
-	// new_envs[i + 1] = NULL;
 	while (i < size && ft_strcmp(envs[i], new_var) < 0)
 	{
 		new_envs[j++] = envs[i++];

@@ -6,11 +6,27 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/02 20:18:23 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/03 01:31:53 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*get_env_value(char *var_name, t_minishell *shell)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = ft_strlen(var_name);
+	while (shell->envs[i] != NULL)
+	{
+		if (ft_strncmp(shell->envs[i], var_name, len) == 0)
+			return (ft_strdup(shell->envs[i] + len + 1));
+		i++;
+	}
+	return (NULL);
+}
 
 char	*expand_variable(char *str, int *i, t_minishell *shell)
 {
@@ -39,11 +55,10 @@ char	*expand_variable(char *str, int *i, t_minishell *shell)
 	var_name = ft_substr(str, start, len);
 	if (!var_name)
 		return (NULL);
-	var_value = getenv(var_name);
+	var_value = get_env_value(var_name, shell);
 	free(var_name);
-	//return (var_value ? ft_strdup(var_value) : ft_strdup(""));
 	if (var_value)
-		return (ft_strdup(var_value));
+		return (var_value);
 	else
 		return (ft_strdup(""));
 }
@@ -130,6 +145,7 @@ char	*unfold_argument(char *arg, t_minishell *shell)
 	int		i;
 	char	*result;
 	char	*temp;
+	char	*expanded;
 	char	single_char[2];
 
 	i = 0;
@@ -138,20 +154,26 @@ char	*unfold_argument(char *arg, t_minishell *shell)
 	{
 		if (arg[i] == '$')
 		{
-			temp = ft_strjoin(result, expand_variable(arg, &i, shell));
+			expanded = expand_variable(arg, &i, shell);
+			temp = ft_strjoin(result, expanded);
 			free(result);
+			free(expanded);
 			result = temp;
 		}
 		else if (arg[i] == '\'')
 		{
-			temp = ft_strjoin(result, unfold_single(arg, &i));
+			expanded = unfold_single(arg, &i);
+			temp = ft_strjoin(result, expanded);
 			free(result);
+			free(expanded);
 			result = temp;
 		}
 		else if (arg[i] == '"')
 		{
-			temp = ft_strjoin(result, unfold_double(arg, &i, shell));
+			expanded = unfold_double(arg, &i, shell);
+			temp = ft_strjoin(result, expanded);
 			free(result);
+			free(expanded);
 			result = temp;
 		}
 		else
