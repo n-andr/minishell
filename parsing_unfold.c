@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/03 01:31:53 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/04 00:39:31 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*expand_variable(char *str, int *i, t_minishell *shell)
 	{
 		var_value = ft_itoa(shell->exit_code);
 		(*i)++;
-		return (ft_strdup(var_value));
+		return (var_value);
 	}
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
@@ -69,6 +69,7 @@ char	*unfold_double(char *str, int *i, t_minishell *shell)
 	char	*unfolded;
 	char	*temp;
 	char	*var_expanded;
+	char	*substing;
 
 	unfolded = ft_strdup("");
 	start = ++(*i); 
@@ -76,8 +77,10 @@ char	*unfold_double(char *str, int *i, t_minishell *shell)
 	{
 		if (str[*i] == '$')
 		{
-			temp = ft_strjoin(unfolded, ft_substr(str, start, *i - start));
+			substing = ft_substr(str, start, *i - start);
+			temp = ft_strjoin(unfolded, substing);
 			free(unfolded);
+			free(substing);
 			unfolded = temp;
 			var_expanded = expand_variable(str, i, shell);
 			temp = ft_strjoin(unfolded, var_expanded);
@@ -89,8 +92,10 @@ char	*unfold_double(char *str, int *i, t_minishell *shell)
 		else
 			(*i)++;
 	}
-	temp = ft_strjoin(unfolded, ft_substr(str, start, *i - start));
+	substing = ft_substr(str, start, *i - start);
+	temp = ft_strjoin(unfolded, substing);
 	free(unfolded);
+	free(substing);
 	unfolded = temp;
 	(*i)++; 
 	return (unfolded);
@@ -152,6 +157,7 @@ char	*unfold_argument(char *arg, t_minishell *shell)
 	result = ft_strdup("");
 	while (arg[i])
 	{
+		expanded = NULL;
 		if (arg[i] == '$')
 		{
 			expanded = expand_variable(arg, &i, shell);
