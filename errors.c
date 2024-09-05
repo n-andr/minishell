@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:55:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/05 13:35:35 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/05 16:22:13 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 void	args_error(void)
 {
-	write(STDERR_FILENO, "Error. This program does not accept any arguments\n", 51);
+	ft_putendl_fd("Error. This program does not accept any arguments", STDERR_FILENO);
 }
 
 void	malloc_error(void)
 {
-	write(STDERR_FILENO, "Error. Malloc failed\n", 22);
+	ft_putendl_fd("Error. Malloc failed", STDERR_FILENO);
 }
 
 void	error_exec(void)
 {
-	write(STDERR_FILENO, "Error. Process failed\n", 23);
+	ft_putendl_fd("Error. Process failed", STDERR_FILENO);
 }
 
 void	unclosed_quote(void)
 {
-	write(STDERR_FILENO, "Error. Unclosed quotes\n", 24);
+	ft_putendl_fd("Error. Unclosed quotes", STDERR_FILENO);
 	//free stuff if needed
 	// return control back to user 
 }
 
 void	too_many_args_error(void)
 {
-	write(STDERR_FILENO, "cd: too many arguments\n", 24);
+	ft_putendl_fd("cd: too many arguments", STDERR_FILENO);
 }

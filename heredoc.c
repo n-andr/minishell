@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:05:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/19 12:58:32 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/05 16:59:09 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,20 @@ static int	generate_heredoc(t_minishell *shell, char *delimiter)
 	return (1);
 }
 
-int	handle_heredoc(t_minishell *shell)
+int	handle_heredoc(t_minishell *shell, t_args *command)
 {
 	int	i;
 
 	i = 0;
-	while (shell->commands->redir[i] != NULL)
+	if(command->is_redir == 0)
+		return (1);
+	while (command->redir[i] != NULL)
 	{
-		if (!ft_strncmp(shell->commands->redir[i], "<<", 2))
+		if (!ft_strncmp(command->redir[i], "<<", 2))
 		{
-			if (!generate_heredoc(shell, shell->commands->redir[i + 1]))
+			if(!command->redir[i + 1])
+				return (0); // error handling?
+			if (!generate_heredoc(shell, command->redir[i + 1]))
 				return (0);
 		}
 		i++;
