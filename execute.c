@@ -7,20 +7,20 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/05 12:44:17 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:26:27 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_cmd(t_minishell *shell, t_args *command)
+void	handle_cmd(t_minishell *shell, t_args *command)
 {
 	char	*cmd;
 	char	*tmp;
 	char	*newcmd;
 	int		i;
 
-	//expand_command and check if valid
+	// expand_command and check if valid
 	if (check_redirections(command) == 1)
 		exit(EXIT_FAILURE);
 	if (scanifbuiltin(command) == 1)
@@ -45,27 +45,28 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 		}
 	}
 	perror("Could not execve");
-	return (0);
 }
 
-void	execbuiltin(t_minishell *shell, t_args *cmd)
+int	execbuiltin(t_minishell *shell, t_args *cmd)
 {
+	int	ret;
+
+	ret = EXIT_SUCCESS;
 	if (!ft_strcmp("cd", cmd->args[0]))
-		mini_cd(shell, cmd);
+		ret = mini_cd(shell, cmd);
 	else if (!ft_strcmp("unset", cmd->args[0]))
-		mini_unset(shell, "MAIL=");
+		ret = mini_unset(shell, "MAIL=");
 	else if (!ft_strcmp("exit", cmd->args[0]))
 		mini_exit(shell); // to be confirmed
 	else if (!ft_strcmp("export", cmd->args[0]))
 		(mini_export(shell, cmd)); // TODO
 	else if (!ft_strcmp("pwd", cmd->args[0]))
-		mini_pwd(shell);
+		ret = mini_pwd(shell);
 	else if (!ft_strcmp("env", cmd->args[0]))
-		mini_env(shell);
+		ret = mini_env(shell);
 	else if (!ft_strcmp("echo", cmd->args[0]))
-		mini_echo(cmd); // to be confirmed
-	else
-		return ;
+		ret = mini_echo(cmd); // to be confirmed
+	return(ret);
 }
 
 int	scanifbuiltin(t_args *cmd)
@@ -88,7 +89,7 @@ int	scanifbuiltin(t_args *cmd)
 		return (0);
 }
 
-int	single_cmd(t_minishell *shell, t_args *cmd)
+void	single_cmd(t_minishell *shell, t_args *cmd)
 {
 	pid_t	pid;
 	int		status;
@@ -99,15 +100,15 @@ int	single_cmd(t_minishell *shell, t_args *cmd)
 		save_fds(shell);
 		if (check_redirections(cmd) == 1)
 			exit(EXIT_FAILURE);
-		execbuiltin(shell, cmd);
+		shell->exit_code = execbuiltin(shell, cmd);
 		reset_fds(shell);
-		return (1); // return exit_status? // shell->exit_code = execbuiltin(shell);
+		return ;
 	}
 	pid = fork();
 	if (pid < 0)
 	{
 		error_exec();
-		return (0);
+		return ;
 	}
 	if (pid == 0)
 		handle_cmd(shell, cmd);
@@ -116,22 +117,21 @@ int	single_cmd(t_minishell *shell, t_args *cmd)
 		shell->exit_code = WEXITSTATUS(status);
 	else
 		shell->exit_code = EXIT_FAILURE;
-	return (1);
 }
 
-int	execute(t_minishell *shell)
+void	execute(t_minishell *shell)
 {
 	if (!shell->commands)
-		return (0);
-	signal(SIGINT, child_signals);
+		return ;
+	// signal(SIGQUIT, sigquit_handler);
+	signal(SIGINT, child_signals); // right place?
 	if (shell->commands->is_pipe == 0)
 	{
 		single_cmd(shell, shell->commands);
 		free_commans(shell);
-		return (0);//  maybe return exit-code
+		return ;
 	}
 	else if (shell->commands->next)
 		ft_pipe(shell);
 	free_commans(shell);
-	return (0);
 }

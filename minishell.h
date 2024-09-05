@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/02 20:31:31 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:24:06 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,17 @@ void	organize_struct(t_minishell *shell);
 //expantion
 void	expand_command(t_minishell *shell, t_args *command);
 // execute
-int		execute(t_minishell *shell);
-int		handle_cmd(t_minishell *shell, t_args *command);
+void		execute(t_minishell *shell);
+void		handle_cmd(t_minishell *shell, t_args *command);
 int		handle_heredoc(t_minishell *shell);
 int		check_redirections(t_args *command);
 void	save_fds(t_minishell *shell);
 void	reset_fds(t_minishell *shell);
 int		ft_pipe(t_minishell *shell); //, t_args *command);
 int		scanifbuiltin(t_args *cmd);
-void	execbuiltin(t_minishell *shell, t_args *cmd);
+int		execbuiltin(t_minishell *shell, t_args *cmd);
 void	child_signals(int sig);
+void	sigquit_handler(int sig);
 
 // builtins
 int		mini_pwd(t_minishell *shell);

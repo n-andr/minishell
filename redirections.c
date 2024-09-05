@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:41:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/05 12:40:45 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/05 13:40:44 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	handle_lefts(char *file)
 	return (EXIT_SUCCESS);
 }
 
+// TODO in parsing? If the output is separated around the redirection, the two parts should both be put in arguments)
 int	check_redirections(t_args *command)
 {
 	int i;
@@ -61,8 +62,6 @@ int	check_redirections(t_args *command)
 	i = 0;
 	if (!command->redir)
 		return (EXIT_SUCCESS);
-	// if (command->is_redir > 1)
-	//	redir_parsing(command);
 	while(command->redir[i] != NULL)
 	{
 		if(ft_strcmp(command->redir[i], "<") == 0)
