@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/29 15:58:49 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/31 15:00:55 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,6 @@ int	ft_pipe(t_minishell *shell)
 		else
 			shell->exit_code = EXIT_FAILURE;
 		temp = temp->next;
-	} 
+	}
 	return (1);
 }
