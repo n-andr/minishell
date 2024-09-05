@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/05 15:13:13 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:01:29 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	ft_pipe(t_minishell *shell)
 			if (pipe(pipe_fd) == -1)
 				return (0);
 		}
+		handle_heredoc(shell, temp); // delete?
 		child_pid = fork();
 		if (child_pid == -1)
 		{
@@ -79,7 +80,7 @@ int	ft_pipe(t_minishell *shell)
 	{
 		waitpid(temp->childpid, &status, 0);
 		if (WIFEXITED(status))
-			shell->exit_code = WEXITSTATUS(status); // does it make sense to update this value in a loop?
+			shell->exit_code = WEXITSTATUS(status);
 		else
 			shell->exit_code = EXIT_FAILURE;
 		temp = temp->next;

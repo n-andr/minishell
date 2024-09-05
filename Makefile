@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/08/10 14:50:38 by lde-taey         ###   ########.fr        #
+#    Updated: 2024/09/05 16:30:05 by lde-taey         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS = main.c \
 	parsing_unfold.c\
 	put_input_in_struct.c\
 	errors.c \
+	errors_2.c \
 	execute.c \
 	free.c \
 	cleanup.c \
@@ -36,6 +37,7 @@ SRCS = main.c \
 	builtins/mini_unset.c \
 	builtins/mini_echo.c \
 	builtins/mini_exit.c \
+	builtins/mini_export.c \
 	signals.c
 
 OBJS = $(SRCS:.c=.o)

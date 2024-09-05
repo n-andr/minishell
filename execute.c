@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/05 15:26:27 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:00:37 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	handle_cmd(t_minishell *shell, t_args *command)
 			newcmd = ft_strjoin(tmp, cmd);
 			if (!access(newcmd, F_OK))
 				execve(newcmd, command->args, shell->envs);
+			/* else
+				stop_exec(shell, command); */
 			i++;
 			//free stuff
 		}
@@ -56,15 +58,15 @@ int	execbuiltin(t_minishell *shell, t_args *cmd)
 	else if (!ft_strcmp("unset", cmd->args[0]))
 		ret = mini_unset(shell, "MAIL=");
 	else if (!ft_strcmp("exit", cmd->args[0]))
-		mini_exit(shell); // to be confirmed
-	// else if (!ft_strcmp("export", cmd->args[0]))
-	//	ret = mini_export(shell)); // TODO
+		mini_exit(shell);
+	else if (!ft_strcmp("export", cmd->args[0]))
+		ret = mini_export(shell, cmd);
 	else if (!ft_strcmp("pwd", cmd->args[0]))
 		ret = mini_pwd(shell);
 	else if (!ft_strcmp("env", cmd->args[0]))
 		ret = mini_env(shell);
 	else if (!ft_strcmp("echo", cmd->args[0]))
-		ret = mini_echo(cmd); // to be confirmed
+		ret = mini_echo(cmd);
 	return(ret);
 }
 
@@ -93,7 +95,7 @@ void	single_cmd(t_minishell *shell, t_args *cmd)
 	pid_t	pid;
 	int		status;
 
-	// handle_heredoc(shell);
+	handle_heredoc(shell, cmd);
 	if (scanifbuiltin(cmd) == 1)
 	{
 		save_fds(shell);
@@ -122,8 +124,6 @@ void	execute(t_minishell *shell)
 {
 	if (!shell->commands)
 		return ;
-	// signal(SIGQUIT, sigquit_handler);
-	signal(SIGINT, child_signals); // right place?
 	if (shell->commands->is_pipe == 0)
 	{
 		single_cmd(shell, shell->commands);
