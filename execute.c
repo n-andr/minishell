@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/29 17:30:20 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:44:17 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	handle_cmd(t_minishell *shell, t_args *command)
 	int		i;
 
 	//expand_command and check if valid
-	if (!check_redirections(command))
+	if (check_redirections(command) == 1)
 		exit(EXIT_FAILURE);
 	if (scanifbuiltin(command) == 1)
 	{
@@ -96,7 +96,7 @@ int	single_cmd(t_minishell *shell, t_args *cmd)
 	if (scanifbuiltin(cmd) == 1)
 	{
 		save_fds(shell);
-		if (!check_redirections(cmd))
+		if (check_redirections(cmd) == 1)
 			exit(EXIT_FAILURE);
 		execbuiltin(shell, cmd);
 		reset_fds(shell);

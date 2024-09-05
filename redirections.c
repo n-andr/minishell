@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:41:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/29 17:16:20 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:40:45 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ int	handle_rights(char *signs, char *file)
 	if (fd < 0)
 	{
 		perror("Error. failed to open file");
-		return (-1);
+		return (EXIT_FAILURE);
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
 	{
 		perror("Error. failed to open file");
 		close(fd);
-		return (-1);
+		return (EXIT_FAILURE);
 	}
 	close(fd);
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
 int	handle_lefts(char *file)
@@ -43,15 +43,15 @@ int	handle_lefts(char *file)
 	if (fd < 0)
 	{
 		perror("Error. failed to open file");
-		return (0);
+		return (EXIT_FAILURE);
 	}
 	if (fd > 0 && dup2(fd, STDIN_FILENO) < 0)
 	{
 		perror("Error. failed to open file");
-		return (0);
+		return (EXIT_FAILURE);
 	}
 	close(fd);
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
 int	check_redirections(t_args *command)
@@ -60,34 +60,36 @@ int	check_redirections(t_args *command)
 	
 	i = 0;
 	if (!command->redir)
-		return (1);
+		return (EXIT_SUCCESS);
+	// if (command->is_redir > 1)
+	//	redir_parsing(command);
 	while(command->redir[i] != NULL)
 	{
 		if(ft_strcmp(command->redir[i], "<") == 0)
 		{
 			if (!command->redir[i + 1])
-				return (0);
+				return (EXIT_FAILURE);
 			while(command->redir[i + 2] && (ft_strcmp(command->redir[i + 2], "<") != 0)) // do differently
 				i++;
-			if (!handle_lefts(command->redir[i + 1]))
-				return (0);
+			if (handle_lefts(command->redir[i + 1]))
+				return (EXIT_FAILURE);
 		}
 		else if(ft_strcmp(command->redir[i], "<<") == 0)
 		{
-			if (!handle_lefts(command->heredoc))
-				return (0);
+			if (handle_lefts(command->heredoc))
+				return (EXIT_FAILURE);
 		}
 		else if(ft_strcmp(command->redir[i], ">") == 0 \
 			|| ft_strcmp(command->redir[i], ">>") == 0)
 		{
 			if (!command->redir[i + 1])
-				return (0);
-			if (!handle_rights(command->redir[i], command->redir[i + 1]))
-				return (0);
+				return (EXIT_FAILURE);
+			if (handle_rights(command->redir[i], command->redir[i + 1]))
+				return (EXIT_FAILURE);
 		}
 		i++;
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }
 
 void	save_fds(t_minishell *shell)
