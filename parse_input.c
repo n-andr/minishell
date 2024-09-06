@@ -406,7 +406,7 @@ int	parse_input(char *input, t_minishell *shell)
 
 	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
 	{
-		free_commans(shell);
+		free_commands(shell);
 		shell->exit_code = 127; // bash exit code
 		return (0); 
 	}
