@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/05 17:01:29 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:57:06 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ int	ft_pipe(t_minishell *shell)
 			if (pipe(pipe_fd) == -1)
 				return (0);
 		}
-		handle_heredoc(shell, temp); // delete?
+		if (handle_heredoc(temp) == 1) // exit codes?
+			return (1); // double check if this is ok
 		child_pid = fork();
+		temp->childpid = child_pid;
 		if (child_pid == -1)
 		{
 			perror("child process");
@@ -78,12 +80,12 @@ int	ft_pipe(t_minishell *shell)
 	temp = shell->commands;
 	while (temp != NULL)
 	{
-		waitpid(temp->childpid, &status, 0);
-		if (WIFEXITED(status))
+		waitpid(child_pid, &status, 0);
+		if (WIFEXITED(status) && child_pid == temp->childpid)
 			shell->exit_code = WEXITSTATUS(status);
 		else
 			shell->exit_code = EXIT_FAILURE;
 		temp = temp->next;
 	}
-	return (1);
+	return (0);
 }

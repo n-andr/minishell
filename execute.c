@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/05 17:00:37 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:30:40 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,21 @@ void	single_cmd(t_minishell *shell, t_args *cmd)
 	pid_t	pid;
 	int		status;
 
-	handle_heredoc(shell, cmd);
 	if (scanifbuiltin(cmd) == 1)
 	{
 		save_fds(shell);
 		if (check_redirections(cmd) == 1)
-			exit(EXIT_FAILURE);
+		{
+			shell->exit_code = EXIT_FAILURE;
+			return ;
+		}
 		shell->exit_code = execbuiltin(shell, cmd);
 		reset_fds(shell);
+		return ;
+	}
+	if (handle_heredoc(cmd) == 1)
+	{
+		shell->exit_code = 2;
 		return ;
 	}
 	pid = fork();
@@ -127,10 +134,10 @@ void	execute(t_minishell *shell)
 	if (shell->commands->is_pipe == 0)
 	{
 		single_cmd(shell, shell->commands);
-		free_commans(shell);
+		free_commands(shell);
 		return ;
 	}
 	else if (shell->commands->next)
 		ft_pipe(shell);
-	free_commans(shell);
+	free_commands(shell);
 }
