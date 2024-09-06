@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/05 16:53:57 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/06 11:59:04 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void	organize_struct(t_minishell *shell);
 void	expand_command(t_minishell *shell, t_args *command);
 // execute
 void		execute(t_minishell *shell);
-void		handle_cmd(t_minishell *shell, t_args *command);
-int		handle_heredoc(t_minishell *shell, t_args *command);
+void	handle_cmd(t_minishell *shell, t_args *command);
+int		handle_heredoc(t_args *command);
 int		check_redirections(t_args *command);
 void	save_fds(t_minishell *shell);
 void	reset_fds(t_minishell *shell);
@@ -109,7 +109,7 @@ int		mini_export(t_minishell *shell, t_args *cmd);
 // cleanup
 void	free_everything(t_minishell *shell);
 void	free_array(char **array);
-void	free_commans(t_minishell *shell);
+void	free_commands(t_minishell *shell);
 void	stop_exec(t_minishell *shell, t_args *cmd);
 // free
 void	free_args(t_minishell *shell);

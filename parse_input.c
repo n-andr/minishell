@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/05 12:29:56 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/06 11:59:08 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -405,7 +405,7 @@ int	parse_input(char *input, t_minishell *shell)
 
 	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
 	{
-		free_commans(shell);
+		free_commands(shell);
 		shell->exit_code = 127; // bash exit code
 		return (0); 
 	}
