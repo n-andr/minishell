@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/29 14:13:02 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:44:50 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 
 void	print_echo(t_args *cmd, int i)
 {
+	if (cmd->heredoc != NULL)
+	{
+		char	buffer[1024];
+    	ssize_t	bytes_read;
+
+		while ((bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer))) > 0) 
+		{
+			write(STDOUT_FILENO, buffer, bytes_read);	
+		}
+	}
 	while (cmd->args[i] != NULL)
 	{
 		write(STDOUT_FILENO, cmd->args[i], ft_strlen(cmd->args[i])); 
@@ -54,7 +64,7 @@ int		mini_echo(t_args *cmd)
 	if (cmd->args[i] && ft_strcmp(cmd->args[i], "echo") == 0)
 	{
 		i++;
-		if (check_flags(cmd, i) != i)
+		if (check_flags(cmd, i) != i || cmd->heredoc != NULL)
 		{
 			i = check_flags(cmd, i);
 			print_echo(cmd, i);

@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:41:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/06 14:32:28 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:24:14 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	handle_lefts(char *file)
 	return (EXIT_SUCCESS);
 }
 
-// TODO in parsing? If the output is separated around the redirection, the two parts should both be put in arguments)
 int	check_redirections(t_args *command)
 {
 	int i;
@@ -71,14 +70,19 @@ int	check_redirections(t_args *command)
 				ft_putendl_fd("error near unexpected token `newline'", STDERR_FILENO);
 				return (EXIT_FAILURE);
 			}
-			while(command->redir[i + 2] && (ft_strcmp(command->redir[i + 2], "<") != 0)) // do differently
-				i++;
-			if (handle_lefts(command->redir[i + 1]))
+			if (handle_lefts(command->redir[i + 1]) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
+			while (command->redir[i + 2] && ft_strncmp(command->redir[i + 2], "<", 1) != 0 && \
+				ft_strncmp(command->redir[i + 2], ">", 1) != 0)
+			{
+				if (handle_lefts(command->redir[i + 2]) == EXIT_FAILURE)
+					return (EXIT_FAILURE);
+				i++;
+			}
 		}
 		else if(ft_strcmp(command->redir[i], "<<") == 0)
 		{
-			if (handle_lefts(command->heredoc))
+			if (handle_lefts(command->heredoc) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
 		}
 		else if(ft_strcmp(command->redir[i], ">") == 0 \
@@ -89,8 +93,15 @@ int	check_redirections(t_args *command)
 				ft_putendl_fd("error near unexpected token `newline'", STDERR_FILENO);
 				return (EXIT_FAILURE);
 			}
-			if (handle_rights(command->redir[i], command->redir[i + 1]))
+			if (handle_rights(command->redir[i], command->redir[i + 1]) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
+			while (command->redir[i + 2] && (ft_strncmp(command->redir[i + 2], ">", 1) != 0) && \
+				ft_strncmp(command->redir[i + 2], "<", 1) != 0)
+			{
+				if (handle_rights(command->redir[i], command->redir[i + 2]) == EXIT_FAILURE)
+					return (EXIT_FAILURE);
+				i++;
+			}
 		}
 		i++;
 	}
