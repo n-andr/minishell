@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/06 11:59:04 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:06:04 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <stdbool.h>
 #include <string.h>
 #include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "libft/libft.h"
+#include <errno.h>
 
 #ifndef MAX_INPUT_SIZE
 # define MAX_INPUT_SIZE 1024
@@ -110,7 +112,7 @@ int		mini_export(t_minishell *shell, t_args *cmd);
 void	free_everything(t_minishell *shell);
 void	free_array(char **array);
 void	free_commands(t_minishell *shell);
-void	stop_exec(t_minishell *shell, t_args *cmd);
+void	directory_check(t_minishell *shell, char *cmd);
 // free
 void	free_args(t_minishell *shell);
 
