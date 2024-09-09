@@ -7,7 +7,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/06 14:30:40 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:21:59 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,11 @@ void	single_cmd(t_minishell *shell, t_args *cmd)
 	pid_t	pid;
 	int		status;
 
+	if (handle_heredoc(cmd) == 1)
+	{
+		shell->exit_code = 2;
+		return ;
+	}
 	if (scanifbuiltin(cmd) == 1)
 	{
 		save_fds(shell);
@@ -106,11 +111,6 @@ void	single_cmd(t_minishell *shell, t_args *cmd)
 		}
 		shell->exit_code = execbuiltin(shell, cmd);
 		reset_fds(shell);
-		return ;
-	}
-	if (handle_heredoc(cmd) == 1)
-	{
-		shell->exit_code = 2;
 		return ;
 	}
 	pid = fork();

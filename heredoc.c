@@ -6,13 +6,11 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:05:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/06 14:21:48 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/09 13:33:12 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// problems: echo does not recognize the heredoc as arguments
 
 static char	*generate_filename(void)
 {
@@ -63,7 +61,7 @@ int	handle_heredoc(t_args *command)
 			if(!command->redir[i + 1])
 			{
 				ft_putendl_fd("syntax error near unexpected token `newline'", STDERR_FILENO);
-				return (EXIT_FAILURE); // error handling?
+				return (EXIT_FAILURE);
 			}
 			if (!generate_heredoc(command, command->redir[i + 1]))
 				return (EXIT_FAILURE);
