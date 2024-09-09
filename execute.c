@@ -7,7 +7,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/06 15:21:59 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:30:01 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	handle_cmd(t_minishell *shell, t_args *command)
 		exit(EXIT_SUCCESS);
 	}
 	cmd = ft_strdup(command->args[0]);
+	directory_check(shell, cmd);
 	i = 0;
 	if (!access(cmd, F_OK))
 		execve(cmd, command->args, shell->envs);
@@ -41,7 +42,7 @@ void	handle_cmd(t_minishell *shell, t_args *command)
 			if (!access(newcmd, F_OK))
 				execve(newcmd, command->args, shell->envs);
 			/* else
-				stop_exec(shell, command); */
+				directory_check(shell, cmd); */
 			i++;
 			//free stuff
 		}
