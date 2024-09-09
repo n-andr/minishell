@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/09 17:06:04 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:44:50 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void	free_everything(t_minishell *shell);
 void	free_array(char **array);
 void	free_commands(t_minishell *shell);
 void	directory_check(t_minishell *shell, char *cmd);
+void	command_check(t_minishell *shell, char *cmd);
 // free
 void	free_args(t_minishell *shell);
 
