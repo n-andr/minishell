@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/10 15:58:20 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:01:08 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	handle_cmd(t_minishell *shell, t_args *command)
 			if (!access(newcmd, F_OK))
 				execve(newcmd, command->args, shell->envs);
 			i++;
-			//free stuff
+			// TODO free stuff
 		}
 		directory_check(shell, newcmd);
 		command_check(shell, newcmd);	
@@ -133,7 +133,10 @@ void	single_cmd(t_minishell *shell, t_args *cmd)
 void	execute(t_minishell *shell)
 {
 	if (!shell->commands)
+	{
+		free_commands(shell);
 		return ;
+	}
 	if (shell->commands->is_pipe == 0)
 	{
 		single_cmd(shell, shell->commands);

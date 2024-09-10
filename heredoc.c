@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:05:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/09 13:33:12 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:42:34 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*generate_filename(void)
 	nbr += 1;
 	filename = ft_strjoin("./heredoc_file_", number);
 	free(number);
-	return (filename); // TODO delete + free filename
+	return (filename);
 }
 
 static int	generate_heredoc(t_args *command, char *delimiter)
@@ -30,7 +30,7 @@ static int	generate_heredoc(t_args *command, char *delimiter)
 	int		fd;
 	char	*line;
 
-	command->heredoc = generate_filename();
+	command->heredoc = generate_filename(); // TODO delete + free filename
 	fd = open(command->heredoc, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return (0);
