@@ -7,7 +7,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/09 17:50:32 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/10 13:16:41 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void	handle_cmd(t_minishell *shell, t_args *command)
 	directory_check(shell, cmd);
 	i = 0;
 	if (!access(cmd, F_OK))
+	{
 		execve(cmd, command->args, shell->envs);
+		command_check(shell, cmd);
+	}
 	else
 	{
 		while (shell->paths[i] != NULL)
