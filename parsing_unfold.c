@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/04 00:39:31 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:03:34 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,11 +217,9 @@ void	expand_array(t_minishell *shell, char **array)
 	result = NULL;
 	while (array != NULL && array[i] != NULL)
 	{
-		// printf("array[i]: %s \n", array[i]);
 		result = unfold_argument(array[i], shell);
-		// printf("result: %s \n", result);
 		free(array[i]);
-		if(result == NULL) //remove NULL string from the list of args
+		if(result == NULL)
 		{
 			k = i;
 			while (array[k] != NULL)
