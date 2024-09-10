@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/10 15:52:00 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:58:20 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	execbuiltin(t_minishell *shell, t_args *cmd)
 	if (!ft_strcmp("cd", cmd->args[0]))
 		ret = mini_cd(shell, cmd);
 	else if (!ft_strcmp("unset", cmd->args[0]))
-		ret = mini_unset(shell, "MAIL="); // change this
+		ret = mini_unset(shell, cmd);
 	else if (!ft_strcmp("exit", cmd->args[0]))
 		mini_exit(shell);
 	else if (!ft_strcmp("export", cmd->args[0]))

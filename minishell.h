@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/10 13:34:56 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:00:30 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "libft/libft.h"
-#include <errno.h>
 
 #ifndef MAX_INPUT_SIZE
 # define MAX_INPUT_SIZE 1024
@@ -88,7 +87,7 @@ void	organize_struct(t_minishell *shell);
 //expantion
 void	expand_command(t_minishell *shell, t_args *command);
 // execute
-void		execute(t_minishell *shell);
+void	execute(t_minishell *shell);
 void	handle_cmd(t_minishell *shell, t_args *command);
 int		handle_heredoc(t_args *command);
 int		check_redirections(t_args *command);
@@ -103,7 +102,7 @@ void	sigquit_handler(int sig);
 int		mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell, t_args *cmd);
 int		mini_env(t_minishell *shell);
-int		mini_unset(t_minishell *shell, char *str);
+int		mini_unset(t_minishell *shell, t_args *cmd);
 int		mini_echo(t_args *cmd);
 int		mini_export(t_minishell *shell, t_args *cmd);
 void	mini_exit(t_minishell *shell);
@@ -119,8 +118,8 @@ void	command_check(t_minishell *shell, char *cmd);
 void	free_args(t_minishell *shell);
 
 // tests
-void test_printf(t_minishell *shell); //delete
-void test_printf_command(t_args	*temp); //delete
+void	test_printf(t_minishell *shell); //delete
+void	test_printf_command(t_args	*temp); //delete
 
 
 #endif
