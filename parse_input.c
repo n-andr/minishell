@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/04 00:36:14 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:06:36 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -368,6 +368,7 @@ int	parse_input(char *input, t_minishell *shell)
 	if (!temp)
 		return (-1);
 	ft_strlcpy(temp, input, ft_strlen(input) + 1);
+	free(input);
 	i = preprosess_string(&temp);
 	// what to do with tabs?
 	if (i == -1)
