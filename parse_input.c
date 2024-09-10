@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/27 19:22:09 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/06 11:59:08 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -399,13 +399,13 @@ int	parse_input(char *input, t_minishell *shell)
 	
 	//printing all content of shell->commands
 	// printf("\n\nafter unfolding: \n");
-	//test_printf(shell); //delete 
+	// test_printf(shell); //delete 
 
 	free_args(shell);
 
 	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
 	{
-		free_commans(shell);
+		free_commands(shell);
 		shell->exit_code = 127; // bash exit code
 		return (0); 
 	}

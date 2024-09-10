@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:39:23 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/07/05 15:43:34 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:37:23 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,7 @@ void	init_environmentals(char **env, t_minishell *shell)
 	shell->envs[i] = NULL;
 	store_pwd(shell);
 	create_paths(shell);
+	shell->fds = malloc(sizeof(t_storefd));
+	if (!shell->fds)
+		malloc_error();
 }
