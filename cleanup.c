@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/06 11:58:48 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:19:38 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,5 @@ void	free_everything(t_minishell *shell)
 	free_array(shell->paths);
 	free(shell->commands);
 	free(shell->fds);
+	rl_clear_history();// tbh not sure if this is necessary
 }
