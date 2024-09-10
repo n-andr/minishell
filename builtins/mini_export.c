@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:51:26 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/03 01:34:49 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/05 16:02:24 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,10 @@ int	mini_export(t_minishell *shell, t_args *cmd)
 				if (name_len > 0)
 					add_var(cmd->args[i], name_len, shell);
 				else
-					write(STDERR_FILENO, "export: not a valid identifier\n", 32);
+				{
+					ft_putendl_fd("export: not a valid identifier", STDERR_FILENO);
+					return (EXIT_FAILURE);
+				}
 				i++;
 			}
 		}

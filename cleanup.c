@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/03 01:45:17 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/06 11:58:48 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	free_commands_redir(t_args *commands)
 	}
 }
 
-void	free_commans(t_minishell *shell)
+void	free_commands(t_minishell *shell)
 {
 	t_args *next;
 	//check previous command to start freeing from the begininning
@@ -77,10 +77,11 @@ void	free_commans(t_minishell *shell)
 void	free_everything(t_minishell *shell)
 {
 	free_array(shell->envs);
-	free_commans(shell); //free shell->comands->args array & ree shell->comands->redir array
+	free_commands(shell); //free shell->comands->args array & ree shell->comands->redir array
 	free(shell->home);
 	free(shell->pwd);
 	free(shell->oldpwd);
 	free_array(shell->paths);
 	free(shell->commands);
+	free(shell->fds);
 }

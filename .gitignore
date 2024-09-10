@@ -8,3 +8,6 @@ Todo.txt
 testpoem.txt
 minishell_tester
 *.o
+infile
+infile_big
+invalid_permission

@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:05:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/19 12:58:32 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/09 13:33:12 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ static char	*generate_filename(void)
 	nbr += 1;
 	filename = ft_strjoin("./heredoc_file_", number);
 	free(number);
-	return (filename);
+	return (filename); // TODO delete + free filename
 }
 
-static int	generate_heredoc(t_minishell *shell, char *delimiter)
+static int	generate_heredoc(t_args *command, char *delimiter)
 {
 	int		fd;
 	char	*line;
 
-	shell->commands[0].heredoc = generate_filename();
-	fd = open(shell->commands[0].heredoc, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	command->heredoc = generate_filename();
+	fd = open(command->heredoc, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return (0);
 	line = readline(">");
@@ -47,20 +47,27 @@ static int	generate_heredoc(t_minishell *shell, char *delimiter)
 	return (1);
 }
 
-int	handle_heredoc(t_minishell *shell)
+int	handle_heredoc(t_args *command)
 {
 	int	i;
 
 	i = 0;
-	while (shell->commands->redir[i] != NULL)
+	if(command->is_redir == 0)
+		return (EXIT_SUCCESS);
+	while (command->redir[i] != NULL)
 	{
-		if (!ft_strncmp(shell->commands->redir[i], "<<", 2))
+		if (!ft_strncmp(command->redir[i], "<<", 2))
 		{
-			if (!generate_heredoc(shell, shell->commands->redir[i + 1]))
-				return (0);
+			if(!command->redir[i + 1])
+			{
+				ft_putendl_fd("syntax error near unexpected token `newline'", STDERR_FILENO);
+				return (EXIT_FAILURE);
+			}
+			if (!generate_heredoc(command, command->redir[i + 1]))
+				return (EXIT_FAILURE);
 		}
 		i++;
 	}
-	return (1);
+	return (EXIT_SUCCESS);
 }
  

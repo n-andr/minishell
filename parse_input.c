@@ -400,13 +400,13 @@ int	parse_input(char *input, t_minishell *shell)
 	
 	//printing all content of shell->commands
 	// printf("\n\nafter unfolding: \n");
-	//test_printf(shell); //delete 
+	// test_printf(shell); //delete 
 
 	free_args(shell);
 
 	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
 	{
-		free_commans(shell);
+		free_commands(shell);
 		shell->exit_code = 127; // bash exit code
 		return (0); 
 	}

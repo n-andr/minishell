@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 12:09:29 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/16 12:54:05 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/05 16:03:32 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int check_if_number(char *str)
 	{
 		if (ft_isdigit(str[i]) == 0)
 		{
-			write(2, "minishell: exit: numeric argument required\n", 43);
+			ft_putendl_fd("minishell: exit: numeric argument required", STDERR_FILENO);
 			return(2); // exit(2)
 		}
 		i++;
@@ -53,7 +53,7 @@ void	mini_exit(t_minishell *shell)
 	}
 	else
 	{
-		write(2, "minishell: exit: too many arguments\n", 37);
+		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
 		exit_code = 1; //exit(EXIT_FAILURE);
 	}
 	free_everything(shell);
