@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_unfold.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/29 14:48:09 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:03:34 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*get_env_value(char *var_name, t_minishell *shell)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = ft_strlen(var_name);
+	while (shell->envs[i] != NULL)
+	{
+		if (ft_strncmp(shell->envs[i], var_name, len) == 0)
+			return (ft_strdup(shell->envs[i] + len + 1));
+		i++;
+	}
+	return (NULL);
+}
 
 char	*expand_variable(char *str, int *i, t_minishell *shell)
 {
@@ -31,7 +47,7 @@ char	*expand_variable(char *str, int *i, t_minishell *shell)
 	{
 		var_value = ft_itoa(shell->exit_code);
 		(*i)++;
-		return (ft_strdup(var_value));
+		return (var_value);
 	}
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
@@ -39,11 +55,10 @@ char	*expand_variable(char *str, int *i, t_minishell *shell)
 	var_name = ft_substr(str, start, len);
 	if (!var_name)
 		return (NULL);
-	var_value = getenv(var_name);
+	var_value = get_env_value(var_name, shell);
 	free(var_name);
-	//return (var_value ? ft_strdup(var_value) : ft_strdup(""));
 	if (var_value)
-		return (ft_strdup(var_value));
+		return (var_value);
 	else
 		return (ft_strdup(""));
 }
@@ -54,6 +69,7 @@ char	*unfold_double(char *str, int *i, t_minishell *shell)
 	char	*unfolded;
 	char	*temp;
 	char	*var_expanded;
+	char	*substing;
 
 	unfolded = ft_strdup("");
 	start = ++(*i); 
@@ -61,8 +77,10 @@ char	*unfold_double(char *str, int *i, t_minishell *shell)
 	{
 		if (str[*i] == '$')
 		{
-			temp = ft_strjoin(unfolded, ft_substr(str, start, *i - start));
+			substing = ft_substr(str, start, *i - start);
+			temp = ft_strjoin(unfolded, substing);
 			free(unfolded);
+			free(substing);
 			unfolded = temp;
 			var_expanded = expand_variable(str, i, shell);
 			temp = ft_strjoin(unfolded, var_expanded);
@@ -74,8 +92,10 @@ char	*unfold_double(char *str, int *i, t_minishell *shell)
 		else
 			(*i)++;
 	}
-	temp = ft_strjoin(unfolded, ft_substr(str, start, *i - start));
+	substing = ft_substr(str, start, *i - start);
+	temp = ft_strjoin(unfolded, substing);
 	free(unfolded);
+	free(substing);
 	unfolded = temp;
 	(*i)++; 
 	return (unfolded);
@@ -130,28 +150,36 @@ char	*unfold_argument(char *arg, t_minishell *shell)
 	int		i;
 	char	*result;
 	char	*temp;
+	char	*expanded;
 	char	single_char[2];
 
 	i = 0;
 	result = ft_strdup("");
 	while (arg[i])
 	{
+		expanded = NULL;
 		if (arg[i] == '$')
 		{
-			temp = ft_strjoin(result, expand_variable(arg, &i, shell));
+			expanded = expand_variable(arg, &i, shell);
+			temp = ft_strjoin(result, expanded);
 			free(result);
+			free(expanded);
 			result = temp;
 		}
 		else if (arg[i] == '\'')
 		{
-			temp = ft_strjoin(result, unfold_single(arg, &i));
+			expanded = unfold_single(arg, &i);
+			temp = ft_strjoin(result, expanded);
 			free(result);
+			free(expanded);
 			result = temp;
 		}
 		else if (arg[i] == '"')
 		{
-			temp = ft_strjoin(result, unfold_double(arg, &i, shell));
+			expanded = unfold_double(arg, &i, shell);
+			temp = ft_strjoin(result, expanded);
 			free(result);
+			free(expanded);
 			result = temp;
 		}
 		else
@@ -189,11 +217,9 @@ void	expand_array(t_minishell *shell, char **array)
 	result = NULL;
 	while (array != NULL && array[i] != NULL)
 	{
-		// printf("array[i]: %s \n", array[i]);
 		result = unfold_argument(array[i], shell);
-		// printf("result: %s \n", result);
 		free(array[i]);
-		if(result == NULL) //remove NULL string from the list of args
+		if(result == NULL)
 		{
 			k = i;
 			while (array[k] != NULL)
@@ -228,12 +254,12 @@ void	expand_command(t_minishell *shell, t_args *command)
 
 void	unfold_struct(t_minishell *shell)
 {
-	int	i;
+	//int	i;
 	// int k;
 	// char	*result;
 	t_args	*tmp;
 
-	i = 0;
+	//i = 0;
 	tmp = shell->commands;
 	while (tmp != NULL)
 	{

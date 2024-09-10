@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 22:39:56 by nandreev          #+#    #+#             */
-/*   Updated: 2024/06/25 22:40:57 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/03 01:38:21 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ void	free_args(t_minishell *shell)
 		free (shell->args[i]);
 		i ++;
 	}
+	free(shell->args);
 	shell->args = NULL;
 }

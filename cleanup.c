@@ -38,6 +38,7 @@ void	free_commands_args(t_args *commands)
 		free (commands->args[i]);
 		i ++;
 	}
+	free(commands->args);
 	commands->args = NULL;
 }
 

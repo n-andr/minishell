@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/06 11:59:08 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/04 00:36:14 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static char *insert_spaces(char *input, int i, int len)
 		}
 	}
 	new_input[k] = '\0';
+	free(input);
 	return (new_input);
 }
 

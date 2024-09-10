@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:51:26 by lde-taey          #+#    #+#             */
 /*   Updated: 2024/09/05 16:02:24 by lde-taey         ###   ########.fr       */
@@ -143,3 +143,82 @@ int	mini_export(t_minishell *shell, t_args *cmd)
 	}
 	return (0);
 }
+
+// int	mini_export(t_minishell *shell)
+// {
+// 	int i;
+	
+// 	i = 0;
+// 	if (shell->commands->args[1])
+// 	{
+// 		while (shell->commands->args[1 + i])
+// 		{
+// 			if (check_if_valid(shell->commands->args[1 + i]) == 1)
+// 				process_arg(shell->commands->args[1 + i]); // separate name and value
+// 			else
+// 				write(STDERR_FILENO, "export: not a valid identifier", 31);
+// 			i++;
+// 		}
+// 	}
+// 	else
+// 	{
+// 		while(shell->envs[i] != NULL)
+// 		{
+// 			write(1, shell->envs[i], ft_strlen(shell->envs[i]));
+// 			write(1, '\n', 1);
+// 			i++;
+// 		}
+// 	}
+// 	return (0);
+// }
+
+// export [-fn] [-p] [name[=value]]
+
+// export VAR=value
+// export VAR - creates VAR
+// export VAR= - creates VAR with empty value
+// export VAR=VALUE - creates VAR with VALUE
+// export var="value" - creates var with value
+// export var='value' - creates var with value
+// export var='value'01 - creates var with value01
+
+
+
+// export var var2=testTest +val2
+// val and var2 are valid, +val2 is not valid. 
+// Export prosides first and second and returnes error for the third
+// var1=""
+// var2="testTest"
+// bash: export: `+val2': not a valid identifier
+
+// 1. Check if name is ok, check if it exists in the list, check if value is ok, 
+// if it does, update it, if it doesn't add it alphabetically
+// 2. Check i more than one argument is provided
+// 3. If no arguments are provided, print all the variables
+
+
+
+// example 
+// declare -x USER="nandreev"
+// declare -x VAR1
+// declare -x VAR2
+// declare -x VAR3=""
+
+// Errors:
+// not a valid variable name
+// First letter is not a letter or underscore
+// Contains characters other than letters, numbers, and underscores
+// not a valid identifier ()
+
+// Examples:
+// export -bla
+// bash: export: -b: invalid option
+// export var1 +val2
+// bash: export: `+val2': not a valid identifier
+
+
+
+// Return
+// The return status is zero unless an invalid option is supplied, 
+// one of the names is not a valid shell variable name, 
+// or -f is supplied with a name that is not a shell function. 
