@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/27 16:54:30 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/10 20:18:54 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_args	*init_new_command(void)
 	new_command->args = NULL;
 	new_command->redir = NULL;
 	new_command->is_redir = false;
+	new_command->cmd_valid = false; //maybe not needed
 	new_command->is_pipe = 0;
 	new_command->heredoc = NULL;
 	new_command->previous = NULL;

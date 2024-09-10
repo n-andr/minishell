@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/10 15:06:36 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:51:49 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ static int preprosess_pipe_redir(char **input, int i)
 
 // TBD: maybe i need to copy string and free it after instead of changing an initial string
 // to do: pipe and redir check here !!!
+// replace tabs with spaces
 
 static int	preprosess_string(char **input)
 {
@@ -138,6 +139,8 @@ static int	preprosess_string(char **input)
 			if (i == -1)
 				return (-1);
 		}
+		if((*input)[i] == 9)
+			(*input)[i] = ' ';
 		i ++;
 	}
 	return(0);
@@ -164,71 +167,7 @@ static void	postprosess_array(t_minishell *shell)
 	}
 }
 
-int	is_builtin(char *str)
-{
-	char	*builtins[8];
-	int	i;
 
-	if(str == NULL)
-		return (0);
-	builtins[0] = "cd";
-    builtins[1] = "exit";
-    builtins[2] = "echo";
-    builtins[3] = "pwd";
-    builtins[4] = "export";
-    builtins[5] = "unset";
-    builtins[6] = "env";
-    builtins[7] = NULL;
-	i = 0;
-	while (builtins[i] != NULL)
-	{
-		if (ft_strcmp(str, builtins[i]) == 0) //not arg 0
-			return (1);
-		i ++;
-	}
-	return (0);
-}
-
-int 	is_executable(t_minishell *shell, char *str)
-{
-	char	*tmp;
-	char	*newcmd;
-	int i;
-
-	if(str == NULL || ft_strlen(str) == 0)
-		return (0);
-	if (access(str, X_OK) == 0)
-        return (1);
-	else
-	{
-		i = 0;
-		while(shell->paths[i] != NULL)
-		{
-			tmp = ft_strjoin(shell->paths[i], "/");
-			newcmd = ft_strjoin(tmp, str);
-			if (access(newcmd, X_OK) == 0)
-			{
-				free(tmp);
-				free(newcmd);
-        		return (1);
-			}
-			i++;
-			free(tmp);
-			free(newcmd);
-		}
-	}
-    return (0);
-}
-
-int 	is_path(char *str) //chech for rederections here
-{
-	if(str == NULL)
-		return (0);
-	if (ft_strchr(str, '/'))
-		return (1);
-	else
-		return(0);
-}
 
 void test_printf(t_minishell *shell) //delete
 {
@@ -322,42 +261,7 @@ void test_printf_command(t_args	*temp) //delete
 // error for each command (if two pipes, check two commands -> return 2 errors)
 // return: 0 - invalid, 1 - valid
 
-int check_if_cmd_valid(t_minishell *shell)
-{
-	t_args	*temp;
-	int		input_valid;
 
-	input_valid = 1;
-	temp = shell->commands;
-	while (temp != NULL)
-	{
-		if (temp->args == NULL && temp->is_redir == 0 && temp->is_pipe == 0)
-		{
-			//to be checked on school computer
-			return (0);
-		}
-		else if (temp->args == NULL && temp->is_redir == 0 && temp->is_pipe != 0)
-		{
-			write(2, "minishell: syntax error near unexpected token `|'\n", 50); //to be checked on school computer
-			return (0);
-		}
-		else if (temp->args != NULL && (is_builtin(temp->args[0]) 
-			|| is_executable(shell, temp->args[0])  
-			|| is_path(temp->args[0])))
-			temp = temp->next;
-		//else if (temp->is_redir == 1)
-		else if (temp->is_redir == 1 && temp->args == NULL)
-			temp = temp->next;
-		else
-		{
-			write(2, temp->args[0], ft_strlen(temp->args[0]));
-            write(2, ": command not found\n", 20);
-			input_valid = 0;
-			temp = temp->next;
-		}
-	}
-	return (input_valid);
-}
 
 int	parse_input(char *input, t_minishell *shell)
 {
@@ -370,7 +274,6 @@ int	parse_input(char *input, t_minishell *shell)
 	ft_strlcpy(temp, input, ft_strlen(input) + 1);
 	free(input);
 	i = preprosess_string(&temp);
-	// what to do with tabs?
 	if (i == -1)
 	{
 		free(temp);
@@ -397,7 +300,7 @@ int	parse_input(char *input, t_minishell *shell)
 	//test_printf(shell); //delete 
 	
 	unfold_struct(shell);
-	shell->exit_code = 0; // must be after unfold
+	//shell->exit_code = 0; // moved inside check_cmd_valid must be after unfold
 	
 	//printing all content of shell->commands
 	// printf("\n\nafter unfolding: \n");
@@ -405,16 +308,16 @@ int	parse_input(char *input, t_minishell *shell)
 
 	free_args(shell);
 
-	if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
-	{
-		free_commands(shell);
-		shell->exit_code = 127; // bash exit code
-		return (0); 
-	}
-	else
-	{
-		//printf("ready to execute\n"); //delete
-		return (1);
-	}
+	// if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
+	// {
+	// 	free_commands(shell);
+	// 	shell->exit_code = 127; // bash exit code
+	// 	return (0); 
+	// }
+	// else
+	// {
+	// 	//printf("ready to execute\n"); //delete
+	// 	return (1);
+	// }
 	return (1);
 }

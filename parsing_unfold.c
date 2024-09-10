@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_unfold.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/10 12:03:34 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/10 20:19:41 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,13 +242,100 @@ void	expand_array(t_minishell *shell, char **array)
 	}	
 	return;
 }
+int	array_len(char **array)
+{
+	int	i;
+
+	i = 0;
+	if (array == NULL)
+		return (0);
+	while (array[i] != NULL)
+		i++;
+	return (i);
+}
+
+char	**keep_redir(char **redir)
+{
+	int i;
+	char	**new_redir;
+	i = 0;
+	new_redir = NULL;
+	if (redir == NULL || redir[i] == NULL)
+		return (NULL);
+	else
+		i++;
+	while (redir[i] != NULL 
+		&& (ft_strchr(redir[i], '>') || ft_strchr(redir[i], '<') 
+		|| ft_strchr(redir[i - 1], '<') || ft_strchr(redir[i - 1], '>')))
+		i++;
+	new_redir = copy_array(new_redir, redir, i);
+	return (new_redir);
+}
+
+void	builtins_redirs(t_args *command)
+{
+	int i;
+	int a_len;
+	int args_from_redir;
+	char	**new_args;
+	char	**new_redir;
+
+	i = 0;
+	new_args = NULL;
+	new_redir = NULL;	
+	a_len = array_len(command->args);
+	new_redir =  keep_redir(command->redir);
+	args_from_redir = array_len(command->redir) - array_len(new_redir);
+	if (args_from_redir > 0)
+	{
+		new_args = malloc((a_len + args_from_redir + 1) * sizeof(char *));
+		if (!new_args)
+			return;
+		while (command->args[i] != NULL)
+		{
+			new_args[i] = ft_strdup(command->args[i]);
+			i++;
+		}
+		i = array_len(new_redir);
+		while (command->redir[i] != NULL)
+		{
+			new_args[a_len] = ft_strdup(command->redir[i]);
+			i++;
+			a_len++;
+		}
+		new_args[a_len] = NULL;
+		free_array(command->args);
+		free_array(command->redir);
+		command->args = new_args;
+		command->redir = new_redir;
+	}
+	else
+	{
+		free_array(new_redir);
+	}
+}
 
 void	expand_command(t_minishell *shell, t_args *command)
 {
+	bool	valid;
+
+	valid = true;
 	expand_array(shell, command->args);
 	expand_array(shell, command->redir);
+
+	if (is_builtin(command->args[0]) && command->is_redir == true)
+	{
+		builtins_redirs(command);
+	}
+	valid = check_if_cmd_valid(shell, command);
+	command->cmd_valid = valid; //mabe not needed
+	if (valid == false && command->next == NULL)
+		shell->exit_code = 127;
+	else if (valid == true && command->next == NULL)
+		shell->exit_code = 0;
+	
 	// printf("command after expantion\n");
-	// test_printf_command(command);
+	//test_printf_command(command);
 	//shell->exit_code = 0; not here, after all command are done
 }
 

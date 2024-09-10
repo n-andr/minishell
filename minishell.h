@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/10 13:34:56 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/10 19:31:29 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_args
 	char 	**args;
 	char 	**redir;
 	bool	is_redir;
+	bool	cmd_valid; //maybe not needed
 	size_t	is_pipe;
 	t_args	*next;
 	t_args *previous;
@@ -85,8 +86,14 @@ int	parse_input(char *input, t_minishell *shell);
 void	unfold_input(t_minishell *shell);
 void	unfold_struct(t_minishell *shell);
 void	organize_struct(t_minishell *shell);
+char	**copy_array(char **dest, char **src, int len);
 //expantion
 void	expand_command(t_minishell *shell, t_args *command);
+// check
+bool	check_if_cmd_valid(t_minishell *shell, t_args *command);
+int		is_builtin(char *str);
+int 	is_executable(t_minishell *shell, char *str);
+int 	is_path(char *str);
 // execute
 void		execute(t_minishell *shell);
 void	handle_cmd(t_minishell *shell, t_args *command);
