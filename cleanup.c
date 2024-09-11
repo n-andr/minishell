@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 14:14:29 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:14:12 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_array(char **array)
 	int	i;
 
 	i = 0;
+	if (!array)
+		return ;
 	while (array[i] != NULL)
 	{
 		free(array[i]);
@@ -85,11 +87,15 @@ void	free_everything(t_minishell *shell)
 {
 	free_array(shell->envs);
 	free_commands(shell); //free shell->comands->args array & free shell->comands->redir array
-	free(shell->home);
-	free(shell->pwd);
-	free(shell->oldpwd);
+	if (shell->home)
+		free(shell->home);
+	if (shell->pwd)
+		free(shell->pwd);
+	if (shell->oldpwd)
+		free(shell->oldpwd);
 	free_array(shell->paths);
 	free(shell->commands);
-	free(shell->fds);
+	if (shell->fds)
+		free(shell->fds);
 	rl_clear_history();// tbh not sure if this is necessary
 }

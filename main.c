@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/11 12:36:44 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:14:46 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int	main(int argc, char **argv, char **envp)
 		user_input = readline("minishell$ ");
 		if (user_input == NULL)
 		{
-			write (STDOUT_FILENO, "exit\n", 5); // NULL means Ctrl-D was detected
+			write (STDOUT_FILENO, "exit\n", 5);
 			break ;
 		}
-		if (user_input != NULL && ft_strlen(user_input) > 0) // ignore empty input
+		if (user_input != NULL && ft_strlen(user_input) > 0)
 		{
 			add_history(user_input);
 			if (parse_input(user_input, &shell) == 1)
