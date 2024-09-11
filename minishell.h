@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/10 16:00:30 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:21:35 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	reset_fds(t_minishell *shell);
 int		ft_pipe(t_minishell *shell); //, t_args *command);
 int		scanifbuiltin(t_args *cmd);
 int		execbuiltin(t_minishell *shell, t_args *cmd);
-void	child_signals(int sig);
+void	child_signals(void);
 void	sigquit_handler(int sig);
 // builtins
 int		mini_pwd(t_minishell *shell);

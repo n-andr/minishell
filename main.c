@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/08/27 19:03:42 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:24:42 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	char		*user_input;
 	t_minishell	shell;
 
+	signal_config();
 	initiate_null(&shell);
 	if (argc != 1 || argv[1])
 		return (args_error(), -1);

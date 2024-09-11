@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 12:03:15 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:21:21 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	single_cmd(t_minishell *shell, t_args *cmd)
 		reset_fds(shell);
 		return ;
 	}
+	child_signals();
 	pid = fork();
 	if (pid < 0)
 	{
