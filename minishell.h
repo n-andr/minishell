@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/11 14:02:07 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:56:32 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ int		scanifbuiltin(t_args *cmd);
 int		execbuiltin(t_minishell *shell, t_args *cmd);
 void	child_signals(void);
 void	sigquit_handler(int sig);
+void	single_cmd(t_minishell *shell, t_args *cmd);
+
 // builtins
 int		mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell, t_args *cmd);

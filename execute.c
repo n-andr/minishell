@@ -6,20 +6,49 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 14:01:55 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:55:44 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	loop_through_paths(t_minishell *shell, char *cmd, t_args *command)
+{
+	int		i;
+	char	*newcmd;
+	char	*tmp;
+
+	i = 0;
+	while (shell->paths[i] != NULL)
+	{
+		tmp = ft_strjoin(shell->paths[i], "/");
+		newcmd = ft_strjoin(tmp, cmd);
+		free (tmp);
+		if (!access(newcmd, F_OK))
+			execve(newcmd, command->args, shell->envs);
+		i++;
+	}
+	directory_check(shell, newcmd);
+	command_check(shell, newcmd);
+	free(newcmd);
+}
+
+void	check_paths_and_command(char *cmd, t_args *command, t_minishell *shell)
+{
+	if (!access(cmd, F_OK))
+	{
+		execve(cmd, command->args, shell->envs);
+		directory_check(shell, cmd);
+		command_check(shell, cmd);
+	}
+	else
+		loop_through_paths(shell, cmd, command);
+}
+
 void	handle_cmd(t_minishell *shell, t_args *command)
 {
 	char	*cmd;
-	char	*tmp;
-	char	*newcmd;
-	int		i;
 
-	// expand_command and check if valid
 	expand_command(shell, command);
 	if (command->cmd_valid == false)
 		return ;
@@ -31,111 +60,8 @@ void	handle_cmd(t_minishell *shell, t_args *command)
 		exit(EXIT_SUCCESS);
 	}
 	cmd = ft_strdup(command->args[0]);
-	i = 0;
-	if (!access(cmd, F_OK))
-	{
-		execve(cmd, command->args, shell->envs);
-		directory_check(shell, cmd);
-		command_check(shell, cmd);
-	}
-	else
-	{
-		while (shell->paths[i] != NULL)
-		{
-			tmp = ft_strjoin(shell->paths[i], "/");
-			newcmd = ft_strjoin(tmp, cmd);
-			free (tmp);
-			if (!access(newcmd, F_OK))
-				execve(newcmd, command->args, shell->envs);
-			i++;
-		}
-		directory_check(shell, newcmd);
-		command_check(shell, newcmd);
-		free(newcmd);
-		free (cmd);
-	}
-}
-
-int	execbuiltin(t_minishell *shell, t_args *cmd)
-{
-	int	ret;
-
-	ret = EXIT_SUCCESS;
-	if (!ft_strcmp("cd", cmd->args[0]))
-		ret = mini_cd(shell, cmd);
-	else if (!ft_strcmp("unset", cmd->args[0]))
-		ret = mini_unset(shell, cmd);
-	else if (!ft_strcmp("exit", cmd->args[0]))
-		mini_exit(shell);
-	else if (!ft_strcmp("export", cmd->args[0]))
-		ret = mini_export(shell, cmd);
-	else if (!ft_strcmp("pwd", cmd->args[0]))
-		ret = mini_pwd(shell);
-	else if (!ft_strcmp("env", cmd->args[0]))
-		ret = mini_env(shell, cmd);
-	else if (!ft_strcmp("echo", cmd->args[0]))
-		ret = mini_echo(cmd);
-	return(ret);
-}
-
-int	scanifbuiltin(t_args *cmd)
-{
-	if (!ft_strcmp("cd", cmd->args[0]))
-		return (1);
-	else if (!ft_strcmp("unset", cmd->args[0]))
-		return (1);
-	else if (!ft_strcmp("exit", cmd->args[0]))
-		return (1); 
-	else if (!ft_strcmp("export", cmd->args[0]))
-		return (1);
-	else if (!ft_strcmp("pwd", cmd->args[0]))
-		return (1);
-	else if (!ft_strcmp("env", cmd->args[0]))
-		return (1); 
-	else if (!ft_strcmp("echo", cmd->args[0]))
-		return (1);
-	else
-		return (0);
-}
-
-void	single_cmd(t_minishell *shell, t_args *cmd)
-{
-	pid_t	pid;
-	int		status;
-	expand_command(shell, cmd);
-	if (cmd->cmd_valid == false)
-		return ;
-	if (handle_heredoc(cmd) == 1)
-	{
-		shell->exit_code = 2;
-		return ;
-	}
-	if (scanifbuiltin(cmd) == 1)
-	{
-		save_fds(shell);
-		if (check_redirections(cmd) == 1)
-		{
-			shell->exit_code = EXIT_FAILURE;
-			return ;
-		}
-		shell->exit_code = execbuiltin(shell, cmd);
-		reset_fds(shell);
-		return ;
-	}
-	child_signals();
-	pid = fork();
-	if (pid < 0)
-	{
-		error_exec();
-		return ;
-	}
-	if (pid == 0)
-		handle_cmd(shell, cmd);
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		shell->exit_code = WEXITSTATUS(status);
-	else
-		shell->exit_code = EXIT_FAILURE;
+	check_paths_and_command(cmd, command, shell);
+	free(cmd);
 }
 
 void	execute(t_minishell *shell)
