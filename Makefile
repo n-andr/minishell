@@ -6,7 +6,7 @@
 #    By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/09/11 14:59:03 by lde-taey         ###   ########.fr        #
+#    Updated: 2024/09/11 17:16:26 by lde-taey         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ CFLAGS = -Werror -Wall -Wextra -g
 SRCS = main.c \
 	init.c \
 	utils.c \
-	utils_2.c \
 	parse_input.c \
 	parsing_unfold.c\
 	put_input_in_struct.c\
@@ -32,6 +31,7 @@ SRCS = main.c \
 	free.c \
 	cleanup.c \
 	redirections.c \
+	redirections_2.c \
 	heredoc.c \
 	pipe.c \
 	builtins/mini_pwd.c \

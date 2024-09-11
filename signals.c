@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 14:46:29 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 12:26:43 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:47:58 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	child_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 void	sigint_handler(int sig)
@@ -30,7 +30,7 @@ void	sigint_handler(int sig)
 void	signal_config(void)
 {
 	struct sigaction	signal_act;
-	
+
 	signal_act.sa_handler = sigint_handler;
 	sigemptyset(&signal_act.sa_mask);
 	signal_act.sa_flags = 0;

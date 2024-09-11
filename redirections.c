@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:41:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/09 16:24:14 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:13:56 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,70 +54,72 @@ int	handle_lefts(char *file)
 	return (EXIT_SUCCESS);
 }
 
-int	check_redirections(t_args *command)
+int	handle_output_redirection(t_args *command, int *i)
 {
-	int i;
-	
-	i = 0;
-	if (!command->redir)
-		return (EXIT_SUCCESS);
-	while(command->redir[i] != NULL)
+	if (!command->redir[*i + 1])
 	{
-		if(ft_strcmp(command->redir[i], "<") == 0)
-		{
-			if (!command->redir[i + 1])
-			{
-				ft_putendl_fd("error near unexpected token `newline'", STDERR_FILENO);
-				return (EXIT_FAILURE);
-			}
-			if (handle_lefts(command->redir[i + 1]) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
-			while (command->redir[i + 2] && ft_strncmp(command->redir[i + 2], "<", 1) != 0 && \
-				ft_strncmp(command->redir[i + 2], ">", 1) != 0)
-			{
-				if (handle_lefts(command->redir[i + 2]) == EXIT_FAILURE)
-					return (EXIT_FAILURE);
-				i++;
-			}
-		}
-		else if(ft_strcmp(command->redir[i], "<<") == 0)
-		{
-			if (handle_lefts(command->heredoc) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
-		}
-		else if(ft_strcmp(command->redir[i], ">") == 0 \
-			|| ft_strcmp(command->redir[i], ">>") == 0)
-		{
-			if (!command->redir[i + 1])
-			{
-				ft_putendl_fd("error near unexpected token `newline'", STDERR_FILENO);
-				return (EXIT_FAILURE);
-			}
-			if (handle_rights(command->redir[i], command->redir[i + 1]) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
-			while (command->redir[i + 2] && (ft_strncmp(command->redir[i + 2], ">", 1) != 0) && \
-				ft_strncmp(command->redir[i + 2], "<", 1) != 0)
-			{
-				if (handle_rights(command->redir[i], command->redir[i + 2]) == EXIT_FAILURE)
-					return (EXIT_FAILURE);
-				i++;
-			}
-		}
-		i++;
+		ft_putendl_fd("error near unexpected token `newline'", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	if (handle_rights(command->redir[*i], command->redir[*i + 1]) \
+		== EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	while (command->redir[*i + 2] && \
+		(ft_strncmp(command->redir[*i + 2], ">", 1) != 0) && \
+		ft_strncmp(command->redir[*i + 2], "<", 1) != 0)
+	{
+		if (handle_rights(command->redir[*i], command->redir[*i + 2]) \
+			== EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		*i = *i + 1;
 	}
 	return (EXIT_SUCCESS);
 }
 
-void	save_fds(t_minishell *shell)
+int	handle_input_redirection(t_args *command, int *i)
 {
-	shell->fds->stdin = dup(STDIN_FILENO);
-	shell->fds->stdout = dup(STDOUT_FILENO);
+	if (!command->redir[*i + 1])
+	{
+		ft_putendl_fd("error near unexpected token `newline'", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	if (handle_lefts(command->redir[*i + 1]) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	while (command->redir[*i + 2] && \
+		ft_strncmp(command->redir[*i + 2], "<", 1) != 0 && \
+		ft_strncmp(command->redir[*i + 2], ">", 1) != 0)
+	{
+		if (handle_lefts(command->redir[*i + 2]) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		*i = *i + 1;
+	}
+	return (EXIT_SUCCESS);
 }
 
-void	reset_fds(t_minishell *shell)
+int	redirection_loop(t_args *command)
 {
-	dup2(shell->fds->stdin, STDIN_FILENO);
-	dup2(shell->fds->stdout, STDOUT_FILENO);
-	close(shell->fds->stdin);
-	close(shell->fds->stdout);
+	int	i;
+
+	i = 0;
+	while (command->redir[i] != NULL)
+	{
+		if (ft_strcmp(command->redir[i], "<") == 0)
+		{
+			if (handle_input_redirection(command, &i) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+		}
+		else if (ft_strcmp(command->redir[i], "<<") == 0)
+		{
+			if (handle_lefts(command->heredoc) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+		}
+		else if (ft_strcmp(command->redir[i], ">") == 0 \
+			|| ft_strcmp(command->redir[i], ">>") == 0)
+		{
+			if (handle_output_redirection(command, &i) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+		}
+		i++;
+	}
+	return (EXIT_SUCCESS);
 }

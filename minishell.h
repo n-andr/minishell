@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/11 16:00:14 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:14:18 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	execute(t_minishell *shell);
 void	handle_cmd(t_minishell *shell, t_args *command);
 int		handle_heredoc(t_args *command);
 int		check_redirections(t_args *command);
+int		redirection_loop(t_args *command);
 void	save_fds(t_minishell *shell);
 void	reset_fds(t_minishell *shell);
 int		ft_pipe(t_minishell *shell); //, t_args *command);
