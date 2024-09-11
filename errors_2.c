@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:22:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/10 16:03:47 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:16:01 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	directory_check(t_minishell *shell, char *cmd)
 {
-	struct stat st;
-	
-	if(stat(cmd, &st) == -1)
+	struct stat	st;
+
+	if (stat(cmd, &st) == -1)
 		return ;
 	if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/'))
 	{
-		if(S_ISDIR(st.st_mode))
+		if (S_ISDIR(st.st_mode))
 		{
 			ft_putstr_fd(" Is a directory\n", STDERR_FILENO);
 			free_everything(shell);
@@ -35,9 +35,9 @@ void	command_check(t_minishell *shell, char *cmd)
 	{
 		ft_putstr_fd(cmd, STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		exit(127);		
+		exit(127);
 	}
-	if(!shell->paths)
+	if (!shell->paths)
 		exit(127);
 	if (access(cmd, F_OK) == -1)
 	{
