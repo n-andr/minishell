@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:22:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/10 15:51:41 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:03:47 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	command_check(t_minishell *shell, char *cmd)
 {
 	if (cmd[0] != '/' && (cmd[0] != '.' && cmd[1] != '/'))
 	{
-		ft_putstr_fd(" command not found\n", STDERR_FILENO);
+		ft_putstr_fd(cmd, STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		exit(127);		
 	}
 	if(!shell->paths)

@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/10 18:51:49 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:20:35 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,7 +299,7 @@ int	parse_input(char *input, t_minishell *shell)
 
 	//test_printf(shell); //delete 
 	
-	unfold_struct(shell);
+	//unfold_struct(shell);
 	//shell->exit_code = 0; // moved inside check_cmd_valid must be after unfold
 	
 	//printing all content of shell->commands
