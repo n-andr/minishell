@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 12:21:14 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:20:36 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,27 @@ int	ft_pipe(t_minishell *shell)
 			if (pipe(pipe_fd) == -1)
 				return (0);
 		}
-		if (handle_heredoc(temp) == 1) // exit codes?
-			return (1); // double check if this is ok
-		child_pid = fork();
-		temp->childpid = child_pid;
-		if (child_pid == -1)
-		{
-			perror("child process");
-			return (2);
-		}
-		else if (child_pid == 0)
-			child_process(pipe_fd, shell, temp, &in_fd);
+		expand_command(shell, temp);
+		if (shell->commands->cmd_valid == false)
+			temp = temp->next;
 		else
-			parent_process(pipe_fd, &in_fd);
-		temp = temp->next;
+		{
+			if (handle_heredoc(temp) == 1) // exit codes?
+				return (1); // double check if this is ok
+			
+			child_pid = fork();
+			temp->childpid = child_pid;
+			if (child_pid == -1)
+			{
+				perror("child process");
+				return (2);
+			}
+			else if (child_pid == 0)
+				child_process(pipe_fd, shell, temp, &in_fd);
+			else
+				parent_process(pipe_fd, &in_fd);
+			temp = temp->next;
+		}
 	}
 	// free (temp);
 	temp = shell->commands;
