@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/10 17:58:55 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:54:04 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	free_commands(t_minishell *shell)
 void	free_everything(t_minishell *shell)
 {
 	free_array(shell->envs);
-	free_commands(shell); //free shell->comands->args array & ree shell->comands->redir array
+	free_commands(shell); //free shell->comands->args array & free shell->comands->redir array
 	free(shell->home);
 	free(shell->pwd);
 	free(shell->oldpwd);
