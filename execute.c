@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/10 18:01:08 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:03:15 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@ void	handle_cmd(t_minishell *shell, t_args *command)
 		{
 			tmp = ft_strjoin(shell->paths[i], "/");
 			newcmd = ft_strjoin(tmp, cmd);
+			free (tmp);
 			if (!access(newcmd, F_OK))
 				execve(newcmd, command->args, shell->envs);
 			i++;
-			// TODO free stuff
 		}
 		directory_check(shell, newcmd);
-		command_check(shell, newcmd);	
+		command_check(shell, newcmd);
+		free(newcmd);
+		free (cmd);
 	}
 }
 
