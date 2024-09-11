@@ -11,3 +11,6 @@ minishell_tester
 infile
 infile_big
 invalid_permission
+test123
+
+test_files/
