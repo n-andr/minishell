@@ -70,7 +70,7 @@ int	execbuiltin(t_minishell *shell, t_args *cmd)
 	else if (!ft_strcmp("pwd", cmd->args[0]))
 		ret = mini_pwd(shell);
 	else if (!ft_strcmp("env", cmd->args[0]))
-		ret = mini_env(shell);
+		ret = mini_env(shell, cmd);
 	else if (!ft_strcmp("echo", cmd->args[0]))
 		ret = mini_echo(cmd);
 	return(ret);

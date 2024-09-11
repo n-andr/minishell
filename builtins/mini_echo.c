@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/10 13:34:48 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:51:50 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_echo(t_args *cmd, int i)
 	if (cmd->heredoc != NULL)
 	{
 		char	buffer[1024];
-    	ssize_t	bytes_read;
+		ssize_t	bytes_read;
 
 		while ((bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer))) > 0) 
 		{

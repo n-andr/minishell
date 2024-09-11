@@ -112,7 +112,7 @@ void	sigquit_handler(int sig);
 // builtins
 int		mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell, t_args *cmd);
-int		mini_env(t_minishell *shell);
+int		mini_env(t_minishell *shell, t_args *cmd);
 int		mini_unset(t_minishell *shell, t_args *cmd);
 int		mini_echo(t_args *cmd);
 int		mini_export(t_minishell *shell, t_args *cmd);
