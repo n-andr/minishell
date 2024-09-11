@@ -109,6 +109,8 @@ int		scanifbuiltin(t_args *cmd);
 int		execbuiltin(t_minishell *shell, t_args *cmd);
 void	child_signals(void);
 void	sigquit_handler(int sig);
+void	single_cmd(t_minishell *shell, t_args *cmd);
+
 // builtins
 int		mini_pwd(t_minishell *shell);
 int		mini_cd(t_minishell *shell, t_args *cmd);

@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:55:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/10 17:30:18 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:21:34 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	args_error(void)
 {
-	ft_putendl_fd("Error. This program does not accept any arguments", STDERR_FILENO);
+	ft_putstr_fd("Error. ", STDERR_FILENO);
+	ft_putstr_fd("This program does not accept any arguments\n", STDERR_FILENO);
 }
 
 void	malloc_error(void)
@@ -30,7 +31,7 @@ void	error_exec(void)
 void	unclosed_quote(void)
 {
 	ft_putendl_fd("Error. Unclosed quotes", STDERR_FILENO);
-	//free stuff if needed
+	// free stuff if needed
 	// return control back to user 
 }
 
