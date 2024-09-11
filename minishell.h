@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/11 13:00:48 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:19:40 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,10 @@ void	unfold_input(t_minishell *shell);
 void	unfold_struct(t_minishell *shell);
 void	organize_struct(t_minishell *shell);
 char	**copy_array(char **dest, char **src, int len);
+void	org_redir_commands(t_args *command);
+char	**add_string_to_array(char **array, char *str);
+bool	starts_with_char(char *str, char c);
+
 //expantion
 void	expand_command(t_minishell *shell, t_args *command);
 // check

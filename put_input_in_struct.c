@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/10 20:18:54 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:33:28 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,29 +99,59 @@ bool	starts_with_char(char *str, char c)
 	return (false);
 }
 
-char	**organize_current_node(t_args *current_command, char **args)
-{
-	int	len_args;
-	int	len_redir;
+// char	**organize_current_node(t_args *current_command, char **args)
+// {
+// 	int	len_args;
+// 	int	len_redir;
 
-	len_args = 0;
-	len_redir = 0;
-	while (args[len_args]
-		&& !starts_with_char(args[len_args], '|')
-		&& !starts_with_char(args[len_args], '>')
-		&& !starts_with_char(args[len_args], '<'))
-		len_args++;
-	while (args[len_args + len_redir]
-		&& !starts_with_char(args[len_args + len_redir], '|'))
-		len_redir++;
-	if (len_args > 0)
-		current_command->args = copy_array(current_command->args, args, len_args);
-	if (len_redir > 0)
+// 	len_args = 0;
+// 	len_redir = 0;
+	
+// 	while (args[len_args]
+// 		&& !starts_with_char(args[len_args], '|')
+// 		&& !starts_with_char(args[len_args], '>')
+// 		&& !starts_with_char(args[len_args], '<'))
+// 		len_args++;
+// 	while (args[len_args + len_redir]
+// 		&& !starts_with_char(args[len_args + len_redir], '|'))
+// 		len_redir++;
+// 	if (len_args > 0)
+// 		current_command->args = copy_array(current_command->args, args, len_args);
+// 	if (len_redir > 0)
+// 	{
+// 		current_command->redir = copy_array(current_command->redir, args + len_args, len_redir);
+// 		current_command->is_redir = true;
+// 	}
+// 	org_redir_commands(current_command);
+// 	return (args + len_args + len_redir);
+// }
+
+char	**organize_current_node(t_args *command, char **args)
+{
+	int	len;
+
+	len = 0;
+	while (args[len] && !starts_with_char(args[len], '|'))
 	{
-		current_command->redir = copy_array(current_command->redir, args + len_args, len_redir);
-		current_command->is_redir = true;
+		if (starts_with_char(args[len], '>') 
+			|| starts_with_char(args[len], '<'))
+		{
+			command->redir = add_string_to_array(command->redir, args[len]);
+		}
+		else if (len > 0 && (starts_with_char(args[len - 1], '>') || starts_with_char(args[len - 1], '<')))
+		{
+			command->redir = add_string_to_array(command->redir, args[len]);
+		}
+		else
+		{
+			command->args = add_string_to_array(command->args, args[len]);
+		}
+		len++;
 	}
-	return (args + len_args + len_redir);
+	if (command->redir != NULL && command->redir[0] != NULL)
+		command->is_redir = true;
+	//org_redir_commands(current_command);
+	return (args + len);
 }
 
 void	organize_struct(t_minishell *shell)

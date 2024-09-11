@@ -70,7 +70,8 @@ bool check_if_cmd_valid(t_minishell *shell, t_args *command)
 {
 	if (command == NULL)
 		return (true);
-	if (command->args == NULL && command->is_redir == 0 && command->is_pipe == 0)
+	if ((command->args == NULL || command->args[0] == NULL )
+		&& command->is_redir == 0 && command->is_pipe == 0)
 	{
 		//to be checked on school computer
 		return (true);
