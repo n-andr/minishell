@@ -76,13 +76,13 @@ char	*ft_strcpy(char *dest, char *src);
 int		ft_isdigit(int c); */
 // errors
 void	args_error(void);
-void	malloc_error(void);
+void	malloc_error(t_minishell *shell);
 void	unclosed_quote(void);
 void	error_exec(void);
 void	too_many_args_error(void);
 int		pipe_error(void);
 // parse
-int	parse_input(char *input, t_minishell *shell);
+int		parse_input(char *input, t_minishell *shell);
 void	unfold_input(t_minishell *shell);
 void	unfold_struct(t_minishell *shell);
 void	organize_struct(t_minishell *shell);
