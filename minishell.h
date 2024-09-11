@@ -102,6 +102,7 @@ void	execute(t_minishell *shell);
 void	handle_cmd(t_minishell *shell, t_args *command);
 int		handle_heredoc(t_args *command);
 int		check_redirections(t_args *command);
+int		redirection_loop(t_args *command);
 void	save_fds(t_minishell *shell);
 void	reset_fds(t_minishell *shell);
 int		ft_pipe(t_minishell *shell); //, t_args *command);
