@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 18:53:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 13:48:38 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 13:55:59 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static void	check_relative_path(char *arg, t_minishell *shell)
 	}
 }
 
-static int change_directory(t_args *cmd, t_minishell *shell)
+static int	change_directory(t_args *cmd, t_minishell *shell)
 {
 	int		ret;
-	
+
 	if (!ft_strcmp(cmd->args[1], "-"))
 		ret = chdir(shell->oldpwd);
 	else if (!strcmp(cmd->args[1], ""))
@@ -59,6 +59,7 @@ static int change_directory(t_args *cmd, t_minishell *shell)
 	}
 	return (0);
 }
+
 /* 
 this function
 0. stores the current directory for later

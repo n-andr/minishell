@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 13:20:37 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:01:55 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	execbuiltin(t_minishell *shell, t_args *cmd)
 	else if (!ft_strcmp("pwd", cmd->args[0]))
 		ret = mini_pwd(shell);
 	else if (!ft_strcmp("env", cmd->args[0]))
-		ret = mini_env(shell);
+		ret = mini_env(shell, cmd);
 	else if (!ft_strcmp("echo", cmd->args[0]))
 		ret = mini_echo(cmd);
 	return(ret);
