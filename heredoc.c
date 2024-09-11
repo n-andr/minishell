@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:05:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 12:03:31 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:03:58 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,16 @@ int	handle_heredoc(t_args *command)
 	int	i;
 
 	i = 0;
-	if(command->is_redir == 0)
+	if (command->is_redir == 0)
 		return (EXIT_SUCCESS);
 	while (command->redir[i] != NULL)
 	{
 		if (!ft_strncmp(command->redir[i], "<<", 2))
 		{
-			if(!command->redir[i + 1])
+			if (!command->redir[i + 1])
 			{
-				ft_putendl_fd("syntax error near unexpected token `newline'", STDERR_FILENO);
+				ft_putstr_fd("syntax error near ", STDERR_FILENO);
+				ft_putendl_fd("unexpected token `newline'", STDERR_FILENO);
 				return (EXIT_FAILURE);
 			}
 			if (!generate_heredoc(command, command->redir[i + 1]))
@@ -70,4 +71,3 @@ int	handle_heredoc(t_args *command)
 	}
 	return (EXIT_SUCCESS);
 }
- 
