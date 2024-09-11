@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/10 15:52:00 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:21:21 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@ void	handle_cmd(t_minishell *shell, t_args *command)
 		{
 			tmp = ft_strjoin(shell->paths[i], "/");
 			newcmd = ft_strjoin(tmp, cmd);
+			free (tmp);
 			if (!access(newcmd, F_OK))
 				execve(newcmd, command->args, shell->envs);
 			i++;
-			//free stuff
 		}
 		directory_check(shell, newcmd);
-		command_check(shell, newcmd);	
+		command_check(shell, newcmd);
+		free(newcmd);
+		free (cmd);
 	}
 }
 
@@ -59,7 +61,7 @@ int	execbuiltin(t_minishell *shell, t_args *cmd)
 	if (!ft_strcmp("cd", cmd->args[0]))
 		ret = mini_cd(shell, cmd);
 	else if (!ft_strcmp("unset", cmd->args[0]))
-		ret = mini_unset(shell, "MAIL="); // change this
+		ret = mini_unset(shell, cmd);
 	else if (!ft_strcmp("exit", cmd->args[0]))
 		mini_exit(shell);
 	else if (!ft_strcmp("export", cmd->args[0]))
@@ -115,6 +117,7 @@ void	single_cmd(t_minishell *shell, t_args *cmd)
 		reset_fds(shell);
 		return ;
 	}
+	child_signals();
 	pid = fork();
 	if (pid < 0)
 	{
@@ -133,7 +136,10 @@ void	single_cmd(t_minishell *shell, t_args *cmd)
 void	execute(t_minishell *shell)
 {
 	if (!shell->commands)
+	{
+		free_commands(shell);
 		return ;
+	}
 	if (shell->commands->is_pipe == 0)
 	{
 		single_cmd(shell, shell->commands);
