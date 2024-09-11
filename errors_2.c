@@ -35,7 +35,7 @@ void	command_check(t_minishell *shell, char *cmd)
 	{
 		ft_putstr_fd(cmd, STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		exit (127);
+		exit(127);
 	}
 	if (!shell->paths)
 		exit(127);
@@ -51,11 +51,4 @@ void	command_check(t_minishell *shell, char *cmd)
 		free_everything(shell);
 		exit(126);
 	}
-}
-
-int	pipe_error(void)
-{
-	ft_putendl_fd("minishell: syntax error near '|'", STDERR_FILENO);
-	// write(2, "minishell: syntax error near '|'\n", 33);
-	return (-1);
 }

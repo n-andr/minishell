@@ -30,7 +30,7 @@ void	free_array(char **array)
 
 void	free_commands_args(t_args *commands)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (commands->args == NULL)
@@ -46,13 +46,14 @@ void	free_commands_args(t_args *commands)
 
 void	free_commands_redir(t_args *commands)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (commands->redir) 
 	{
 		i = 0;
-		while (commands->redir[i]) {
+		while (commands->redir[i])
+		{
 			free(commands->redir[i]);
 			i++;
 		}
@@ -63,24 +64,23 @@ void	free_commands_redir(t_args *commands)
 
 void	free_commands(t_minishell *shell)
 {
-	t_args *next;
-	//check previous command to start freeing from the begininning
-
-    while (shell->commands) {
-        next = shell->commands->next;
+	t_args	*next; //check previous command to start freeing from the begininning
+	while (shell->commands) 
+	{
+		next = shell->commands->next;
 		free_commands_args(shell->commands);
 		free_commands_redir(shell->commands);
 		shell->pid = 0; // check again
 		if (shell->commands->heredoc != NULL)
 		{
 			if (unlink(shell->commands->heredoc) < 0)
-        		perror("unlink");
+				perror("unlink");
 			free(shell->commands->heredoc);
 			shell->commands->heredoc = NULL;
 		}
 		free(shell->commands);
-        shell->commands = next;
-    }
+		shell->commands = next;
+	}
 }
 
 void	free_everything(t_minishell *shell)
