@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 19:41:47 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/12 21:18:31 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	free_array(char **array)
 	i = 0;
 	if (array == NULL)
 		return ;
-	if (array[i] == NULL)
-	{
-		free(array);
-	}
+	// if (array[i] == NULL)
+	// {
+	// 	free(array);
+	// }
 	while (array[i] != NULL)
 	{
 		free(array[i]);

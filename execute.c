@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 13:20:37 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/12 22:06:27 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@ void	handle_cmd(t_minishell *shell, t_args *command)
 	char	*newcmd;
 	int		i;
 
-	// expand_command and check if valid
-	expand_command(shell, command);
-	if (command->cmd_valid == false)
-		return ;
 	if (check_redirections(command) == 1)
 		exit(EXIT_FAILURE);
+	if (command->args == NULL || command->args[0] == NULL) // Natas code
+    	return; // Natas code
 	if (scanifbuiltin(command) == 1)
 	{
 		execbuiltin(shell, command);
@@ -80,6 +78,11 @@ int	execbuiltin(t_minishell *shell, t_args *cmd)
 
 int	scanifbuiltin(t_args *cmd)
 {
+	// if (cmd->args == NULL || cmd->args[0] == NULL)
+	// {
+	// 	printf("minishell: %s: empty args\n", cmd->args[0]);
+	// 	return (0);
+	// } // delete this
 	if (!ft_strcmp("cd", cmd->args[0]))
 		return (1);
 	else if (!ft_strcmp("unset", cmd->args[0]))
@@ -110,6 +113,8 @@ void	single_cmd(t_minishell *shell, t_args *cmd)
 		shell->exit_code = 2;
 		return ;
 	}
+	if (cmd->args == NULL || cmd->args[0] == NULL)// Natas code
+   		return; // Natas code
 	if (scanifbuiltin(cmd) == 1)
 	{
 		save_fds(shell);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_unfold.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/11 20:16:19 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/12 21:45:53 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ void	expand_array(t_minishell *shell, char **array)
 	}
 	if (array != NULL && array[0] == NULL)
 	{
-		free_array(array);
+		//free_array(array);
 		array = NULL;
 	}	
 	return;
@@ -255,15 +255,14 @@ void	expand_command(t_minishell *shell, t_args *command)
 	if (command->args != NULL && command->args[0] == NULL)
 	{
 		free_array(command->args);
+		command->args = NULL;
 	}
-	
 	valid = check_if_cmd_valid(shell, command);
 	command->cmd_valid = valid; //mabe not needed
 	if (valid == false && command->next == NULL)
 		shell->exit_code = 127;
 	else if (valid == true && command->next == NULL)
 		shell->exit_code = 0;
-	
 }
 
 // void	unfold_struct(t_minishell *shell)
