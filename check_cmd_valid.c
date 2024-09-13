@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 15:02:54 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/13 15:02:56 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:57:19 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,57 +15,61 @@
 int	is_builtin(char *str)
 {
 	char	*builtins[8];
-	int	i;
+	int		i;
 
-	if(str == NULL)
+	if (str == NULL)
 		return (0);
 	builtins[0] = "cd";
-    builtins[1] = "exit";
-    builtins[2] = "echo";
-    builtins[3] = "pwd";
-    builtins[4] = "export";
-    builtins[5] = "unset";
-    builtins[6] = "env";
-    builtins[7] = NULL;
+	builtins[1] = "exit";
+	builtins[2] = "echo";
+	builtins[3] = "pwd";
+	builtins[4] = "export";
+	builtins[5] = "unset";
+	builtins[6] = "env";
+	builtins[7] = NULL;
 	i = 0;
 	while (builtins[i] != NULL)
 	{
-		if (ft_strcmp(str, builtins[i]) == 0) //not arg 0
+		if (ft_strcmp(str, builtins[i]) == 0)
 			return (1);
 		i ++;
 	}
 	return (0);
 }
 
-int 	is_executable(t_minishell *shell, char *str)
+static void	free_tmp(char *tmp, char *newcmd)
+{
+	free(tmp);
+	free(newcmd);
+}
+
+int	is_executable(t_minishell *shell, char *str)
 {
 	char	*tmp;
 	char	*newcmd;
-	int i;
+	int		i;
 
-	if(str == NULL || ft_strlen(str) == 0)
+	if (str == NULL || ft_strlen(str) == 0)
 		return (0);
 	if (access(str, X_OK) == 0)
-        return (1);
+		return (1);
 	else
 	{
 		i = 0;
-		while(shell->paths[i] != NULL)
+		while (shell->paths[i] != NULL)
 		{
 			tmp = ft_strjoin(shell->paths[i], "/");
 			newcmd = ft_strjoin(tmp, str);
 			if (access(newcmd, X_OK) == 0)
 			{
-				free(tmp);
-				free(newcmd);
-        		return (1);
+				free_tmp(tmp, newcmd);
+				return (1);
 			}
 			i++;
-			free(tmp);
-			free(newcmd);
+			free_tmp(tmp, newcmd);
 		}
 	}
-    return (0);
+	return (0);
 }
 
 int	is_path(char *str)
