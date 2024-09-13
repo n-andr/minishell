@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_unfold.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/12 22:22:25 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:02:16 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,26 @@ char	*get_env_value(char *var_name, t_minishell *shell)
 	return (NULL);
 }
 
+static bool	is_valid_name(char c, int *i)
+{
+	if (!ft_isalnum(c) && c != '_' 
+		&& c != '?')
+	{
+		(*i)++;
+		return (false);
+	}
+	return (true);
+}
+
+static char	*get_exit_code(t_minishell *shell, int *i)
+{
+	char	*exit_code;
+
+	exit_code = ft_itoa(shell->exit_code);
+	(*i)++;
+	return (exit_code);
+}
+
 char	*expand_variable(char *str, int *i, t_minishell *shell)
 {
 	char	*var_name;
@@ -36,19 +56,11 @@ char	*expand_variable(char *str, int *i, t_minishell *shell)
 	int		len;
 
 	start = (*i) + 1;
-	if (!ft_isalnum(str[*i + 1]) && str[*i + 1] != '_' 
-		&& str[*i + 1] != '?')
-	{
-		(*i)++;
+	if (is_valid_name(str[*i + 1], i) == false)
 		return (ft_strdup("$"));
-	}
 	(*i)++;
 	if (str[*i] == '?')
-	{
-		var_value = ft_itoa(shell->exit_code);
-		(*i)++;
-		return (var_value);
-	}
+		return (get_exit_code(shell, i));
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
 	len = *i - start;
@@ -264,73 +276,3 @@ void	expand_command(t_minishell *shell, t_args *command)
 	else if (valid == true && command->next == NULL)
 		shell->exit_code = 0;
 }
-
-// void	unfold_struct(t_minishell *shell)
-// {
-// 	//int	i;
-// 	// int k;
-// 	// char	*result;
-// 	t_args	*tmp;
-
-// 	//i = 0;
-// 	tmp = shell->commands;
-// 	while (tmp != NULL)
-// 	{
-// 		expand_command(shell, tmp);
-// 		// while (tmp->args != NULL && tmp->args[i] != NULL)
-// 		// {
-// 		// 	// printf("tmp->args[i]: %s \n", tmp->args[i]);
-// 		// 	result = unfold_argument(tmp->args[i], shell);
-// 		// 	// printf("result: %s \n", result);
-// 		// 	free(tmp->args[i]);
-// 		// 	if(result == NULL) //remove NULL string from the list of args
-// 		// 	{
-// 		// 		k = i;
-// 		// 		while (tmp->args[k] != NULL)
-// 		// 		{
-// 		// 			tmp->args[k] = tmp->args[k + 1];
-// 		// 			k ++;
-// 		// 		}
-// 		// 		free(result);
-// 		// 	}
-// 		// 	else
-// 		// 	{
-// 		// 		tmp->args[i] = result;
-// 		// 		i ++;
-// 		// 	}
-// 		// }
-// 		// if (tmp->args != NULL && tmp->args[0] == NULL)
-// 		// {
-// 		// 	free(tmp->args);
-// 		// 	tmp->args = NULL;
-// 		// }	
-// 		// i = 0;
-// 		// while (tmp->redir != NULL && tmp->redir[i] != NULL)
-// 		// {
-// 		// 	result = unfold_argument(tmp->redir[i], shell);
-// 		// 	free(tmp->redir[i]);
-// 		// 	if(result == NULL) //remove NULL string from the list of args
-// 		// 	{
-// 		// 		k = i;
-// 		// 		while (tmp->redir[k] != NULL)
-// 		// 		{
-// 		// 			tmp->redir[k] = tmp->redir[k + 1];
-// 		// 			k ++;
-// 		// 		}
-// 		// 	}
-// 		// 	else
-// 		// 	{
-// 		// 		tmp->redir[i] = result;
-// 		// 		i ++;
-// 		// 	}
-// 		// 	i ++;
-// 		// }
-// 		// if (tmp->redir != NULL && tmp->redir[0] == NULL)
-// 		// {
-// 		// 	free(tmp->redir);
-// 		// 	tmp->is_redir = false;
-// 		// 	tmp->redir = NULL;
-// 		// }
-// 		tmp = tmp->next;
-// 	}
-// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/11 13:51:50 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:09:13 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,18 @@
 
 void	print_echo(t_args *cmd, int i)
 {
+	char	buffer[1024];
+	ssize_t	bytes_read;
+
+	bytes_read = 1;
 	if (cmd->heredoc != NULL)
 	{
-		char	buffer[1024];
-		ssize_t	bytes_read;
-
-		while ((bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer))) > 0) 
+		while (bytes_read > 0) 
 		{
-			write(STDOUT_FILENO, buffer, bytes_read);	
+			bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer));
+			if (bytes_read <= 0)
+				break ;
+			write(STDOUT_FILENO, buffer, bytes_read);
 		}
 	}
 	while (cmd->args[i] != NULL)
@@ -35,10 +39,10 @@ void	print_echo(t_args *cmd, int i)
 
 int	check_flags(t_args *cmd, int i)
 {
-	int j;
+	int	j;
 
 	j = 0;
-	while(cmd->args[i] && cmd->args[i][j] == '-')
+	while (cmd->args[i] && cmd->args[i][j] == '-')
 	{
 		j++;
 		while (cmd->args[i][j] != '\0')
@@ -56,7 +60,7 @@ int	check_flags(t_args *cmd, int i)
 	return (i);
 }
 
-int		mini_echo(t_args *cmd)
+int	mini_echo(t_args *cmd)
 {
 	int	i;
 
@@ -68,14 +72,12 @@ int		mini_echo(t_args *cmd)
 		{
 			i = check_flags(cmd, i);
 			print_echo(cmd, i);
-			//free_args(cmd);
 			return (0);
-}
+		}
 		else
 		{
 			print_echo(cmd, i);
 			write (STDOUT_FILENO, "\n", 1);
-			//free_args(cmd);
 			return (0);
 		}
 	}
