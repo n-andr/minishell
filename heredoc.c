@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:05:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 15:03:58 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:43:03 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	generate_heredoc(t_args *command, char *delimiter)
 	int		fd;
 	char	*line;
 
+	g_sigint_received = 0;
 	command->heredoc = generate_filename();
 	fd = open(command->heredoc, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
@@ -37,10 +38,20 @@ static int	generate_heredoc(t_args *command, char *delimiter)
 	line = readline(">");
 	while (line && ft_strncmp(delimiter, line, ft_strlen(delimiter)))
 	{
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-		line = readline(">");
+		/* if (g_sigint_received != 0)
+		{
+			free(line);
+			g_sigint_received = 0;
+			ft_putstr_fd("\n", STDOUT_FILENO); // how to erase all the lines and start a new file? // double free detected now
+			return (0);
+		}
+		else
+		{*/
+			write(fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
+			free(line);
+			line = readline(">");
+		//}
 	}
 	free(line);
 	close (fd);
@@ -58,6 +69,7 @@ int	handle_heredoc(t_args *command)
 	{
 		if (!ft_strncmp(command->redir[i], "<<", 2))
 		{
+			signal_config_heredoc();
 			if (!command->redir[i + 1])
 			{
 				ft_putstr_fd("syntax error near ", STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/11 17:25:09 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/13 13:23:46 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 #  define MAX_INPUT_SIZE 1024
 # endif
 
+extern long long	g_sigint_received;
+
 typedef struct s_args	t_args;
 
 typedef struct s_storefd
@@ -42,7 +44,7 @@ typedef struct s_args
 	char	**args;
 	char	**redir;
 	bool	is_redir;
-	bool	cmd_valid; //maybe not needed
+	bool	cmd_valid; // maybe not needed
 	size_t	is_pipe;
 	t_args	*next;
 	t_args	*previous;
@@ -66,7 +68,9 @@ typedef struct s_minishell
 }	t_minishell;
 
 void	init_environmentals(char **env, t_minishell *shell);
-void	signal_config(void);
+// signals
+void	signal_config_input(void);
+void	signal_config_heredoc(void);
 // utils
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcat(char *dest, char *src);
@@ -102,7 +106,7 @@ int		check_redirections(t_args *command);
 int		redirection_loop(t_args *command);
 void	save_fds(t_minishell *shell);
 void	reset_fds(t_minishell *shell);
-int		ft_pipe(t_minishell *shell); //, t_args *command);
+int		ft_pipe(t_minishell *shell);
 int		scanifbuiltin(t_args *cmd);
 int		execbuiltin(t_minishell *shell, t_args *cmd);
 void	child_signals(void);

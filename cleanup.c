@@ -68,6 +68,7 @@ void	free_commands(t_minishell *shell)
 	while (shell->commands) 
 	{
 		next = shell->commands->next;
+		g_sigint_received = 0;
 		free_commands_args(shell->commands);
 		free_commands_redir(shell->commands);
 		shell->pid = 0; // check again
@@ -97,5 +98,5 @@ void	free_everything(t_minishell *shell)
 	free(shell->commands);
 	if (shell->fds)
 		free(shell->fds);
-	rl_clear_history();// tbh not sure if this is necessary
+	rl_clear_history(); // tbh not sure if this is necessary
 }
