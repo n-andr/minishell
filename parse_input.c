@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/13 02:19:45 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:27:37 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,7 @@ static int preprosess_pipe_redir(char **input, int i)
 	if ((*input)[i] == '|')
 	{
 		if ((*input)[i + 1] == '|')
-		{
-			write(2, "minishell: syntax error near '|'\n", 33);
-			return (-1);
-		}
+			return (pipe_error());
 		else
 		{
 			//pipe
