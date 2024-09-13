@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:22:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 14:16:01 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/13 13:23:27 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ void	command_check(t_minishell *shell, char *cmd)
 	if (access(cmd, F_OK) == -1)
 	{
 		ft_putstr_fd(" No such file or directory\n", STDERR_FILENO);
+		free(cmd);
 		free_everything(shell);
 		exit(127);
 	}
 	if (access(cmd, X_OK) == -1)
 	{
 		ft_putstr_fd(" Permission denied\n", STDERR_FILENO);
+		free(cmd);
 		free_everything(shell);
 		exit(126);
 	}

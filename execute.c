@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 14:55:44 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/13 13:22:58 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ void	loop_through_paths(t_minishell *shell, char *cmd, t_args *command)
 	char	*tmp;
 
 	i = 0;
+	newcmd = NULL;
 	while (shell->paths[i] != NULL)
 	{
+		if (newcmd != NULL)
+			free(newcmd);
 		tmp = ft_strjoin(shell->paths[i], "/");
 		newcmd = ft_strjoin(tmp, cmd);
 		free (tmp);
@@ -49,11 +52,13 @@ void	handle_cmd(t_minishell *shell, t_args *command)
 {
 	char	*cmd;
 
-	expand_command(shell, command);
+	/* expand_command(shell, command);
 	if (command->cmd_valid == false)
-		return ;
+		return ; */
 	if (check_redirections(command) == 1)
 		exit(EXIT_FAILURE);
+	if (command->args == NULL || command->args[0] == NULL)
+		return ;
 	if (scanifbuiltin(command) == 1)
 	{
 		execbuiltin(shell, command);

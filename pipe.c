@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 16:46:16 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:57:51 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,20 @@ pid_t	process_cmd(t_minishell *sh, t_args *temp, int pfd[2], int *in_fd)
 	pid_t	child_pid;
 
 	if (sh->commands->cmd_valid == false)
-		return (-1);
+		return (32);
 	else
 	{
 		if (handle_heredoc(temp) == 1)
 		{
 			sh->exit_code = 2;
-			return (3);
+			return (33); // TODO think a bit more about these codes
 		}
 		child_pid = fork();
 		temp->childpid = child_pid;
 		if (child_pid == -1)
 		{
 			perror("child process");
-			return (4);
+			return (34);
 		}
 		else if (child_pid == 0)
 			child_process(pfd, sh, temp, in_fd);
@@ -106,6 +106,8 @@ int	ft_pipe(t_minishell *shell)
 				return (2);
 		}
 		expand_command(shell, temp);
+		if (temp->cmd_valid == false)
+			return (3);
 		child_pid = process_cmd(shell, temp, pipe_fd, &in_fd);
 		temp = temp->next;
 	}
