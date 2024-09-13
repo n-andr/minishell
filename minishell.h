@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/11 19:19:40 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/13 00:22:11 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ void	malloc_error(void);
 void	unclosed_quote(void);
 void	error_exec(void);
 void	too_many_args_error(void);
+int		pipe_error(void);
 // parse
 int	parse_input(char *input, t_minishell *shell);
 void	unfold_input(t_minishell *shell);
 void	unfold_struct(t_minishell *shell);
 void	organize_struct(t_minishell *shell);
-char	**copy_array(char **dest, char **src, int len);
 void	org_redir_commands(t_args *command);
 char	**add_string_to_array(char **array, char *str);
 bool	starts_with_char(char *str, char c);

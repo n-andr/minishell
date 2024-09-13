@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/11 13:20:35 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/13 02:16:02 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// wee need strings for execve(), so i have desided to go for 2-d array
-
 
 static int	preprosess_quotes(char *input, int i, char quote)
 {
@@ -114,9 +112,96 @@ static int preprosess_pipe_redir(char **input, int i)
 	return (i);
 }
 
+// static int	insert_spaces(char **input, int char_position, int len)
+// {
+// 	char	*new_input;
+// 	int		j;
+// 	int		k;
+
+// 	j = 0;
+// 	k = 0;
+// 	new_input = malloc((ft_strlen(*input) + 3) * sizeof(char)); // 3 = for 2 spaces and \0
+// 	if (!new_input)
+// 		return (-1);
+// 	while ((*input)[j] != '\0')
+// 	{
+// 		if (j == char_position)
+// 		{
+// 			new_input[k++] = ' ';
+// 			while ((len--) > 0)
+// 				new_input[k++] = (*input)[j++];
+// 			new_input[k++] = ' ';
+// 		}
+// 		else
+// 			new_input[k++] = (*input)[j++];
+// 	}
+// 	new_input[k] = '\0';
+// 	free(*input);
+// 	*input = new_input;
+// 	return (char_position + len + 1);
+// }
+
+
+
+// static int preprosess_pipe_redir(char **input, int i, int j)
+// {
+// 	if ((*input)[i] == '|')
+// 	{
+// 		j = i + 1;
+// 		while ((*input)[j] == ' ')
+// 			j++;
+// 		if ((*input)[i + 1] == '|' || (*input)[j] == '|' 
+// 			|| (*input)[i + 1] == '\0' || (*input)[j] == '\0')
+// 			return (pipe_error());
+// 		else
+// 		{
+// 			return (insert_spaces(input, i, 1));
+// 		}
+// 	}
+// 	else if ((*input)[i] == '<' || (*input)[i] == '>')
+// 	{
+// 		if ((*input)[i + 1] == (*input)[i])
+// 		{
+// 			return (insert_spaces(input, i, 2));
+// 		}
+// 		else
+// 		{
+// 			return (insert_spaces(input, i, 1));
+// 		}
+// 	}
+// 	return (i);
+// }
+
 // TBD: maybe i need to copy string and free it after instead of changing an initial string
 // to do: pipe and redir check here !!!
 // replace tabs with spaces
+
+// static int	preprosess_string(char **input)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while((*input)[i] != '\0')
+// 	{
+// 		if ((*input)[i] == '\'' || (*input)[i] == '\"')
+// 			i = preprosess_quotes((*input), i + 1, (*input)[i]);
+// 		if ((*input)[i] == '\0')
+// 		{
+// 			unclosed_quote();
+// 			return (-1);
+// 		}
+// 		if ((*input)[i] == '|' || (*input)[i] == '<' || (*input)[i] == '>')
+// 		{
+// 			i = preprosess_pipe_redir(input, i, i);
+// 			if (i == -1)
+// 				return (-1);
+// 		}
+// 		if((*input)[i] == 9)
+// 			(*input)[i] = ' ';
+// 		i ++;
+// 	}
+// 	return(0);
+// }
 
 static int	preprosess_string(char **input)
 {
@@ -146,7 +231,6 @@ static int	preprosess_string(char **input)
 	return(0);
 }
 
-
 static void	postprosess_array(t_minishell *shell)
 {
 	int	i;
@@ -166,102 +250,6 @@ static void	postprosess_array(t_minishell *shell)
 		i++;
 	}
 }
-
-
-
-void test_printf(t_minishell *shell) //delete
-{
-	int	j;
-	t_args	*temp;
-
-	j = 0;
-	temp = shell->commands;
-	while (temp != NULL)
-	{
-		if (temp->args == NULL) {
-			printf("shell->commands->args: NULL\n");
-		} else {
-			printf("shell->commands->args:\n");
-			while (temp->args[j] != NULL)
-			{
-				printf("   %s\n", temp->args[j]);
-				j++;
-			}
-			j = 0;
-		}
-		if (temp->redir == NULL) {
-			printf("shell->commands->redir: NULL\n");
-		} else {
-			printf("shell->commands->redir:\n");
-			while (temp->redir[j] != NULL)
-			{
-				printf("   %s\n", temp->redir[j]);
-				j++;
-			}
-		}
-		printf("shell->commands->is_redir: %i\n", temp->is_redir);
-		printf("shell->commands->is_pipe: %li\n", temp->is_pipe);
-		if (temp->heredoc != NULL) {
-			printf("shell->commands->heredoc: %s\n", temp->heredoc);
-		} else {
-			printf("shell->commands->heredoc: NULL\n");
-		}
-		printf("shell->commands->previous: %p\n", temp->previous);
-		printf("shell->commands->next: %p\n\n", temp->next);
-		j = 0;
-		temp = temp->next;
-	}
-}
-
-void test_printf_command(t_args	*temp) //delete
-{
-	int	j;
-	j = 0;
-	if (temp == NULL)
-	{
-		printf("shell->commands: NULL\n");
-	}
-
-
-	if (temp->args == NULL) {
-		printf("shell->commands->args: NULL\n");
-	} else {
-		printf("shell->commands->args:\n");
-		while (temp->args[j] != NULL)
-		{
-			printf("   %s\n", temp->args[j]);
-			j++;
-		}
-		j = 0;
-	}
-	if (temp->redir == NULL) {
-		printf("shell->commands->redir: NULL\n");
-	} else {
-		printf("shell->commands->redir:\n");
-		while (temp->redir[j] != NULL)
-		{
-			printf("   %s\n", temp->redir[j]);
-			j++;
-		}
-	}
-	printf("shell->commands->is_redir: %i\n", temp->is_redir);
-	printf("shell->commands->is_pipe: %li\n", temp->is_pipe);
-	if (temp->heredoc != NULL) {
-		printf("shell->commands->heredoc: %s\n", temp->heredoc);
-	} else {
-		printf("shell->commands->heredoc: NULL\n");
-	}
-	printf("shell->commands->previous: %p\n", temp->previous);
-	printf("shell->commands->next: %p\n\n", temp->next);
-	j = 0;
-	
-}
-
-// if buil-in or executable or path or redirection -> return 1
-// error for each command (if two pipes, check two commands -> return 2 errors)
-// return: 0 - invalid, 1 - valid
-
-
 
 int	parse_input(char *input, t_minishell *shell)
 {
@@ -293,31 +281,8 @@ int	parse_input(char *input, t_minishell *shell)
 		return (0); //nothing to do
 	}
 	postprosess_array(shell);
-	// unfold_input(shell);
-	// shell->exit_code = 0; // must be after unfold
 	organize_struct(shell);
-
-	//test_printf(shell); //delete 
-	
-	//unfold_struct(shell);
-	//shell->exit_code = 0; // moved inside check_cmd_valid must be after unfold
-	
-	//printing all content of shell->commands
-	// printf("\n\nafter unfolding: \n");
-	// test_printf(shell); //delete 
-
 	free_args(shell);
-
-	// if (check_if_cmd_valid(shell) == 0) // 0 - invalid, 1 - valid
-	// {
-	// 	free_commands(shell);
-	// 	shell->exit_code = 127; // bash exit code
-	// 	return (0); 
-	// }
-	// else
-	// {
-	// 	//printf("ready to execute\n"); //delete
-	// 	return (1);
-	// }
+	shell->args = NULL;
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_input_in_struct.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:05:17 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/11 19:33:28 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/12 23:30:22 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_args	*init_new_command(void)
 	new_command->args = NULL;
 	new_command->redir = NULL;
 	new_command->is_redir = false;
-	new_command->cmd_valid = false; //maybe not needed
+	new_command->cmd_valid = false;
 	new_command->is_pipe = 0;
 	new_command->heredoc = NULL;
 	new_command->previous = NULL;
@@ -71,61 +71,6 @@ void	pipe_numeration(t_minishell *shell)
 	}
 }
 
-char	**copy_array(char **dest, char **src, int len)
-{
-	int	i;
-
-	i = 0;
-	if (len == 0)
-		return (NULL);
-	dest = malloc((len + 1) * sizeof(char *));
-	if (!dest)
-		return (NULL);
-	while (i < len)
-	{
-		dest[i] = ft_strdup(src[i]);
-		i++;
-	}
-	dest[i] = NULL;
-	return (dest);
-}
-
-bool	starts_with_char(char *str, char c)
-{
-	if (!str || !str[0])
-		return (false);
-	if (str[0] == c)
-		return (true);
-	return (false);
-}
-
-// char	**organize_current_node(t_args *current_command, char **args)
-// {
-// 	int	len_args;
-// 	int	len_redir;
-
-// 	len_args = 0;
-// 	len_redir = 0;
-	
-// 	while (args[len_args]
-// 		&& !starts_with_char(args[len_args], '|')
-// 		&& !starts_with_char(args[len_args], '>')
-// 		&& !starts_with_char(args[len_args], '<'))
-// 		len_args++;
-// 	while (args[len_args + len_redir]
-// 		&& !starts_with_char(args[len_args + len_redir], '|'))
-// 		len_redir++;
-// 	if (len_args > 0)
-// 		current_command->args = copy_array(current_command->args, args, len_args);
-// 	if (len_redir > 0)
-// 	{
-// 		current_command->redir = copy_array(current_command->redir, args + len_args, len_redir);
-// 		current_command->is_redir = true;
-// 	}
-// 	org_redir_commands(current_command);
-// 	return (args + len_args + len_redir);
-// }
-
 char	**organize_current_node(t_args *command, char **args)
 {
 	int	len;
@@ -133,12 +78,13 @@ char	**organize_current_node(t_args *command, char **args)
 	len = 0;
 	while (args[len] && !starts_with_char(args[len], '|'))
 	{
-		if (starts_with_char(args[len], '>') 
+		if (starts_with_char(args[len], '>')
 			|| starts_with_char(args[len], '<'))
 		{
 			command->redir = add_string_to_array(command->redir, args[len]);
 		}
-		else if (len > 0 && (starts_with_char(args[len - 1], '>') || starts_with_char(args[len - 1], '<')))
+		else if (len > 0 && (starts_with_char(args[len - 1], '>')
+				|| starts_with_char(args[len - 1], '<')))
 		{
 			command->redir = add_string_to_array(command->redir, args[len]);
 		}
@@ -150,7 +96,6 @@ char	**organize_current_node(t_args *command, char **args)
 	}
 	if (command->redir != NULL && command->redir[0] != NULL)
 		command->is_redir = true;
-	//org_redir_commands(current_command);
 	return (args + len);
 }
 

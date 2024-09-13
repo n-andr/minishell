@@ -1,5 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   organize_redir_commands.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
+/*   Updated: 2024/09/12 23:26:41 by nandreev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
+bool	starts_with_char(char *str, char c)
+{
+	if (!str || !str[0])
+		return (false);
+	if (str[0] == c)
+		return (true);
+	return (false);
+}
 
 int	array_len(char **array)
 {
@@ -13,71 +33,10 @@ int	array_len(char **array)
 	return (i);
 }
 
-// char	**keep_redir(char **redir)
-// {
-// 	int i;
-// 	char	**new_redir;
-// 	i = 0;
-// 	new_redir = NULL;
-// 	if (redir == NULL || redir[i] == NULL)
-// 		return (NULL);
-// 	else
-// 		i++;
-// 	while (redir[i] != NULL 
-// 		&& (ft_strchr(redir[i], '>') || ft_strchr(redir[i], '<') 
-// 		|| ft_strchr(redir[i - 1], '<') || ft_strchr(redir[i - 1], '>')))
-// 		i++;
-// 	new_redir = copy_array(new_redir, redir, i);
-// 	return (new_redir);
-// }
-
-// void	builtins_redirs(t_args *command)
-// {
-// 	int i;
-// 	int a_len;
-// 	int args_from_redir;
-// 	char	**new_args;
-// 	char	**new_redir;
-
-// 	i = 0;
-// 	new_args = NULL;
-// 	new_redir = NULL;	
-// 	a_len = array_len(command->args);
-// 	new_redir =  keep_redir(command->redir);
-// 	args_from_redir = array_len(command->redir) - array_len(new_redir);
-// 	if (args_from_redir > 0)
-// 	{
-// 		new_args = malloc((a_len + args_from_redir + 1) * sizeof(char *));
-// 		if (!new_args)
-// 			return;
-// 		while (command->args[i] != NULL)
-// 		{
-// 			new_args[i] = ft_strdup(command->args[i]);
-// 			i++;
-// 		}
-// 		i = array_len(new_redir);
-// 		while (command->redir[i] != NULL)
-// 		{
-// 			new_args[a_len] = ft_strdup(command->redir[i]);
-// 			i++;
-// 			a_len++;
-// 		}
-// 		new_args[a_len] = NULL;
-// 		free_array(command->args);
-// 		free_array(command->redir);
-// 		command->args = new_args;
-// 		command->redir = new_redir;
-// 	}
-// 	else
-// 	{
-// 		free_array(new_redir);
-// 	}
-// }
-
 char	**add_string_to_array(char **array, char *str)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
 	char	**new_array;
 
 	i = 0;
@@ -95,34 +54,3 @@ char	**add_string_to_array(char **array, char *str)
 	free_array(array);
 	return (new_array);
 }
-
-// void	org_redir_commands(t_args *command)
-// {
-// 	char **new_redir;
-// 	int i;
-
-// 	new_redir = NULL;
-// 	i = 0;
-// 	if (command->redir == NULL || command->redir[i] == NULL)
-// 		return;
-// 	if (starts_with_char(command->redir[i], '>') || starts_with_char(command->redir[i], '<'))
-// 	{
-// 		new_redir = add_string_to_array(new_redir, command->redir[i]);
-// 		i++;
-// 	}
-// 	while (command->redir[i] != NULL)
-// 	{
-// 		if ((starts_with_char(command->redir[i], '>') || starts_with_char(command->redir[i], '<') 
-// 		|| starts_with_char(command->redir[i - 1], '>') || starts_with_char(command->redir[i - 1], '<')))
-// 		{
-// 			new_redir = add_string_to_array(new_redir, command->redir[i]);
-// 		}
-// 		else
-// 		{
-// 			command->args = add_string_to_array(command->args, command->redir[i]);
-// 		}
-// 		i++;
-// 	}
-// 	free_array(command->redir);
-// 	command->redir = new_redir;
-// }
