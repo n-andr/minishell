@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/13 15:15:39 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:41:32 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/ioctl.h>
 # include <stdbool.h>
 # include <string.h>
 # include <signal.h>
@@ -29,7 +30,7 @@
 #  define MAX_INPUT_SIZE 1024
 # endif
 
-extern long long	g_sigint_received;
+extern long long		g_sigint_received;
 
 typedef struct s_args	t_args;
 
