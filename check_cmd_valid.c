@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_cmd_valid.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 15:02:54 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/13 15:02:56 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:08:46 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ bool	check_if_cmd_valid(t_minishell *shell, t_args *cmd)
 	if ((cmd->args == NULL || cmd->args[0] == NULL )
 		&& cmd->is_redir == 0 && cmd->is_pipe == 0)
 	{
-		return (true);
+		return (false);
 	}
 	else if (cmd->args == NULL && cmd->is_redir == 0 && cmd->is_pipe != 0)
 	{
