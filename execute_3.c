@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:54:38 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/13 12:51:52 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:15:12 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	setupfork(t_minishell *shell, t_args *cmd)
 	pid_t	pid;
 	int		status;
 
-	child_signals();
+	// child_signals();
+	signal_config_execute(); // before or after child process?
 	pid = fork();
 	if (pid < 0)
 	{

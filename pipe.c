@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/13 12:57:51 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:20:12 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	ft_pipe(t_minishell *shell)
 
 	in_fd = -1;
 	temp = shell->commands;
-	child_signals();
+	signal_config_execute();
 	while (temp != NULL)
 	{
 		if (temp->next != NULL)
