@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/13 13:23:46 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:01:53 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ typedef struct s_minishell
 void	init_environmentals(char **env, t_minishell *shell);
 // signals
 void	signal_config_input(void);
+void	sigint_handler_input(int sig);
 void	signal_config_heredoc(void);
+void	sigint_handler_heredoc(int sig);
+
 // utils
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcat(char *dest, char *src);
