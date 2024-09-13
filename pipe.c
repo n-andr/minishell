@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 13:20:36 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:20:12 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // file descriptors are [1] for write side and [0] for read side
-void	child_process(int *pipe_fd, t_minishell *shell, t_args *command, int *in_fd)
+void	child_process(int *pipe_fd, t_minishell *shell, t_args *cmd, int *in_fd)
 {
-	if (command->previous != NULL)
+	if (cmd->previous != NULL)
 	{
 		if (dup2(*in_fd, STDIN_FILENO) == -1)
 			perror ("dup 1 failed");
 		else
 			close(*in_fd);
 	}
-	if (command->next != NULL)
+	if (cmd->next != NULL)
 	{
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 			perror ("dup 2 failed");
@@ -30,7 +30,7 @@ void	child_process(int *pipe_fd, t_minishell *shell, t_args *command, int *in_fd
 			close(pipe_fd[1]);
 	}
 	close(pipe_fd[0]);
-	handle_cmd(shell, command);
+	handle_cmd(shell, cmd);
 	exit(0);
 }
 
@@ -41,50 +41,41 @@ void	parent_process(int *pipe_fd, int *in_fd)
 	if (pipe_fd[1] != -1)
 		close(pipe_fd[1]);
 	*in_fd = pipe_fd[0];
-	// exit(0); // important to leave it commented out -- messes with pipes and system functions
 }
 
-int	ft_pipe(t_minishell *shell)
+pid_t	process_cmd(t_minishell *sh, t_args *temp, int pfd[2], int *in_fd)
 {
-	int		pipe_fd[2];
 	pid_t	child_pid;
+
+	if (sh->commands->cmd_valid == false)
+		return (32);
+	else
+	{
+		if (handle_heredoc(temp) == 1)
+		{
+			sh->exit_code = 2;
+			return (33); // TODO think a bit more about these codes
+		}
+		child_pid = fork();
+		temp->childpid = child_pid;
+		if (child_pid == -1)
+		{
+			perror("child process");
+			return (34);
+		}
+		else if (child_pid == 0)
+			child_process(pfd, sh, temp, in_fd);
+		else
+			parent_process(pfd, in_fd);
+	}
+	return (child_pid);
+}
+
+void	wait_for_children(t_minishell *shell, pid_t child_pid)
+{
 	t_args	*temp;
-	int		in_fd;
 	int		status;
 
-	in_fd = -1;
-	temp = shell->commands;
-	child_signals();
-	while (temp != NULL)
-	{
-		if (temp->next != NULL)
-		{
-			if (pipe(pipe_fd) == -1)
-				return (0);
-		}
-		expand_command(shell, temp);
-		if (shell->commands->cmd_valid == false)
-			temp = temp->next;
-		else
-		{
-			if (handle_heredoc(temp) == 1) // exit codes?
-				return (1); // double check if this is ok
-			
-			child_pid = fork();
-			temp->childpid = child_pid;
-			if (child_pid == -1)
-			{
-				perror("child process");
-				return (2);
-			}
-			else if (child_pid == 0)
-				child_process(pipe_fd, shell, temp, &in_fd);
-			else
-				parent_process(pipe_fd, &in_fd);
-			temp = temp->next;
-		}
-	}
-	// free (temp);
 	temp = shell->commands;
 	while (temp != NULL)
 	{
@@ -95,5 +86,31 @@ int	ft_pipe(t_minishell *shell)
 			shell->exit_code = EXIT_FAILURE;
 		temp = temp->next;
 	}
+}
+
+int	ft_pipe(t_minishell *shell)
+{
+	int		pipe_fd[2];
+	pid_t	child_pid;
+	t_args	*temp;
+	int		in_fd;
+
+	in_fd = -1;
+	temp = shell->commands;
+	signal_config_execute();
+	while (temp != NULL)
+	{
+		if (temp->next != NULL)
+		{
+			if (pipe(pipe_fd) == -1)
+				return (2);
+		}
+		expand_command(shell, temp);
+		if (temp->cmd_valid == false)
+			return (3);
+		child_pid = process_cmd(shell, temp, pipe_fd, &in_fd);
+		temp = temp->next;
+	}
+	wait_for_children(shell, child_pid);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:16:47 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/08/27 17:40:52 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:07:16 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	mini_pwd(t_minishell *shell)
 {
-	printf("%s\n", shell->pwd); // replace with write and fd for pipes
+	ft_putstr_fd(shell->pwd, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 	return (0);
 }

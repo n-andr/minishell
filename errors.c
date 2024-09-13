@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:55:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/10 17:30:18 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:28:17 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 void	args_error(void)
 {
-	ft_putendl_fd("Error. This program does not accept any arguments", STDERR_FILENO);
+	ft_putstr_fd("Error. ", STDERR_FILENO);
+	ft_putstr_fd("This program does not accept any arguments\n", STDERR_FILENO);
 }
 
-void	malloc_error(void)
+void	malloc_error(t_minishell *shell)
 {
 	ft_putendl_fd("Error. Malloc failed", STDERR_FILENO);
+	free_everything(shell);
+	exit(EXIT_FAILURE);
 }
 
 void	error_exec(void)
@@ -30,7 +33,7 @@ void	error_exec(void)
 void	unclosed_quote(void)
 {
 	ft_putendl_fd("Error. Unclosed quotes", STDERR_FILENO);
-	//free stuff if needed
+	// free stuff if needed
 	// return control back to user 
 }
 

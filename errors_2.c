@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:22:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/13 01:40:21 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:26:17 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,21 @@ void	command_check(t_minishell *shell, char *cmd)
 	{
 		ft_putstr_fd(cmd, STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		exit (127);
+		exit(127);
 	}
 	if (!shell->paths)
 		exit(127);
 	if (access(cmd, F_OK) == -1)
 	{
 		ft_putstr_fd(" No such file or directory\n", STDERR_FILENO);
+		free(cmd);
 		free_everything(shell);
 		exit(127);
 	}
 	if (access(cmd, X_OK) == -1)
 	{
 		ft_putstr_fd(" Permission denied\n", STDERR_FILENO);
+		free(cmd);
 		free_everything(shell);
 		exit(126);
 	}
@@ -56,6 +58,5 @@ void	command_check(t_minishell *shell, char *cmd)
 int	pipe_error(void)
 {
 	ft_putendl_fd("minishell: syntax error near '|'", STDERR_FILENO);
-	// write(2, "minishell: syntax error near '|'\n", 33);
 	return (-1);
 }
