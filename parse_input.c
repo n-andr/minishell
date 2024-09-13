@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/13 02:16:02 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/13 02:19:45 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static int	preprosess_quotes(char *input, int i, char quote)
 	while (input[i] != quote && input[i] != '\0')
 	{
 		if (input[i] == ' ')
-			input[i] = '\1'; //change to \1
+			input[i] = '\1';
 		i++;
 	}
-	return(i);
+	return (i);
 }
 
-static char *insert_spaces(char *input, int i, int len)
+static char	*insert_spaces(char *input, int i, int len)
 {
 	char	*new_input;
 	int		j;
@@ -31,7 +31,7 @@ static char *insert_spaces(char *input, int i, int len)
 
 	j = 0;
 	k = 0;
-	new_input = malloc((ft_strlen(input) + 3) * sizeof(char)); // 3 = for 2 spaces and \0
+	new_input = malloc((ft_strlen(input) + 3) * sizeof(char));
 	if (!new_input)
 		return (NULL);
 	while (input[j] != '\0')
