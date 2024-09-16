@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_cmd_valid.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 15:02:54 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/13 18:11:56 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/16 00:24:39 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,30 +82,38 @@ int	is_path(char *str)
 		return (0);
 }
 
-bool	check_if_cmd_valid(t_minishell *shell, t_args *cmd)
+void	exit_code(t_minishell *shell, t_args *cmd, int code, bool is_valid)
+{
+	if (cmd->next == NULL)
+	{
+		shell->exit_code = code;
+	}
+	cmd->cmd_valid = is_valid;
+	return ;
+}
+
+void	check_if_cmd_valid(t_minishell *shell, t_args *cmd)
 {
 	if (cmd == NULL)
-		return (true);
+		exit_code(shell, cmd, 0, false);
 	if ((cmd->args == NULL || cmd->args[0] == NULL )
 		&& cmd->is_redir == 0 && cmd->is_pipe == 0)
-	{
-		return (false);
-	}
+		exit_code(shell, cmd, 0, false);
 	else if (cmd->args == NULL && cmd->is_redir == 0 && cmd->is_pipe != 0)
 	{
 		write(2, "minishell: syntax error near unexpected token `|'\n", 50);
-		return (false);
+		exit_code(shell, cmd, 127, false);
 	}
-	else if (cmd->args != NULL && (is_builtin(cmd->args[0]) 
+	else if ((cmd->args != NULL && (is_builtin(cmd->args[0]) 
 			|| is_executable(shell, cmd->args[0])
 			|| is_path(cmd->args[0])))
-		return (true);
-	else if (cmd->is_redir == 1 && cmd->args == NULL)
-		return (true);
+			|| (cmd->is_redir == 1 && cmd->args == NULL))
+		exit_code(shell, cmd, 0, true);
 	else
 	{
 		write(2, cmd->args[0], ft_strlen(cmd->args[0]));
 		write(2, ": command not found\n", 20);
-		return (false);
+		exit_code(shell, cmd, 127, false);
 	}
+	return ;
 }
