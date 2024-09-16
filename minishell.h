@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/17 00:07:07 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/17 00:33:27 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	too_many_args_error(void);
 int		pipe_error(void);
 // parse
 int		parse_input(char *input, t_minishell *shell);
+int		preprosess_string(char **input);
 void	unfold_input(t_minishell *shell);
 void	unfold_struct(t_minishell *shell);
 void	organize_struct(t_minishell *shell);
@@ -97,6 +98,13 @@ bool	starts_with_char(char *str, char c);
 
 //expantion
 void	expand_command(t_minishell *shell, t_args *command);
+char	*unfold_double(char *str, int *i, t_minishell *shell);
+char	*expand_variable(char *str, int *i, t_minishell *shell);
+char	*free_and_assign(char *result, char *temp, char *substing);
+char	*empty_result_check(char *result, char *arg);
+char	*get_exit_code(t_minishell *shell, int *i);
+bool	is_valid_name(char c, int *i);
+
 // check
 void	check_if_cmd_valid(t_minishell *shell, t_args *command);
 int		is_builtin_or_path(char *str);

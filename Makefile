@@ -6,7 +6,7 @@
 #    By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/09/17 00:04:55 by nandreev         ###   ########.fr        #
+#    Updated: 2024/09/17 00:33:50 by nandreev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,11 @@ SRCS = main.c \
 	init.c \
 	utils.c \
 	parse_input.c \
-	parsing_unfold.c\
+	parsing_preprocess.c \
+	parsing_unfold.c \
+	parsing_unfold_2.c \
 	put_input_in_struct.c\
+	parsing_utils.c \
 	organize_redir_commands.c \
 	check_cmd_valid.c \
 	errors.c \
