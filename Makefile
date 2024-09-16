@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/09/13 15:02:50 by lde-taey         ###   ########.fr        #
+#    Updated: 2024/09/16 21:19:51 by nandreev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,6 @@ SRCS = main.c \
 	execute.c \
 	execute_2.c \
 	execute_3.c \
-	free.c \
 	cleanup.c \
 	redirections.c \
 	redirections_2.c \

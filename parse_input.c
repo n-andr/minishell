@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:00:10 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/14 23:05:48 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/16 21:23:29 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,28 @@ static char	*insert_spaces(char *input, int i, int len)
 	return (new_input);
 }
 
+static bool	next_pipe(char *input, int i)
+{
+	if (input[i] == '|')
+	{
+		return (true);
+	}
+	while (input[i] != '\0')
+	{
+		if (input[i] == '|')
+				return (true);
+		else if (input[i] != ' ' && input[i] != '|')
+				return (false);
+		i++;
+	}
+	return (false);
+}
+
 static int	preprosess_pipe_redir(char **input, int i)
 {
 	if ((*input)[i] == '|')
 	{
-		if ((*input)[i + 1] == '|')
+		if (next_pipe((*input), i + 1))
 			return (pipe_error());
 		else
 		{

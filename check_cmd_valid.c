@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 15:02:54 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/16 00:24:39 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/16 21:41:55 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,7 @@ void	check_if_cmd_valid(t_minishell *shell, t_args *cmd)
 		exit_code(shell, cmd, 0, false);
 	else if (cmd->args == NULL && cmd->is_redir == 0 && cmd->is_pipe != 0)
 	{
-		write(2, "minishell: syntax error near unexpected token `|'\n", 50);
-		exit_code(shell, cmd, 127, false);
+		exit_code(shell, cmd, 0, false);
 	}
 	else if ((cmd->args != NULL && (is_builtin(cmd->args[0]) 
 			|| is_executable(shell, cmd->args[0])
