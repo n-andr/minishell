@@ -6,7 +6,7 @@
 #    By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/09/16 23:46:37 by nandreev         ###   ########.fr        #
+#    Updated: 2024/09/17 00:04:55 by nandreev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRCS = main.c \
 	builtins/mini_echo.c \
 	builtins/mini_exit.c \
 	builtins/mini_export.c \
-	builtins/mini_export2.c \
+	builtins/mini_export_2.c \
 	signals.c \
 	signals_handlers.c
 

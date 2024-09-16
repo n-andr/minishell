@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/13 17:09:13 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/16 23:51:03 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_echo(t_args *cmd, int i)
 	bytes_read = 1;
 	if (cmd->heredoc != NULL)
 	{
-		while (bytes_read > 0) 
+		while (bytes_read > 0)
 		{
 			bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer));
 			if (bytes_read <= 0)
@@ -30,9 +30,9 @@ void	print_echo(t_args *cmd, int i)
 	}
 	while (cmd->args[i] != NULL)
 	{
-		write(STDOUT_FILENO, cmd->args[i], ft_strlen(cmd->args[i])); 
+		write(STDOUT_FILENO, cmd->args[i], ft_strlen(cmd->args[i]));
 		if (cmd->args[i + 1] != NULL)
-			write(STDOUT_FILENO, " ", 1); 
+			write(STDOUT_FILENO, " ", 1);
 		i++;
 	}
 }

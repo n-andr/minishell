@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/16 23:45:57 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/17 00:07:07 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ bool	starts_with_char(char *str, char c);
 void	expand_command(t_minishell *shell, t_args *command);
 // check
 void	check_if_cmd_valid(t_minishell *shell, t_args *command);
-int		is_builtin(char *str);
+int		is_builtin_or_path(char *str);
 int		is_executable(t_minishell *shell, char *str);
 int		is_path(char *str);
 // execute
@@ -126,6 +126,8 @@ int		mini_export(t_minishell *shell, t_args *cmd);
 void	mini_exit(t_minishell *shell);
 int		mini_export(t_minishell *shell, t_args *cmd);
 int		add_var(char *arg, int name_len, t_minishell *shell);
+int		var_exists(char *arg, int name_len, char *new_var, t_minishell *shell);
+char	**realloc_env_array(char **envs, char *new_var);
 // cleanup
 void	free_everything(t_minishell *shell);
 void	free_array(char **array);

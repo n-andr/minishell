@@ -6,13 +6,13 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 15:02:54 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/16 21:41:55 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/17 00:02:17 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_builtin(char *str)
+int	is_builtin_or_path(char *str)
 {
 	char	*builtins[8];
 	int		i;
@@ -34,6 +34,10 @@ int	is_builtin(char *str)
 			return (1);
 		i ++;
 	}
+	if (ft_strchr(str, '/'))
+		return (1);
+	else
+		return (0);
 	return (0);
 }
 
@@ -72,16 +76,6 @@ int	is_executable(t_minishell *shell, char *str)
 	return (0);
 }
 
-int	is_path(char *str)
-{
-	if (str == NULL)
-		return (0);
-	if (ft_strchr(str, '/'))
-		return (1);
-	else
-		return (0);
-}
-
 void	exit_code(t_minishell *shell, t_args *cmd, int code, bool is_valid)
 {
 	if (cmd->next == NULL)
@@ -103,10 +97,9 @@ void	check_if_cmd_valid(t_minishell *shell, t_args *cmd)
 	{
 		exit_code(shell, cmd, 0, false);
 	}
-	else if ((cmd->args != NULL && (is_builtin(cmd->args[0]) 
-			|| is_executable(shell, cmd->args[0])
-			|| is_path(cmd->args[0])))
-			|| (cmd->is_redir == 1 && cmd->args == NULL))
+	else if ((cmd->args != NULL && (is_builtin_or_path(cmd->args[0])
+				|| is_executable(shell, cmd->args[0])))
+		|| (cmd->is_redir == 1 && cmd->args == NULL))
 		exit_code(shell, cmd, 0, true);
 	else
 	{
