@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/12 22:23:38 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/20 14:32:16 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	free_commands_args(t_args *commands)
 	i = 0;
 	if (commands->args == NULL)
 		return ;
-	while (commands->args[i]) // free args
+	while (commands->args[i])
 	{
 		free (commands->args[i]);
 		i ++;
@@ -64,14 +64,14 @@ void	free_commands_redir(t_args *commands)
 
 void	free_commands(t_minishell *shell)
 {
-	t_args	*next; //check previous command to start freeing from the begininning
+	t_args	*next;
+
 	while (shell->commands) 
 	{
 		next = shell->commands->next;
 		g_sigint_received = 0;
 		free_commands_args(shell->commands);
 		free_commands_redir(shell->commands);
-		shell->pid = 0; // check again
 		if (shell->commands->heredoc != NULL)
 		{
 			if (unlink(shell->commands->heredoc) < 0)
@@ -87,7 +87,7 @@ void	free_commands(t_minishell *shell)
 void	free_everything(t_minishell *shell)
 {
 	free_array(shell->envs);
-	free_commands(shell); //free shell->comands->args array & free shell->comands->redir array
+	free_commands(shell);
 	if (shell->home)
 		free(shell->home);
 	if (shell->pwd)
@@ -98,5 +98,5 @@ void	free_everything(t_minishell *shell)
 	free(shell->commands);
 	if (shell->fds)
 		free(shell->fds);
-	rl_clear_history(); // tbh not sure if this is necessary
+	rl_clear_history();
 }

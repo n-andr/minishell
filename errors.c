@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:55:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/13 15:28:17 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/20 14:30:13 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	error_exec(void)
 void	unclosed_quote(void)
 {
 	ft_putendl_fd("Error. Unclosed quotes", STDERR_FILENO);
-	// free stuff if needed
-	// return control back to user 
 }
 
 void	too_many_args_error(void)

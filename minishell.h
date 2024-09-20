@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/20 14:27:38 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/20 14:33:17 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_args
 	char	**args;
 	char	**redir;
 	bool	is_redir;
-	bool	cmd_valid; // maybe not needed
+	bool	cmd_valid;
 	size_t	is_pipe;
 	t_args	*next;
 	t_args	*previous;
@@ -63,7 +63,6 @@ typedef struct s_minishell
 	char		*home;
 	int			exit_code;
 	t_args		*commands;
-	int			pid;
 	int			fd_in;
 	t_storefd	*fds;
 }	t_minishell;
