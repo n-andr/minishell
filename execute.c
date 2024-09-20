@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/13 13:22:58 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:09:17 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void	handle_cmd(t_minishell *shell, t_args *command)
 {
 	char	*cmd;
 
-	/* expand_command(shell, command);
-	if (command->cmd_valid == false)
-		return ; */
+	// expand_command(shell, command);
+	// if (command->cmd_valid == false)
+	// 	return ;
 	if (check_redirections(command) == 1)
 		exit(EXIT_FAILURE);
 	if (command->args == NULL || command->args[0] == NULL)

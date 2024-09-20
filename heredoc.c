@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:05:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/13 12:43:03 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:38:45 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,36 +25,37 @@ static char	*generate_filename(void)
 	return (filename);
 }
 
+int	cleanup_rl(char *line, int fd)
+{
+	if (line)
+		free(line);
+	close (fd);
+	return (1);
+}
+
 static int	generate_heredoc(t_args *command, char *delimiter)
 {
 	int		fd;
 	char	*line;
 
-	g_sigint_received = 0;
 	command->heredoc = generate_filename();
-	fd = open(command->heredoc, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-		return (0);
-	line = readline(">");
-	while (line && ft_strncmp(delimiter, line, ft_strlen(delimiter)))
+	while (1)
 	{
-		/* if (g_sigint_received != 0)
-		{
-			free(line);
-			g_sigint_received = 0;
-			ft_putstr_fd("\n", STDOUT_FILENO); // how to erase all the lines and start a new file? // double free detected now
+		g_sigint_received = 0;
+		fd = open(command->heredoc, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		if (fd < 0)
 			return (0);
-		}
-		else
-		{*/
-			write(fd, line, ft_strlen(line));
-			write(fd, "\n", 1);
-			free(line);
+		while (g_sigint_received == 0)
+		{
 			line = readline(">");
-		//}
+			if (!line || ft_strncmp(delimiter, line, ft_strlen(delimiter)) == 0)
+				return (cleanup_rl(line, fd));
+			ft_putendl_fd(line, fd);
+			free(line);
+		}
+		close(fd);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
-	free(line);
-	close (fd);
 	return (1);
 }
 
