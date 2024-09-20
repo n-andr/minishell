@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:22:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/20 14:33:54 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:21:07 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	command_check(t_minishell *shell, char *cmd)
 
 int	pipe_error(void)
 {
-	ft_putendl_fd("minishell: syntax error ", STDERR_FILENO);
+	ft_putstr_fd("minishell: syntax error ", STDERR_FILENO);
 	ft_putendl_fd("near unexpected token `|'", STDERR_FILENO);
 	return (-1);
 }
