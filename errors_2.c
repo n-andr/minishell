@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:22:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/13 15:26:17 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/16 21:49:15 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ void	command_check(t_minishell *shell, char *cmd)
 
 int	pipe_error(void)
 {
-	ft_putendl_fd("minishell: syntax error near '|'", STDERR_FILENO);
+	ft_putendl_fd("minishell: syntax error near unexpected token `|'", STDERR_FILENO);
 	return (-1);
 }

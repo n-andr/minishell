@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/13 17:41:32 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/20 14:27:38 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	too_many_args_error(void);
 int		pipe_error(void);
 // parse
 int		parse_input(char *input, t_minishell *shell);
+int		preprosess_string(char **input);
 void	unfold_input(t_minishell *shell);
 void	unfold_struct(t_minishell *shell);
 void	organize_struct(t_minishell *shell);
@@ -98,9 +99,16 @@ bool	starts_with_char(char *str, char c);
 
 //expantion
 void	expand_command(t_minishell *shell, t_args *command);
+char	*unfold_double(char *str, int *i, t_minishell *shell);
+char	*expand_variable(char *str, int *i, t_minishell *shell);
+char	*free_and_assign(char *result, char *temp, char *substing);
+char	*empty_result_check(char *result, char *arg);
+char	*get_exit_code(t_minishell *shell, int *i);
+bool	is_valid_name(char c, int *i);
+
 // check
-bool	check_if_cmd_valid(t_minishell *shell, t_args *command);
-int		is_builtin(char *str);
+void	check_if_cmd_valid(t_minishell *shell, t_args *command);
+int		is_builtin_or_path(char *str);
 int		is_executable(t_minishell *shell, char *str);
 int		is_path(char *str);
 // execute
@@ -126,14 +134,15 @@ int		mini_echo(t_args *cmd);
 int		mini_export(t_minishell *shell, t_args *cmd);
 void	mini_exit(t_minishell *shell);
 int		mini_export(t_minishell *shell, t_args *cmd);
+int		add_var(char *arg, int name_len, t_minishell *shell);
+int		var_exists(char *arg, int name_len, char *new_var, t_minishell *shell);
+char	**realloc_env_array(char **envs, char *new_var);
 // cleanup
 void	free_everything(t_minishell *shell);
 void	free_array(char **array);
 void	free_commands(t_minishell *shell);
 void	directory_check(t_minishell *shell, char *cmd);
 void	command_check(t_minishell *shell, char *cmd);
-// free
-void	free_args(t_minishell *shell);
 // tests
 void	test_printf(t_minishell *shell); //delete
 void	test_printf_command(t_args	*temp); //delete

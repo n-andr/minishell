@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 17:12:03 by lde-taey          #+#    #+#              #
-#    Updated: 2024/09/13 15:02:50 by lde-taey         ###   ########.fr        #
+#    Updated: 2024/09/17 00:33:50 by nandreev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,11 @@ SRCS = main.c \
 	init.c \
 	utils.c \
 	parse_input.c \
-	parsing_unfold.c\
+	parsing_preprocess.c \
+	parsing_unfold.c \
+	parsing_unfold_2.c \
 	put_input_in_struct.c\
+	parsing_utils.c \
 	organize_redir_commands.c \
 	check_cmd_valid.c \
 	errors.c \
@@ -29,7 +32,6 @@ SRCS = main.c \
 	execute.c \
 	execute_2.c \
 	execute_3.c \
-	free.c \
 	cleanup.c \
 	redirections.c \
 	redirections_2.c \
@@ -42,6 +44,7 @@ SRCS = main.c \
 	builtins/mini_echo.c \
 	builtins/mini_exit.c \
 	builtins/mini_export.c \
+	builtins/mini_export_2.c \
 	signals.c \
 	signals_handlers.c
 
