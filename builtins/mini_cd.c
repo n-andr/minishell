@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 18:53:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 13:55:59 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:21:31 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	check_relative_path(char *arg, t_minishell *shell)
 {
 	char	path[MAX_INPUT_SIZE];
 
-	if (arg[0] == '~')
+	if (arg[0] == '~' && arg[1] != '\0')
 	{
 		ft_strcpy(path, shell->home);
 		ft_strcat(path, "/");

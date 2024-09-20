@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 15:02:54 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/20 14:28:04 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:07:00 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	is_executable(t_minishell *shell, char *str)
 	else
 	{
 		i = 0;
-		while (shell->paths[i] != NULL)
+		while (shell->paths && shell->paths[i] != NULL)
 		{
 			tmp = ft_strjoin(shell->paths[i], "/");
 			newcmd = ft_strjoin(tmp, str);

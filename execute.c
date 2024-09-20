@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/20 14:29:54 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:14:37 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	loop_through_paths(t_minishell *shell, char *cmd, t_args *command)
 
 	i = 0;
 	newcmd = NULL;
-	while (shell->paths[i] != NULL)
+	while (shell->paths && shell->paths[i] != NULL)
 	{
 		if (newcmd != NULL)
 			free(newcmd);

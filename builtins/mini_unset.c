@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 12:20:49 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/11 14:08:29 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:05:33 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,10 @@ int	mini_unset(t_minishell *shell, t_args *cmd)
 	if (check_if_valid(cmd) == 1)
 		return (EXIT_SUCCESS);
 	delete_var(shell->envs, cmd->args[1]);
+	if (ft_strcmp(cmd->args[1], "PATH") == 0)
+	{
+		free_array(shell->paths);
+		shell->paths = NULL;
+	}
 	return (EXIT_SUCCESS);
 }

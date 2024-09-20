@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:51:26 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/16 23:47:18 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:12:48 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	process_var(t_args *cmd, t_minishell *shell, int i)
 		}
 		i++;
 	}
+	create_paths(shell);
 	return (exit_status);
 }
 
