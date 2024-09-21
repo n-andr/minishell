@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 18:53:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/20 16:21:31 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/21 18:35:33 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ static void	add_environmentals(t_minishell *shell, char *lastdir)
 static void	check_relative_path(char *arg, t_minishell *shell)
 {
 	char	path[MAX_INPUT_SIZE];
+	char	*newarg;
 
-	if (arg[0] == '~' && arg[1] != '\0')
+	if (arg[0] == '~' && arg[1] == '/')
 	{
 		ft_strcpy(path, shell->home);
-		ft_strcat(path, "/");
-		ft_strcat(path, arg + 2);
+		ft_strcat(path, arg + 1);
 		ft_strcpy(arg, path);
 	}
 }
@@ -44,7 +44,7 @@ static int	change_directory(t_args *cmd, t_minishell *shell)
 
 	if (!ft_strcmp(cmd->args[1], "-"))
 		ret = chdir(shell->oldpwd);
-	else if (!strcmp(cmd->args[1], ""))
+	else if (!ft_strcmp(cmd->args[1], "~"))
 		ret = chdir(shell->home);
 	else
 	{
@@ -73,6 +73,8 @@ int	mini_cd(t_minishell *shell, t_args *cmd)
 {
 	char	lastdir[MAX_INPUT_SIZE];
 
+	if (!cmd->args[1])
+		return (0);
 	if (cmd->args[2])
 	{
 		too_many_args_error();
