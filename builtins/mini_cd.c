@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 18:53:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/21 18:35:33 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:52:24 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,22 @@ static void	add_environmentals(t_minishell *shell, char *lastdir)
 	}
 }
 
-static void	check_relative_path(char *arg, t_minishell *shell)
+static void	check_relative_path(char **arg, t_minishell *shell)
 {
 	char	path[MAX_INPUT_SIZE];
-	char	*newarg;
+	char	*temp;
 
-	if (arg[0] == '~' && arg[1] == '/')
+	if ((*arg)[0] == '~' && (*arg)[1] == '/')
 	{
 		ft_strcpy(path, shell->home);
-		ft_strcat(path, arg + 1);
-		ft_strcpy(arg, path);
+		ft_strcat(path, "/");
+		ft_strcat(path, *arg + 2);
+		temp = ft_strdup(path);
+		if (temp)
+		{
+			free(*arg);
+			*arg = temp;
+		}
 	}
 }
 
@@ -48,7 +54,7 @@ static int	change_directory(t_args *cmd, t_minishell *shell)
 		ret = chdir(shell->home);
 	else
 	{
-		check_relative_path(cmd->args[1], shell);
+		check_relative_path(&cmd->args[1], shell);
 		ret = chdir(cmd->args[1]);
 	}
 	if (ret != 0)
