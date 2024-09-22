@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 12:20:49 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/21 18:35:11 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:26:32 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,18 @@ void	delete_var(char **envs, char *str)
 	}
 }
 
-int	check_if_valid(t_args *cmd)
+int	check_if_valid(char *arg)
 {
 	int	i;
 
 	i = 0;
-	if (cmd->args[1][1] == '\0')
+	if (arg[0] == '\0')
 		return (EXIT_FAILURE);
-	if (where_is_equalsign(cmd->args[1]) > 0)
+	if (where_is_equalsign(arg) > 0)
 		return (EXIT_FAILURE);
-	while (cmd->args[1][i] != '\0')
+	while (arg[i] != '\0')
 	{
-		if (cmd->args[1][i] == '/')
+		if (arg[i] == '/')
 			return (EXIT_FAILURE);
 		i++;
 	}
@@ -68,15 +68,23 @@ int	check_if_valid(t_args *cmd)
 
 int	mini_unset(t_minishell *shell, t_args *cmd)
 {
-	if (cmd->args[1] == NULL || cmd->args[2])
+	int	i;
+
+	if (cmd->args[1] == NULL)
 		return (EXIT_SUCCESS);
-	if (check_if_valid(cmd) == 1)
-		return (EXIT_SUCCESS);
-	delete_var(shell->envs, cmd->args[1]);
-	if (ft_strcmp(cmd->args[1], "PATH") == 0)
+	i = 1;
+	while (cmd->args[i] != NULL)
 	{
-		free_array(shell->paths);
-		shell->paths = NULL;
+		if (check_if_valid(cmd->args[i]) == 0)
+		{
+			delete_var(shell->envs, cmd->args[i]);
+			if (ft_strcmp(cmd->args[i], "PATH") == 0)
+			{
+				free_array(shell->paths);
+				shell->paths = NULL;
+			}
+		}
+		i++;
 	}
 	return (EXIT_SUCCESS);
 }
