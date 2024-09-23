@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:54:38 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/20 16:02:23 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/23 12:10:11 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	setupfork(t_minishell *shell, t_args *cmd)
 	int		status;
 
 	status = 0;
-	signal_config_execute();
+	// signal_config_execute();
 	pid = fork();
 	if (pid < 0)
 	{

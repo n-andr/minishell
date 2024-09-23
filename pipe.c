@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/20 14:32:59 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/23 12:08:52 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 // file descriptors are [1] for write side and [0] for read side
 void	child_process(int *pipe_fd, t_minishell *shell, t_args *cmd, int *in_fd)
 {
+	signal(SIGINT, SIG_DFL);
 	if (cmd->previous != NULL)
 	{
 		if (dup2(*in_fd, STDIN_FILENO) == -1)
@@ -97,7 +98,7 @@ int	ft_pipe(t_minishell *shell)
 
 	in_fd = -1;
 	temp = shell->commands;
-	signal_config_execute();
+	// signal_config_execute();
 	while (temp != NULL)
 	{
 		if (temp->next != NULL)

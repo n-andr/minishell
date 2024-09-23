@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/20 17:04:13 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/23 12:01:00 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	signal_config_heredoc(void);
 void	sigint_handler_heredoc(int sig);
 void	signal_config_execute(void);
 void	sigint_handler_exec(int sig);
+void	signal_config_child(void);
 // utils
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcat(char *dest, char *src);
