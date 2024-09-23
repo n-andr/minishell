@@ -6,16 +6,11 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 15:00:36 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/23 11:59:05 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:10:49 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void	sigint_handler_child(int sig)
-// {
-// 	(void)sig;
-// }
 
 void	sigint_handler_exec(int sig)
 {
@@ -24,6 +19,13 @@ void	sigint_handler_exec(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+void	sigint_handler_children(int sig)
+{
+	g_sigint_received = sig;
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
 }
 
 void	sigint_handler_heredoc(int sig)
@@ -38,6 +40,7 @@ void	sigint_handler_heredoc(int sig)
 void	sigint_handler_input(int sig)
 {
 	g_sigint_received = sig;
+	(void)sig;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

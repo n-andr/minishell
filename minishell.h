@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/23 12:01:00 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:13:32 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdbool.h>
 # include <string.h>
 # include <signal.h>
+# include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
@@ -33,6 +34,8 @@
 extern long long		g_sigint_received;
 
 typedef struct s_args	t_args;
+
+struct					s_termios;
 
 typedef struct s_storefd
 {
@@ -55,27 +58,30 @@ typedef struct s_args
 
 typedef struct s_minishell
 {
-	char		**args;
-	char		**envs;
-	char		**paths;
-	char		*pwd;
-	char		*oldpwd;
-	char		*home;
-	int			exit_code;
-	t_args		*commands;
-	int			fd_in;
-	t_storefd	*fds;
+	char			**args;
+	char			**envs;
+	char			**paths;
+	char			*pwd;
+	char			*oldpwd;
+	char			*home;
+	int				exit_code;
+	t_args			*commands;
+	int				fd_in;
+	t_storefd		*fds;
+	struct termios	orig_termios;
 }	t_minishell;
 
 void	init_environmentals(char **env, t_minishell *shell);
 // signals
 void	signal_config_input(void);
 void	sigint_handler_input(int sig);
-void	signal_config_heredoc(void);
-void	sigint_handler_heredoc(int sig);
+void	signal_config_children(void);
 void	signal_config_execute(void);
+void	signal_config_heredoc(void);
 void	sigint_handler_exec(int sig);
-void	signal_config_child(void);
+void	sigint_handler_children(int sig);
+void	sigint_handler_heredoc(int sig);
+void	sigquit_handler_children(int sig);
 // utils
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcat(char *dest, char *src);

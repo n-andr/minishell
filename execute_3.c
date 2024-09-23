@@ -6,11 +6,26 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:54:38 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/23 12:10:11 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:12:36 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	terminal_setup(struct termios orig_termios)
+{
+	struct termios	raw;
+
+	tcgetattr(STDIN_FILENO, &orig_termios);
+	raw = orig_termios;
+	raw.c_lflag &= ~(ICANON | ECHO);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
+}
+
+void	terminal_reset(struct termios orig_termios)
+{
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+}
 
 void	setupfork(t_minishell *shell, t_args *cmd)
 {
@@ -18,7 +33,8 @@ void	setupfork(t_minishell *shell, t_args *cmd)
 	int		status;
 
 	status = 0;
-	// signal_config_execute();
+	signal_config_children();
+	terminal_setup(shell->orig_termios);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -26,12 +42,13 @@ void	setupfork(t_minishell *shell, t_args *cmd)
 		return ;
 	}
 	if (pid == 0)
-		handle_cmd(shell, cmd);
+		handle_cmd(shell, cmd); // maybe add terminal_reset here
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		shell->exit_code = WEXITSTATUS(status);
 	else
 		shell->exit_code = EXIT_FAILURE;
+	terminal_reset(shell->orig_termios);
 }
 
 void	single_cmd(t_minishell *shell, t_args *cmd)

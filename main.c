@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/22 21:22:39 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:07:17 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	initiate_null(t_minishell *shell)
 	shell->commands = NULL;
 	shell->exit_code = 0;
 	g_sigint_received = 0;
+	tcgetattr(STDIN_FILENO, &shell->orig_termios);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -32,13 +33,13 @@ int	main(int argc, char **argv, char **envp)
 	char		*user_input;
 	t_minishell	shell;
 
-	signal_config_input();
 	initiate_null(&shell);
 	if (argc != 1 || argv[1])
 		return (args_error(), -1);
 	init_environmentals(envp, &shell);
 	while (1)
 	{
+		signal_config_input();
 		user_input = readline("minishell$ ");
 		if (user_input == NULL)
 		{

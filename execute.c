@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/20 17:14:37 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:00:31 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	handle_cmd(t_minishell *shell, t_args *command)
 
 void	execute(t_minishell *shell)
 {
+	signal_config_execute();
 	if (!shell->commands)
 	{
 		free_commands(shell);
