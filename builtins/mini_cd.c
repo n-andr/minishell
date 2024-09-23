@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 18:53:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/22 20:52:24 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:43:25 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ static int	change_directory(t_args *cmd, t_minishell *shell)
 {
 	int		ret;
 
-	if (!ft_strcmp(cmd->args[1], "-"))
+	if (!cmd->args[1] || cmd->args[1][0] == '\0')
+		ret = chdir(shell->home);
+	else if (!ft_strcmp(cmd->args[1], "-"))
 		ret = chdir(shell->oldpwd);
 	else if (!ft_strcmp(cmd->args[1], "~"))
 		ret = chdir(shell->home);
@@ -79,9 +81,7 @@ int	mini_cd(t_minishell *shell, t_args *cmd)
 {
 	char	lastdir[MAX_INPUT_SIZE];
 
-	if (!cmd->args[1])
-		return (0);
-	if (cmd->args[2])
+	if (cmd->args[1] != NULL && cmd->args[2])
 	{
 		too_many_args_error();
 		shell->exit_code = 1;
