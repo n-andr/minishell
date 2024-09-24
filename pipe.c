@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/24 16:00:31 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:06:55 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	parent_process(int *pipe_fd, int *in_fd)
 {
 	if (*in_fd != -1)
 		close (*in_fd);
-	// here make sure ctrl-D is handled
 	if (pipe_fd[1] != -1)
 		close(pipe_fd[1]);
 	*in_fd = pipe_fd[0];
@@ -94,7 +93,6 @@ void	wait_for_children(t_minishell *shell, int counter, pid_t child_pid)
 int	ft_pipe(t_minishell *shell)
 {
 	int		pipe_fd[2];
-	pid_t	child_pid;
 	t_args	*temp;
 	int		in_fd;
 	int		counter;
@@ -112,11 +110,10 @@ int	ft_pipe(t_minishell *shell)
 		expand_command(shell, temp);
 		if (temp->cmd_valid == false)
 			return (3);
-		child_pid = process_cmd(shell, temp, pipe_fd, &in_fd);
-		shell->pid[counter] = child_pid;
+		shell->pid[counter] = process_cmd(shell, temp, pipe_fd, &in_fd);
 		temp = temp->next;
 		counter++;
 	}
-	wait_for_children(shell, counter, child_pid);
+	wait_for_children(shell, counter, shell->pid[counter - 1]);
 	return (0);
 }
