@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/23 19:13:32 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:48:23 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_minishell
 	int				fd_in;
 	t_storefd		*fds;
 	struct termios	orig_termios;
+	pid_t			pid[MAX_INPUT_SIZE];
 }	t_minishell;
 
 void	init_environmentals(char **env, t_minishell *shell);

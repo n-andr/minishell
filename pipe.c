@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/23 18:23:04 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:00:31 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,21 @@ pid_t	process_cmd(t_minishell *sh, t_args *temp, int pfd[2], int *in_fd)
 	return (child_pid);
 }
 
-void	wait_for_children(t_minishell *shell, pid_t child_pid)
+void	wait_for_children(t_minishell *shell, int counter, pid_t child_pid)
 {
-	t_args	*temp;
 	int		status;
+	int		i;
 
-	temp = shell->commands;
-	while (temp != NULL)
+	signal_config_children();
+	i = 0;
+	while (i < counter)
 	{
-		waitpid(child_pid, &status, 0);
-		if (WIFEXITED(status) && child_pid == temp->childpid)
+		waitpid(shell->pid[i], &status, 0); 
+		if (WIFEXITED(status) && child_pid == shell->pid[i])
 			shell->exit_code = WEXITSTATUS(status);
 		else
 			shell->exit_code = EXIT_FAILURE;
-		temp = temp->next;
+		i++;
 	}
 }
 
@@ -96,8 +97,10 @@ int	ft_pipe(t_minishell *shell)
 	pid_t	child_pid;
 	t_args	*temp;
 	int		in_fd;
+	int		counter;
 
 	in_fd = -1;
+	counter = 0;
 	temp = shell->commands;
 	while (temp != NULL)
 	{
@@ -110,8 +113,10 @@ int	ft_pipe(t_minishell *shell)
 		if (temp->cmd_valid == false)
 			return (3);
 		child_pid = process_cmd(shell, temp, pipe_fd, &in_fd);
+		shell->pid[counter] = child_pid;
 		temp = temp->next;
+		counter++;
 	}
-	wait_for_children(shell, child_pid);
+	wait_for_children(shell, counter, child_pid);
 	return (0);
 }

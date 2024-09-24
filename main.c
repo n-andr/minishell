@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:34:55 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/23 19:07:17 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:47:43 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	initiate_null(t_minishell *shell)
 	shell->commands = NULL;
 	shell->exit_code = 0;
 	g_sigint_received = 0;
-	tcgetattr(STDIN_FILENO, &shell->orig_termios);
+	tcgetattr(STDIN_FILENO, &shell->orig_termios); // check for memory leaks
 }
 
 int	main(int argc, char **argv, char **envp)
