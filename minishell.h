@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/24 15:48:23 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/25 10:59:36 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 #  define MAX_INPUT_SIZE 1024
 # endif
 
-extern long long		g_sigint_received;
+extern volatile int		g_sigint_received;
 
 typedef struct s_args	t_args;
 
@@ -121,7 +121,7 @@ int		is_path(char *str);
 // execute
 void	execute(t_minishell *shell);
 void	handle_cmd(t_minishell *shell, t_args *command);
-int		handle_heredoc(t_args *command);
+int		handle_heredoc(t_args *command, t_minishell *shell);
 int		check_redirections(t_args *command);
 int		redirection_loop(t_args *command);
 void	save_fds(t_minishell *shell);

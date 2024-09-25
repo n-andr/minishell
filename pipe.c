@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/24 16:06:55 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/25 10:59:21 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ pid_t	process_cmd(t_minishell *sh, t_args *temp, int pfd[2], int *in_fd)
 		return (32);
 	else
 	{
-		if (handle_heredoc(temp) == 1)
+		if (handle_heredoc(temp, sh) == 1)
 		{
 			sh->exit_code = 2;
 			return (33);

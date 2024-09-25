@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:54:38 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/25 10:22:50 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/25 10:58:57 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	single_cmd(t_minishell *shell, t_args *cmd)
 	expand_command(shell, cmd);
 	if (cmd->cmd_valid == false)
 		return ;
-	if (handle_heredoc(cmd) == 1)
+	if (handle_heredoc(cmd, shell) == 1)
 	{
 		shell->exit_code = 2;
 		return ;
