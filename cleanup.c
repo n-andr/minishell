@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/20 16:54:05 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/25 11:37:45 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,5 @@ void	free_everything(t_minishell *shell)
 	if (shell->fds)
 		free(shell->fds);
 	rl_clear_history();
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &shell->orig_termios);
 }

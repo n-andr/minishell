@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:54:38 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/25 10:58:57 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:46:00 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,6 @@ void	terminal_setup(struct termios orig_termios)
 void	terminal_reset(struct termios orig_termios)
 {
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
-}
-
-int	custom_read(void)
-{
-	char c;
-
-	if(read(STDIN_FILENO, &c, 1) == 1)
-		return (c);
-	return EOF;	
 }
 
 void	setupfork(t_minishell *shell, t_args *cmd)

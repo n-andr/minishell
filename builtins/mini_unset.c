@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 12:20:49 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/23 15:25:24 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:54:56 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	delete_var(char **envs, char *str)
 	i = 0;
 	while (envs[i] != NULL)
 	{
-		if (!ft_strncmp(envs[i], str, (where_is_equalsign(envs[i]) - 1)))
+		if (!ft_strncmp(envs[i], str, (where_is_equalsign(envs[i]) - 1)) \
+			|| !ft_strcmp(envs[i], str))
 		{
 			free(envs[i]);
 			while (envs[i + 1])
