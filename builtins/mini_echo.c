@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/26 12:12:18 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:10:33 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ int	check_flags(t_args *cmd, int i)
 	while (cmd->args[i] && cmd->args[i][j] == '-')
 	{
 		j++;
+		if (cmd->args[i][j] == '\0')
+		{
+			return (i);
+		}
 		while (cmd->args[i][j] != '\0')
 		{
 			if (cmd->args[i][j] == 'n')
