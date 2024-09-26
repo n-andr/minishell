@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 15:00:36 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/25 11:56:56 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:17:29 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	sigint_handler_children(int sig)
 
 void	sigint_handler_heredoc(int sig)
 {
+	g_sigint_received = sig;
 	(void)sig;
-	g_sigint_received = 1;
 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
