@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:51:26 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/26 14:12:48 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:21:30 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	var_exists(char *arg, int name_len, char *new_var, t_minishell *shell)
 	i = 0;
 	while (shell->envs[i] != NULL)
 	{
-		if (ft_strncmp(shell->envs[i], arg, name_len) == 0)
+		if (ft_strncmp(shell->envs[i], arg, name_len) == 0
+			&& (shell->envs[i][name_len] == '='
+			|| shell->envs[i][name_len] == '\0'))
 		{
 			free(shell->envs[i]);
 			shell->envs[i] = new_var;
@@ -46,15 +48,11 @@ char	**realloc_env_array(char **envs, char *new_var)
 	new_envs = malloc(sizeof(char *) * (size + 2));
 	if (!new_envs)
 		return (NULL);
-	while (i < size && ft_strcmp(envs[i], new_var) < 0)
-	{
-		new_envs[j++] = envs[i++];
-	}
-	new_envs[j++] = new_var;
 	while (i < size)
 	{
 		new_envs[j++] = envs[i++];
 	}
+	new_envs[j++] = new_var;
 	new_envs[j] = NULL;
 	free(envs);
 	return (new_envs);
