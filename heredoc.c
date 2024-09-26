@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:05:24 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/25 15:50:50 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:31:16 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ static int	generate_heredoc(t_args *cmd, char *delimiter, t_minishell *shell)
 		if (readline_loop(shell, delimiter, &fd))
 			break ;
 		close(fd);
-		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 	return (1);
 }
@@ -80,6 +79,8 @@ int	handle_heredoc(t_args *command, t_minishell *shell)
 	i = 0;
 	if (command->is_redir == 0)
 		return (EXIT_SUCCESS);
+	if (syntax_error_check(command->previous) == 1)
+		return (EXIT_FAILURE);
 	while (command->redir[i] != NULL)
 	{
 		if (!ft_strncmp(command->redir[i], "<<", 2))
@@ -89,6 +90,7 @@ int	handle_heredoc(t_args *command, t_minishell *shell)
 			{
 				ft_putstr_fd("syntax error near ", STDERR_FILENO);
 				ft_putendl_fd("unexpected token `newline'", STDERR_FILENO);
+				command->cmd_valid = false;
 				return (EXIT_FAILURE);
 			}
 			if (!generate_heredoc(command, command->redir[i + 1], shell))

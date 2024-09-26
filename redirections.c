@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:41:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/21 17:12:43 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:38:54 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ int	handle_input_redirection(t_args *command, int *i)
 {
 	if (!command->redir[*i + 1])
 	{
-		ft_putendl_fd("error near unexpected token `newline'", STDERR_FILENO);
+		ft_putstr_fd("syntax error near unexpected", STDERR_FILENO);
+		ft_putendl_fd(" token `newline'", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	if (handle_lefts(command->redir[*i + 1]) == EXIT_FAILURE)

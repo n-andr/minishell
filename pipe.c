@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/25 10:59:21 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:31:40 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	wait_for_children(t_minishell *shell, int counter, pid_t child_pid)
 	i = 0;
 	while (i < counter)
 	{
+		status = 0;
 		waitpid(shell->pid[i], &status, 0); 
 		if (WIFEXITED(status) && child_pid == shell->pid[i])
 			shell->exit_code = WEXITSTATUS(status);

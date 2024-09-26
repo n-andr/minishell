@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/25 10:59:36 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:46:51 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,7 @@ void	organize_struct(t_minishell *shell);
 void	org_redir_commands(t_args *command);
 char	**add_string_to_array(char **array, char *str);
 bool	starts_with_char(char *str, char c);
-
-//expantion
+//expansion
 void	expand_command(t_minishell *shell, t_args *command);
 char	*unfold_double(char *str, int *i, t_minishell *shell);
 char	*expand_variable(char *str, int *i, t_minishell *shell);
@@ -112,7 +111,6 @@ char	*free_and_assign(char *result, char *temp, char *substing);
 char	*empty_result_check(char *result, char *arg);
 char	*get_exit_code(t_minishell *shell, int *i);
 bool	is_valid_name(char c, int *i);
-
 // check
 void	check_if_cmd_valid(t_minishell *shell, t_args *command);
 int		is_builtin_or_path(char *str);
@@ -124,6 +122,7 @@ void	handle_cmd(t_minishell *shell, t_args *command);
 int		handle_heredoc(t_args *command, t_minishell *shell);
 int		check_redirections(t_args *command);
 int		redirection_loop(t_args *command);
+int		syntax_error_check(t_args *command);
 void	save_fds(t_minishell *shell);
 void	reset_fds(t_minishell *shell);
 int		ft_pipe(t_minishell *shell);
