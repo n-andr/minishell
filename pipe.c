@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:29:57 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/26 11:31:40 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:42:48 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	child_process(int *pipe_fd, t_minishell *shell, t_args *cmd, int *in_fd)
 {
 	signal_config_children();
-	if (cmd->previous != NULL)
+	if (cmd->previous != NULL && cmd->previous->cmd_valid == true)
 	{
 		if (dup2(*in_fd, STDIN_FILENO) == -1)
 			perror ("dup 1 failed");
@@ -48,27 +48,22 @@ pid_t	process_cmd(t_minishell *sh, t_args *temp, int pfd[2], int *in_fd)
 {
 	pid_t	child_pid;
 
-	if (sh->commands->cmd_valid == false)
-		return (32);
-	else
+	if (handle_heredoc(temp, sh) == 1)
 	{
-		if (handle_heredoc(temp, sh) == 1)
-		{
-			sh->exit_code = 2;
-			return (33);
-		}
-		child_pid = fork();
-		temp->childpid = child_pid;
-		if (child_pid == -1)
-		{
-			perror("child process");
-			return (34);
-		}
-		else if (child_pid == 0)
-			child_process(pfd, sh, temp, in_fd);
-		else
-			parent_process(pfd, in_fd);
+		sh->exit_code = 2;
+		return (33);
 	}
+	child_pid = fork();
+	temp->childpid = child_pid;
+	if (child_pid == -1)
+	{
+		perror("child process");
+		return (34);
+	}
+	else if (child_pid == 0)
+		child_process(pfd, sh, temp, in_fd);
+	else
+		parent_process(pfd, in_fd);
 	return (child_pid);
 }
 
@@ -109,9 +104,10 @@ int	ft_pipe(t_minishell *shell)
 				return (2);
 		}
 		expand_command(shell, temp);
-		if (temp->cmd_valid == false)
-			return (3);
-		shell->pid[counter] = process_cmd(shell, temp, pipe_fd, &in_fd);
+		if (temp->cmd_valid == true)
+			shell->pid[counter] = process_cmd(shell, temp, pipe_fd, &in_fd);
+		else
+			shell->pid[counter] = -1;
 		temp = temp->next;
 		counter++;
 	}

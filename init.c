@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 17:39:23 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/26 14:15:11 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:42:29 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	create_paths(t_minishell *shell)
 	{
 		if (!ft_strncmp(shell->envs[i], "PATH=", 5))
 		{
-			if(shell->paths != NULL)
+			if (shell->paths != NULL)
 			{
 				free_array(shell->paths);
 				shell->paths = NULL;
