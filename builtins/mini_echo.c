@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:47:06 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/16 23:51:03 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:12:18 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_echo(t_args *cmd, int i)
 		while (bytes_read > 0)
 		{
 			bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer));
-			if (bytes_read <= 0)
+			if (bytes_read < 0)
 				break ;
 			write(STDOUT_FILENO, buffer, bytes_read);
 		}
