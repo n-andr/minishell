@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_unfold_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:12 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/26 13:12:08 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:41:46 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,9 @@ char	*get_env_value(char *var_name, t_minishell *shell)
 	len = ft_strlen(var_name);
 	while (shell->envs[i] != NULL)
 	{
-		if (where_is_equalsign(shell->envs[i]) > 0)
-		{
-			if (!ft_strncmp(shell->envs[i], var_name, (where_is_equalsign(shell->envs[i]) - 1)))
-				return (ft_strdup(shell->envs[i] + len + 1));
-		}
-		else
-		{
-			if (!ft_strcmp(shell->envs[i], var_name))
-				return (ft_strdup(""));
-		}
+		if (ft_strncmp(shell->envs[i], var_name, len) == 0
+			&& (shell->envs[i][len] == '=' || shell->envs[i][len] == '\0'))
+			return (ft_strdup(shell->envs[i] + len + 1));
 		i++;
 	}
 	return (NULL);
