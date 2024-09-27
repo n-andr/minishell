@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 15:23:44 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/26 15:41:02 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:33:15 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	handle_cmd(t_minishell *shell, t_args *command)
 		return ;
 	if (scanifbuiltin(command) == 1)
 	{
-		execbuiltin(shell, command);
-		exit(EXIT_SUCCESS);
+		shell->exit_code = execbuiltin(shell, command);
+		return ;
 	}
 	cmd = ft_strdup(command->args[0]);
 	check_paths_and_command(cmd, command, shell);

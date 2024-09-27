@@ -6,11 +6,34 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 18:53:11 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/23 15:43:25 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:32:45 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	update_env(t_minishell *shell, char *env, char *newinfo)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	while (shell->envs[i] != NULL)
+	{
+		if (!ft_strncmp(shell->envs[i], env, ft_strlen(env)))
+		{
+			free(shell->envs[i]);
+			len = ft_strlen(env) + 1 + ft_strlen(newinfo) + 1;
+			shell->envs[i] = (char *)malloc(len * sizeof(char *));
+			ft_strcpy(shell->envs[i], env);
+			ft_strcat(shell->envs[i], "=");
+			ft_strcat(shell->envs[i], newinfo);
+			shell->envs[i][len] = '\0';
+			break ;
+		}
+		i++;
+	}
+}
 
 static void	add_environmentals(t_minishell *shell, char *lastdir)
 {
@@ -18,11 +41,13 @@ static void	add_environmentals(t_minishell *shell, char *lastdir)
 
 	free(shell->oldpwd);
 	shell->oldpwd = ft_strdup(lastdir);
+	update_env(shell, "OLDPWD", lastdir);
 	if (getcwd(newdir, sizeof(newdir)))
 	{
 		free(shell->pwd);
 		shell->pwd = ft_strdup(newdir);
 	}
+	update_env(shell, "PWD", shell->pwd);
 }
 
 static void	check_relative_path(char **arg, t_minishell *shell)

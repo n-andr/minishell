@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/26 12:55:57 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/27 18:34:35 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,5 @@ void	free_array(char **array);
 void	free_commands(t_minishell *shell);
 void	directory_check(t_minishell *shell, char *cmd);
 void	command_check(t_minishell *shell, char *cmd);
-// tests
-void	test_printf(t_minishell *shell); //delete
-void	test_printf_command(t_args	*temp); //delete
 
 #endif

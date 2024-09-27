@@ -12,5 +12,5 @@ infile
 infile_big
 invalid_permission
 test123
-
+extra_valgrind.supp
 test_files/

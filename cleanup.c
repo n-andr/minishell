@@ -6,7 +6,7 @@
 /*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:40:56 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/25 11:37:45 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/27 17:27:46 by lde-taey         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,3 +101,18 @@ void	free_everything(t_minishell *shell)
 	rl_clear_history();
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &shell->orig_termios);
 }
+
+// void	cleanup_command(t_minishell *shell, t_args *command)
+// {
+// 	g_sigint_received = 0;
+// 	free_commands_args(command);
+// 	free_commands_redir(command);
+// 	if (command->heredoc != NULL)
+// 	{
+// 		if (unlink(command->heredoc) < 0)
+// 			perror("unlink");
+// 		free(command->heredoc);
+// 		command->heredoc = NULL;
+// 	}
+// 	shell->commands = shell->commands->next;
+// }
