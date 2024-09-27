@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nandreev <nandreev@student.42berlin.de     +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 12:09:29 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/13 17:20:02 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/28 01:17:08 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ int	check_if_number(char *str)
 	return (ft_atoi(str));
 }
 
-void	mini_exit(t_minishell *shell)
+int	mini_exit(t_minishell *shell)
 {
 	int	exit_code;
 
 	exit_code = 0;
-	printf("exit\n");
+	ft_putendl_fd("exit", STDOUT_FILENO);
 	if (shell->commands->args[1] == NULL)
 	{
 		exit_code = 0;
@@ -53,7 +53,9 @@ void	mini_exit(t_minishell *shell)
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
 		exit_code = 1;
+		return (exit_code);
 	}
 	free_everything(shell);
 	exit(exit_code);
+	return (exit_code);
 }
