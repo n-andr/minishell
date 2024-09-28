@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:22:49 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/28 01:23:59 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/28 02:23:56 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ int	scanifbuiltin(t_args *cmd)
 	else if (!ft_strcmp("unset", cmd->args[0]))
 		return (1);
 	else if (!ft_strcmp("exit", cmd->args[0]))
-		return (1); 
+		return (1);
 	else if (!ft_strcmp("export", cmd->args[0]))
 		return (1);
 	else if (!ft_strcmp("pwd", cmd->args[0]))
 		return (1);
 	else if (!ft_strcmp("env", cmd->args[0]))
-		return (1); 
+		return (1);
 	else if (!ft_strcmp("echo", cmd->args[0]))
 		return (1);
 	else
