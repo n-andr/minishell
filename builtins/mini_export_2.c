@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:51:26 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/26 13:32:13 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/28 02:23:29 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,53 @@ int	add_var(char *arg, int name_len, t_minishell *shell)
 		shell->envs = realloc_env_array(shell->envs, new_var);
 	}
 	return (0);
+}
+
+char	**copy_array(char **new_array, char **old_array)
+{
+	int	i;
+
+	i = 0;
+	while (old_array[i] != NULL)
+		i++;
+	new_array = malloc(sizeof(char *) * (i + 1));
+	if (!new_array)
+		return (NULL);
+	i = 0;
+	while (old_array[i] != NULL)
+	{
+		new_array[i] = ft_strdup(old_array[i]);
+		i++;
+	}
+	new_array[i] = NULL;
+	return (new_array);
+}
+
+char	**sort_alphabetically(char **envs)
+{
+	int		i;
+	int		j;
+	char	*temp;
+	char	**export;
+
+	i = 0;
+	j = 0;
+	export = NULL;
+	export = copy_array(export, envs);
+	while (export[i] != NULL)
+	{
+		j = i + 1;
+		while (export[j] != NULL)
+		{
+			if (ft_strcmp(export[i], export[j]) > 0)
+			{
+				temp = export[i];
+				export[i] = export[j];
+				export[j] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (export);
 }
