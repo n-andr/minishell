@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:51:26 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/28 02:23:29 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/10/17 23:05:58 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,23 @@ char	**copy_array(char **new_array, char **old_array)
 	return (new_array);
 }
 
+int	ft_str_cmp_till_equal_sign(const char *s1, const char *s2)
+{
+	int		i;
+
+	i = 0;
+	while (*(s1 + i) && *(s1 + i) == *(s2 + i))
+		i++;
+	if (*(s1 + i) == '=' && *(s2 + i) == '=')
+		return (0);
+	else if (*(s1 + i) == '=')
+		return (-1);
+	else if (*(s2 + i) == '=')
+		return (1);
+	else
+		return (*((unsigned char *)s1 + i) - *((unsigned char *)s2 + i));
+}
+
 char	**sort_alphabetically(char **envs)
 {
 	int		i;
@@ -78,7 +95,7 @@ char	**sort_alphabetically(char **envs)
 		j = i + 1;
 		while (export[j] != NULL)
 		{
-			if (ft_strcmp(export[i], export[j]) > 0)
+			if (ft_str_cmp_till_equal_sign(export[i], export[j]) > 0)
 			{
 				temp = export[i];
 				export[i] = export[j];
