@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 16:51:26 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/26 14:21:30 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/28 02:12:47 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ int	process_var(t_args *cmd, t_minishell *shell, int i)
 
 int	mini_export(t_minishell *shell, t_args *cmd)
 {
-	int	i;
+	int		i;
+	char	**export;
 
 	i = 0;
 	if (cmd->args[i] && ft_strcmp(cmd->args[i], "export") == 0)
@@ -113,13 +114,15 @@ int	mini_export(t_minishell *shell, t_args *cmd)
 		}
 		else
 		{
-			while (shell->envs[i] != NULL)
+			export = sort_alphabetically(shell->envs);
+			while (export[i] != NULL)
 			{
 				write(1, "declare -x ", 11);
-				write(1, shell->envs[i], ft_strlen(shell->envs[i]));
+				write(1, export[i], ft_strlen(export[i]));
 				write(1, "\n", 1);
 				i++;
 			}
+			free_array(export);
 		}
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:48:02 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/27 18:34:35 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/28 02:09:49 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,13 +138,14 @@ int		mini_env(t_minishell *shell, t_args *cmd);
 int		mini_unset(t_minishell *shell, t_args *cmd);
 int		mini_echo(t_args *cmd);
 int		mini_export(t_minishell *shell, t_args *cmd);
-void	mini_exit(t_minishell *shell);
+int		mini_exit(t_minishell *shell);
 int		mini_export(t_minishell *shell, t_args *cmd);
 int		add_var(char *arg, int name_len, t_minishell *shell);
 int		var_exists(char *arg, int name_len, char *new_var, t_minishell *shell);
 void	create_paths(t_minishell *shell);
 char	**realloc_env_array(char **envs, char *new_var);
 int		where_is_equalsign(char *str);
+char	**sort_alphabetically(char **envs);
 // cleanup
 void	free_everything(t_minishell *shell);
 void	free_array(char **array);

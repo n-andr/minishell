@@ -6,7 +6,7 @@
 /*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 15:02:54 by nandreev          #+#    #+#             */
-/*   Updated: 2024/09/17 00:38:44 by nandreev         ###   ########.fr       */
+/*   Updated: 2024/09/28 00:54:26 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*empty_result_check(char *result, char *arg)
 	i = 0;
 	while (arg[i])
 	{
-		if (arg[i] == '"')
+		if (arg[i] == '"' || arg[i] == '\'')
 		{
 			quote = true;
 			break ;

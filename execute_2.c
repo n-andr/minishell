@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-taey <lde-taey@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: nandreev <nandreev@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 14:22:49 by lde-taey          #+#    #+#             */
-/*   Updated: 2024/09/27 17:28:02 by lde-taey         ###   ########.fr       */
+/*   Updated: 2024/09/28 02:23:56 by nandreev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	execbuiltin(t_minishell *shell, t_args *cmd)
 	else if (!ft_strcmp("unset", cmd->args[0]))
 		ret = mini_unset(shell, cmd);
 	else if (!ft_strcmp("exit", cmd->args[0]))
-		mini_exit(shell);
+		ret = mini_exit(shell);
 	else if (!ft_strcmp("export", cmd->args[0]))
 		ret = mini_export(shell, cmd);
 	else if (!ft_strcmp("pwd", cmd->args[0]))
@@ -41,13 +41,13 @@ int	scanifbuiltin(t_args *cmd)
 	else if (!ft_strcmp("unset", cmd->args[0]))
 		return (1);
 	else if (!ft_strcmp("exit", cmd->args[0]))
-		return (1); 
+		return (1);
 	else if (!ft_strcmp("export", cmd->args[0]))
 		return (1);
 	else if (!ft_strcmp("pwd", cmd->args[0]))
 		return (1);
 	else if (!ft_strcmp("env", cmd->args[0]))
-		return (1); 
+		return (1);
 	else if (!ft_strcmp("echo", cmd->args[0]))
 		return (1);
 	else
