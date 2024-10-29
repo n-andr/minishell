@@ -19,4 +19,5 @@ Clone the repository and compile the shell:
 git clone https://github.com/n-andr/minishell.git
 cd minishell
 make
+./minishell
 
